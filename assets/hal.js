@@ -1,5 +1,6 @@
 /*
  * Introduction to Object-Oriented JavaScript: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript
+ * Git doc: http://git-scm.com/documentation
  */
 
 var rootUrl = "http://nobbyk2.mooo.com:8091/";
@@ -116,9 +117,9 @@ function buildLightList() {
     var lightListHtml =
         '<div class="row-fluid">' +
             '<div class="span12">' +
-            '<h2>Lights</h2>' +
+                '<h2>Lights</h2>' +
             '</div>' +
-            '</div>';
+        '</div>';
 
 
     lights.forEach(function(theLight) {
@@ -126,20 +127,20 @@ function buildLightList() {
         lightListHtml +=
             '<div class="row-fluid">' +
                 '<div class="span12" style="margin-left: 30px; min-height: 20px">' +
-                theLight.name +
+                    '<em>' + theLight.name + '</em>' +
                 '</div>' +
-                '</div>' +
+            '</div>' +
 
-                '<div class="row-fluid">' +
+            '<div class="row-fluid">' +
                 '<div class="span12">' +
-                '<img id="lampStatus' + theLight.instNum + '" src="assets/images/lamp_off.png" style="vertical-align: middle" />' +
-                '&nbsp;' +
-                '<a id="lampOn' + theLight.instNum + '" class="btn btn-large btn-primary" href="#"><i class="icon-asterisk icon-white"></i> On</a>' +
-                '&nbsp;' +
-                '<a id="lampOff' + theLight.instNum + '" class="btn btn-large btn-primary" href="#"><i class="icon-off icon-white"></i> Off</a>' +
+                    '<img id="lampStatus' + theLight.instNum + '" src="assets/images/lamp_off.png" style="vertical-align: middle" />' +
+                    '&nbsp;' +
+                    '<a id="lampOn' + theLight.instNum + '" class="btn btn-large btn-primary" href="#"><i class="icon-asterisk icon-white"></i> On</a>' +
+                    '&nbsp;' +
+                    '<a id="lampOff' + theLight.instNum + '" class="btn btn-large btn-primary" href="#"><i class="icon-off icon-white"></i> Off</a>' +
                 '</div>' +
-                '</div>' +
-                '<br/>';
+            '</div>' +
+            '<br/>';
     });
 
     $("#lightlist").html(lightListHtml);
@@ -148,12 +149,10 @@ function buildLightList() {
 
 function switchOn(instNum) {
     cgiCall("on", instNum);
-    changeLampImage(instNum, 255);
 }
 
 function switchOff(instNum) {
     cgiCall("off", instNum);
-    changeLampImage(instNum, 0);
 }
 
 // New proposed name: postSwitchCommand
@@ -161,12 +160,26 @@ function cgiCall(switchCmd, instNum) {
 
     var posting = $.post(rootUrl + "cgi-bin/switch.rb", {switchCmd: switchCmd, instNum: instNum});
 
-    // posting.success(function(data) {
-    //     alert(data);
-    // });
+    posting.success(function(data) {
+        var cmd = this.data.split('&')[0].split('=')[1];
+        var instNum = this.data.split('&')[1].split('=')[1];
+
+        if (cmd === "on") {
+            changeLampImage(instNum, 255);
+        } else if (cmd === "off") {
+            changeLampImage(instNum, 0);
+        }
+    });
 
     posting.fail(function(data) {
-        alert("An error occurred: " + data);
+        if (data.status == "404") {
+            alert("Unable to find resource 'cgi-bin/switch.rb'");
+        } else {
+            alert("An error occurred:\n" +
+                "readyState: " + data.readyState + "\n" +
+                "status: " + data.status + "\n" +
+                "statusText: " + data.statusText);
+        }
     });
 }
 
@@ -175,12 +188,12 @@ function updateStatus() {
     lights.forEach(function(theLight) {
         var posting = $.post(rootUrl + "cgi-bin/switch.rb", {switchCmd: "status", instNum: theLight.instNum});
         posting.success(function(data) {
-            var instNum = this.data.split('&')[1].split('=')[1]
+            var instNum = this.data.split('&')[1].split('=')[1];
             changeLampImage(instNum, data);
         });
 
         posting.fail(function(data) {
-            var instNum = this.data.split('&')[1].split('=')[1]
+            var instNum = this.data.split('&')[1].split('=')[1];
             console.log("Status retrieval failed for instance number " + instNum);
         });
     });
