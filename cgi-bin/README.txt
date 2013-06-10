@@ -1,1 +1,1 @@
-Get the Ruby code from the Pi and maintain it here as well.
+Deploy the CGI scripts to /usr/lib/cgi-bin
