@@ -1,5 +1,19 @@
+/*
+ * Introduction to Object-Oriented JavaScript: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript
+ */
+
 var rootUrl = "http://nobbyk2.mooo.com:8091/";
 
+var lights = new Array();
+lights[0] = new Light("Front Flood Light", 0);
+//lights[1] = new Light("Main Garage", 1);
+//lights[2] = new Light("Hallway", 2);
+//lights[3] = new Light("Side Passage", 3);
+
+var sceneLeonieHome = new Scene(0, "Leonie Home", [lights[0]]);
+//var sceneNobbyHome = new Scene(1, "Nobby Home", [lights[1]]);
+var sceneAllOff = new Scene(2, "All Off", [lights[0]]);
+var sceneEmergency = new Scene(2, "Emergency", [lights[0]]);
 
 function comingSoon() {
     alert("Comming soon. Watch this space");
@@ -10,32 +24,142 @@ function helloWorld() {
 }
 
 
-//----------------
-// Button triggers
-//----------------
-
-// Nobby home scene
-
-// Leonie home scene
-
-// All off
-
-// Emergency scene
-
-function switchOn(name) {
-    cgiCall("on", name);
-    changeLampImage(255);
+//-------------
+// Light Object
+//-------------
+function Light(name, instNum) {
+    this.name = name;
+    this.instNum = instNum;
 }
 
-function switchOff(name) {
-    cgiCall("off", name);
-    changeLampImage(0);
+
+//-------------
+// Scene Object
+//-------------
+function Scene(id, name, lights) {
+    this.id = id;
+    this.name = name;
+    this.lights = lights;
+}
+
+
+//------
+// Other
+//------
+
+function init() {
+
+    buildLightList();
+
+
+    // Lights
+    //-------
+    lights.forEach(function(theLight) {
+        $("#lampOn" + theLight.instNum).on("click", function(event) {
+            event.preventDefault();
+            switchOn(theLight.instNum);
+        });
+        $("#lampOff" + theLight.instNum).on("click", function(event) {
+            event.preventDefault();
+            switchOff(theLight.instNum);
+        });
+    });
+
+
+    // Scenes
+    //-------
+    $("#leonieHomeScene").on("click", function(event) {
+        event.preventDefault();
+
+        sceneLeonieHome.lights.forEach(function(theLight) {
+            switchOn(theLight.instNum);
+        });
+    });
+
+/*
+    $("#nobbyHomeScene").on("click", function(event) {
+        event.preventDefault();
+
+        sceneNobbyHome.lights.forEach(function(theLight) {
+            switchOn(theLight.instNum);
+        });
+    });
+*/
+
+    $("#allOffScene").on("click", function(event) {
+        event.preventDefault();
+
+        sceneAllOff.lights.forEach(function(theLight) {
+            switchOff(theLight.instNum);
+        });
+    });
+
+    $("#emergencyScene").on("click", function(event) {
+        event.preventDefault();
+
+        sceneEmergency.lights.forEach(function(theLight) {
+            switchOn(theLight.instNum);
+        });
+    });
+
+
+    updateStatus();
+
+    window.setInterval(function() {
+        updateStatus();
+    }, 20000);
+
+}
+
+function buildLightList() {
+
+    var lightListHtml =
+        '<div class="row-fluid">' +
+            '<div class="span12">' +
+            '<h2>Lights</h2>' +
+            '</div>' +
+            '</div>';
+
+
+    lights.forEach(function(theLight) {
+
+        lightListHtml +=
+            '<div class="row-fluid">' +
+                '<div class="span12" style="margin-left: 30px; min-height: 20px">' +
+                theLight.name +
+                '</div>' +
+                '</div>' +
+
+                '<div class="row-fluid">' +
+                '<div class="span12">' +
+                '<img id="lampStatus' + theLight.instNum + '" src="assets/images/lamp_off.png" style="vertical-align: middle" />' +
+                '&nbsp;' +
+                '<a id="lampOn' + theLight.instNum + '" class="btn btn-large btn-primary" href="#"><i class="icon-asterisk icon-white"></i> On</a>' +
+                '&nbsp;' +
+                '<a id="lampOff' + theLight.instNum + '" class="btn btn-large btn-primary" href="#"><i class="icon-off icon-white"></i> Off</a>' +
+                '</div>' +
+                '</div>' +
+                '<br/>';
+    });
+
+    $("#lightlist").html(lightListHtml);
+
+}
+
+function switchOn(instNum) {
+    cgiCall("on", instNum);
+    changeLampImage(instNum, 255);
+}
+
+function switchOff(instNum) {
+    cgiCall("off", instNum);
+    changeLampImage(instNum, 0);
 }
 
 // New proposed name: postSwitchCommand
-function cgiCall(switchCmd, name) {
+function cgiCall(switchCmd, instNum) {
 
-    var posting = $.post(rootUrl + "cgi-bin/switch.rb", {switchCmd: switchCmd, name: name});
+    var posting = $.post(rootUrl + "cgi-bin/switch.rb", {switchCmd: switchCmd, instNum: instNum});
 
     // posting.success(function(data) {
     //     alert(data);
@@ -47,17 +171,26 @@ function cgiCall(switchCmd, name) {
 }
 
 function updateStatus() {
-    var posting = $.post(rootUrl + "cgi-bin/switch.rb", {switchCmd: "status", name: "securityLight"});
-    posting.success(function(data) {
-        changeLampImage(data);
+
+    lights.forEach(function(theLight) {
+        var posting = $.post(rootUrl + "cgi-bin/switch.rb", {switchCmd: "status", instNum: theLight.instNum});
+        posting.success(function(data) {
+            var instNum = this.data.split('&')[1].split('=')[1]
+            changeLampImage(instNum, data);
+        });
+
+        posting.fail(function(data) {
+            var instNum = this.data.split('&')[1].split('=')[1]
+            console.log("Status retrieval failed for instance number " + instNum);
+        });
     });
 }
 
 
-function changeLampImage(status) {
+function changeLampImage(instNum, status) {
     if (status == 0) {
-        $("#lampStatus").attr("src", "assets/images/lamp_off.png");
+        $("#lampStatus" + instNum).attr("src", "assets/images/lamp_off.png");
     } else {
-        $("#lampStatus").attr("src", "assets/images/lamp_on.png");
+        $("#lampStatus" + instNum).attr("src", "assets/images/lamp_on.png");
     }
 }

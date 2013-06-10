@@ -50,20 +50,7 @@
 
 <div class="container-fluid">
 
-    <div class="row-fluid">
-        <div class="span12">
-            <h2>Lights</h2>
-        </div>
-    </div>
-
-    <div class="row-fluid">
-        <div class="span12">
-            <img id="lampStatus" src="assets/images/lamp_off.png" style="vertical-align: middle" />
-            &nbsp;
-            <a class="btn btn-large btn-primary" href="#" onclick="javascript:switchOn('securityLight');"><i class="icon-asterisk icon-white"></i> On</a>
-            &nbsp;
-            <a class="btn btn-large btn-primary" href="#" onclick="javascript:switchOff('securityLight');"><i class="icon-off icon-white"></i> Off</a>
-        </div>
+    <div id="lightlist">
     </div>
 
     <hr/>
@@ -76,33 +63,33 @@
 
     <div class="row-fluid">
         <div class="span12">
-            <a class="btn btn-large btn-primary btn-block" href="#" onclick="javascript:switchOn('securityLight');"><i class="icon-film icon-white"></i> Leonie Home</a>
-        </div>
-    </div>
-
-    <!--
-    <br/>
-
-    <div class="row-fluid">
-        <div class="span12">
-            <a class="btn btn-large btn-primary btn-block" href="#"><i class="icon-film icon-white"></i> Nobby Home</a>
-        </div>
-    </div>
-    -->
-
-    <br/>
-
-    <div class="row-fluid">
-        <div class="span12">
-            <a class="btn btn-large btn-inverse btn-block" href="#" onclick="javascript:switchOff('securityLight');"><i class="icon-off icon-white"></i> All Off</a>
+            <a id="leonieHomeScene" class="btn btn-large btn-primary btn-block" href="#"><i class="icon-film icon-white"></i> Leonie Home</a>
         </div>
     </div>
 
     <br/>
 
+<!--
     <div class="row-fluid">
         <div class="span12">
-            <a class="btn btn-large btn-danger btn-block" href="#" onclick="javascript:switchOn('securityLight');"><i class="icon-warning-sign icon-white"></i> Emergency</a>
+            <a id="nobbyHomeScene" class="btn btn-large btn-primary btn-block" href="#"><i class="icon-film icon-white"></i> Nobby Home</a>
+        </div>
+    </div>
+
+    <br/>
+-->
+
+    <div class="row-fluid">
+        <div class="span12">
+            <a id="allOffScene" class="btn btn-large btn-inverse btn-block" href="#" ><i class="icon-off icon-white"></i> All Off</a>
+        </div>
+    </div>
+
+    <br/>
+
+    <div class="row-fluid">
+        <div class="span12">
+            <a id="emergencyScene" class="btn btn-large btn-danger btn-block" href="#"><i class="icon-warning-sign icon-white"></i> Emergency</a>
         </div>
     </div>
 
@@ -125,13 +112,7 @@
 <script>
 
     $(document).ready(function() {
-
-        updateStatus();
-
-        window.setInterval(function() {
-            updateStatus();
-        }, 20000);
-
+        init();
     });
 
 </script>
