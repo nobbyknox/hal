@@ -1,8 +1,3 @@
-/*
- * Introduction to Object-Oriented JavaScript: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript
- * Git doc: http://git-scm.com/documentation
- */
-
 var rootUrl = "http://nobbyk2.mooo.com:8091/";
 
 var lights = new Array();
