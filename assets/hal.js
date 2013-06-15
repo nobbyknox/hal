@@ -109,14 +109,9 @@ function init() {
 
 function buildLightList() {
 
-    var lightListHtml =
-        '<div class="row-fluid">' +
-            '<div class="span12">' +
-                '<h2>Lights</h2>' +
-            '</div>' +
-        '</div>';
+    var lightListHtml = $("#lightlist").html();
 
-
+    // Append the lights to the "lightlist" container
     lights.forEach(function(theLight) {
 
         lightListHtml +=
