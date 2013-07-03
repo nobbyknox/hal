@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 
-# Here are the docs: http://www.ruby-doc.org/docs/ProgrammingRuby/
+# Here are the docs:
+#   http://www.ruby-doc.org/docs/ProgrammingRuby/
 
 require 'net/http'
 require 'uri'

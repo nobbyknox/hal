@@ -100,14 +100,22 @@ function init() {
     $("#sysInfo").on("click", function(event) {
         event.preventDefault();
 
-        var infoText =
-            "<table>" +
-            "<tr><td>Available memory:</td>" + "<td>?</td></tr>" +
-            "<tr><td>Free memory:</td>" + "<td>?</td></tr>" +
-            "<tr><td>System boot:</td>" + "<td>?</td></tr>" +
-            "</table>";
+        var posting = $.post(rootUrl + "cgi-bin/sysinfo.rb");
 
-        showMessage("System Information", infoText);
+        posting.success(function(data) {
+            var infoText =
+                "<table>" +
+                "<tr><td>Available memory:</td>" + "<td>" + data.tot_mem + "</td></tr>" +
+                "<tr><td>Free memory:</td>" + "<td>" + data.free_mem + "</td></tr>" +
+                "<tr><td>System boot:</td>" + "<td>" + data.boot_time + "</td></tr>" +
+                "</table>";
+
+            showMessage("System Information", infoText);
+        });
+
+        posting.fail(function(data) {
+            showError("Oops", "Oops, something went wrong getting the system information.");
+        });
     });
 
     $("#allOffScene").on("click", function(event) {
