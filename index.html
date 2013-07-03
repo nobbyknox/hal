@@ -45,7 +45,21 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
-            <a class="brand" href="#">HAL - 2013.06.08</a>
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="/">HAL - 2013.06.08</a>
+
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <!-- <li class="active"><a href="#">Home</a></li> -->
+                    <li><a id="about" href="#">About</a></li>
+                    <li><a id="sysInfo" href="#">System Info</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+
         </div>
     </div>
 </div>
@@ -106,11 +120,27 @@
 
 </div>
 
+<!-- Message Box Modal -->
+<div id="mesgBox" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="mesgBoxLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="mesgBoxLabel">Modal header</h3>
+    </div>
+    <div id="mesgBoxBody" class="modal-body">
+        <p>Message body</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
+        <!-- <button class="btn btn-primary">Save changes</button> -->
+    </div>
+</div>
+
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="assets/jquery-2.0.0.min.js"></script>
 <script src="assets/hal.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
 
 <script>
 

@@ -12,11 +12,21 @@ var sceneAllOff = new Scene(2, "All Off", [lights[0]]);
 var sceneEmergency = new Scene(2, "Emergency", [lights[0]]);
 
 function comingSoon() {
-    alert("Comming soon. Watch this space");
+    showMessage("Comming Soon", "This feature is not currently available, but will be soon. Watch this space. :-)");
 }
 
-function helloWorld() {
-    alert("Hello World!");
+function showMessage(title, body) {
+    $("#mesgBoxLabel").html(title);
+    $("#mesgBoxBody").html(body);
+    $(".modal-header").css("color","");
+    $("#mesgBox").modal("show");
+}
+
+function showError(title, body) {
+    $("#mesgBoxLabel").html(title);
+    $("#mesgBoxBody").html(body);
+    $(".modal-header").css("color","darkred");
+    $("#mesgBox").modal("show");
 }
 
 
@@ -81,6 +91,24 @@ function init() {
         });
     });
 */
+
+    $("#about").on("click", function(event) {
+        event.preventDefault();
+        showMessage("About HAL", "TODO: Write me");
+    });
+
+    $("#sysInfo").on("click", function(event) {
+        event.preventDefault();
+
+        var infoText =
+            "<table>" +
+            "<tr><td>Available memory:</td>" + "<td>?</td></tr>" +
+            "<tr><td>Free memory:</td>" + "<td>?</td></tr>" +
+            "<tr><td>System boot:</td>" + "<td>?</td></tr>" +
+            "</table>";
+
+        showMessage("System Information", infoText);
+    });
 
     $("#allOffScene").on("click", function(event) {
         event.preventDefault();
