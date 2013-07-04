@@ -100,7 +100,7 @@ function init() {
     $("#sysInfo").on("click", function(event) {
         event.preventDefault();
 
-        var posting = $.post(rootUrl + "cgi-bin/sysinfo.rb");
+        var posting = $.post(rootUrl + "cgi-bin/sysinfo.rb", {"switchCmd": "status"});
 
         posting.success(function(data) {
             var infoText =
@@ -114,7 +114,7 @@ function init() {
         });
 
         posting.fail(function(data) {
-            showError("Oops", "Oops, something went wrong getting the system information.");
+            showError("Oops", "Oops, something went wrong getting the system information. Error: " + data);
         });
     });
 
@@ -212,7 +212,7 @@ function cgiCall(switchCmd, instNum) {
 function updateStatus() {
 
     lights.forEach(function(theLight) {
-        var posting = $.post(rootUrl + "cgi-bin/switch.rb", {switchCmd: "status", instNum: theLight.instNum});
+        var posting = $.post(rootUrl + "cgi-bin/switch.rb", {"switchCmd": "status", "instNum": theLight.instNum});
         posting.success(function(data) {
             var instNum = this.data.split('&')[1].split('=')[1];
             changeLampImage(instNum, data);

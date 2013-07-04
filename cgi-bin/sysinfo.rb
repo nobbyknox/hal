@@ -7,6 +7,7 @@
 require 'net/http'
 require 'uri'
 require 'cgi'
+require 'json/add/core'
 
 cgi = CGI.new
 
@@ -20,5 +21,6 @@ free_mem = mem_output.split(" ")[9]
 
 boot_time = boot_output.split(" ")[2] + " " + boot_output.split(" ")[3]
 
+#json = '{"tot_mem":"' + tot_mem + '", "free_mem":"' + free_mem + '", "boot_time":"2013-07-04 20:59:32"}'
 json = {"tot_mem" => tot_mem, "free_mem" => free_mem, "boot_time" => boot_time}
-puts json
+puts json.to_json
