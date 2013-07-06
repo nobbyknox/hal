@@ -105,12 +105,13 @@ function init() {
         posting.success(function(data) {
             var infoText =
                 "<table>" +
-                "<tr><td>Platform:</td><td>" + data.platform + "</td></tr>" +
-                "<tr><td>Kernel version:</td><td>" + data.kernel_version + "</td></tr>" +
-                "<tr><td>Host name:</td><td>" + data.host_name + "</td></tr>" +
-                "<tr><td>Available memory:</td><td>" + data.tot_mem + "</td></tr>" +
-                "<tr><td>Free memory:</td><td>" + data.free_mem + "</td></tr>" +
-                "<tr><td>System boot:</td><td>" + Date(data.boot_time) + "</td></tr>" +
+                "<tr><td>Operating System:</td><td>" + data.os + "</td></tr>" +
+                "<tr><td>Kernel Version:</td><td>" + data.kernel_version + "</td></tr>" +
+                "<tr><td>Host Name:</td><td>" + data.host_name + "</td></tr>" +
+                "<tr><td>Processor:</td><td>" + data.processor + "</td></tr>" +
+                "<tr><td>Available Memory:</td><td>" + data.tot_mem + "</td></tr>" +
+                "<tr><td>Free Memory:</td><td>" + data.free_mem + "</td></tr>" +
+                "<tr><td>Last System Boot:</td><td>" + Date(data.boot_time) + "</td></tr>" +
                 "</table>";
 
             showMessage("System Information", infoText);

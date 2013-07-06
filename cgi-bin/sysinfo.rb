@@ -20,5 +20,5 @@ free_mem = mem_output.split(" ")[9]
 
 boot_time = DateTime.parse(boot_output.split(" ")[2] + " " + boot_output.split(" ")[3])
 
-response = {"platform" => %x(uname -s).strip, "kernel_version" => %x(uname -r).strip, "host_name" => %x(uname -n).strip,  "tot_mem" => tot_mem, "free_mem" => free_mem, "boot_time" => boot_time.strftime("%s%z")}
+response = {"os" => %x(uname -o).strip, "kernel_version" => %x(uname -r).strip, "host_name" => %x(uname -n).strip, "processor" => %x(uname -m).strip, "tot_mem" => tot_mem, "free_mem" => free_mem, "boot_time" => boot_time.strftime("%s%z")}
 puts response.to_json
