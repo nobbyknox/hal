@@ -105,16 +105,19 @@ function init() {
         posting.success(function(data) {
             var infoText =
                 "<table>" +
-                "<tr><td>Available memory:</td>" + "<td>" + data.tot_mem + "</td></tr>" +
-                "<tr><td>Free memory:</td>" + "<td>" + data.free_mem + "</td></tr>" +
-                "<tr><td>System boot:</td>" + "<td>" + data.boot_time + "</td></tr>" +
+                "<tr><td>Platform:</td><td>" + data.platform + "</td></tr>" +
+                "<tr><td>Kernel version:</td><td>" + data.kernel_version + "</td></tr>" +
+                "<tr><td>Host name:</td><td>" + data.host_name + "</td></tr>" +
+                "<tr><td>Available memory:</td><td>" + data.tot_mem + "</td></tr>" +
+                "<tr><td>Free memory:</td><td>" + data.free_mem + "</td></tr>" +
+                "<tr><td>System boot:</td><td>" + data.boot_time + "</td></tr>" +
                 "</table>";
 
             showMessage("System Information", infoText);
         });
 
         posting.fail(function(data) {
-            showError("Oops", "Oops, something went wrong getting the system information. Error: " + data);
+            showError("Oops", "Oops, something went wrong getting the system information. :-(");
         });
     });
 
