@@ -110,7 +110,7 @@ function init() {
                 "<tr><td>Host name:</td><td>" + data.host_name + "</td></tr>" +
                 "<tr><td>Available memory:</td><td>" + data.tot_mem + "</td></tr>" +
                 "<tr><td>Free memory:</td><td>" + data.free_mem + "</td></tr>" +
-                "<tr><td>System boot:</td><td>" + data.boot_time + "</td></tr>" +
+                "<tr><td>System boot:</td><td>" + Date(data.boot_time) + "</td></tr>" +
                 "</table>";
 
             showMessage("System Information", infoText);

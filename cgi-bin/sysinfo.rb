@@ -4,10 +4,9 @@
 #   http://www.ruby-doc.org/docs/ProgrammingRuby/
 #   http://userpages.umbc.edu/~dhood2/courses/cmsc433/spring2010/?section=Notes&topic=CGI&notes=05
 
-require 'net/http'
-require 'uri'
 require 'cgi'
-require 'json/add/core'
+require 'date'
+require 'json'
 
 cgi = CGI.new
 
@@ -19,8 +18,7 @@ boot_output = %x(who -b)
 tot_mem = mem_output.split(" ")[7]
 free_mem = mem_output.split(" ")[9]
 
-boot_time = boot_output.split(" ")[2] + " " + boot_output.split(" ")[3]
+boot_time = DateTime.parse(boot_output.split(" ")[2] + " " + boot_output.split(" ")[3])
 
-#json = '{"tot_mem":"' + tot_mem + '", "free_mem":"' + free_mem + '", "boot_time":"2013-07-04 20:59:32"}'
-json = {"platform" => %x(uname -s).strip, "kernel_version" => %x(uname -r).strip, "host_name" => %x(uname -n).strip,  "tot_mem" => tot_mem, "free_mem" => free_mem, "boot_time" => boot_time}
-puts json.to_json
+response = {"platform" => %x(uname -s).strip, "kernel_version" => %x(uname -r).strip, "host_name" => %x(uname -n).strip,  "tot_mem" => tot_mem, "free_mem" => free_mem, "boot_time" => boot_time.strftime("%s%z")}
+puts response.to_json
