@@ -100,7 +100,7 @@ function init() {
     $("#sysInfo").on("click", function(event) {
         event.preventDefault();
 
-        var posting = $.post(rootUrl + "cgi-bin/sysinfo.rb", {"switchCmd": "status"});
+        var posting = $.post(rootUrl + "cgi-bin/sysinfo.rb", {});
 
         posting.success(function(data) {
             var infoText =
@@ -111,7 +111,7 @@ function init() {
                 "<tr><td>Processor:</td><td>" + data.processor + "</td></tr>" +
                 "<tr><td>Available Memory:</td><td>" + data.tot_mem + "</td></tr>" +
                 "<tr><td>Free Memory:</td><td>" + data.free_mem + "</td></tr>" +
-                "<tr><td>Last System Boot:</td><td>" + Date(data.boot_time) + "</td></tr>" +
+                "<tr><td>Up Time:</td><td>" + data.up_time + "</td></tr>" +
                 "</table>";
 
             showMessage("System Information", infoText);
