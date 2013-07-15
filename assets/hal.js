@@ -18,6 +18,7 @@ function comingSoon() {
 function showMessage(title, body) {
     $("#mesgBoxLabel").html(title);
     $("#mesgBoxBody").html(body);
+    // TODO: This is a bad way of doing it. Use an ID.
     $(".modal-header").css("color","");
     $("#mesgBox").modal("show");
 }
@@ -25,6 +26,7 @@ function showMessage(title, body) {
 function showError(title, body) {
     $("#mesgBoxLabel").html(title);
     $("#mesgBoxBody").html(body);
+    // TODO: This is a bad way of doing it. Use an ID.
     $(".modal-header").css("color","darkred");
     $("#mesgBox").modal("show");
 }
@@ -94,7 +96,7 @@ function init() {
 
     $("#about").on("click", function(event) {
         event.preventDefault();
-        showMessage("About HAL", "TODO: Write me");
+        $("#aboutBox").modal("show");
     });
 
     $("#sysInfo").on("click", function(event) {
