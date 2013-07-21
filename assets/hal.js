@@ -1,15 +1,15 @@
 var rootUrl = "http://nobbyk2.mooo.com:8091/";
 
 var lights = new Array();
-lights[0] = new Light("Front Flood Light", 0);
-//lights[1] = new Light("Main Garage", 1);
+lights[0] = new Light("Front Flood Light", 2, 0);
+lights[1] = new Light("Side Passage", 3, 0);
 //lights[2] = new Light("Hallway", 2);
 //lights[3] = new Light("Side Passage", 3);
 
-var sceneLeonieHome = new Scene(0, "Leonie Home", [lights[0]]);
+var sceneLeonieHome = new Scene(0, "Leonie Home", [lights[0], lights[1]]);
 //var sceneNobbyHome = new Scene(1, "Nobby Home", [lights[1]]);
-var sceneAllOff = new Scene(2, "All Off", [lights[0]]);
-var sceneEmergency = new Scene(2, "Emergency", [lights[0]]);
+var sceneAllOff = new Scene(2, "All Off", [lights[0], lights[1]]);
+var sceneEmergency = new Scene(2, "Emergency", [lights[0], lights[1]]);
 
 function comingSoon() {
     showMessage("Comming Soon", "This feature is not currently available, but will be soon. Watch this space. :-)");
@@ -35,8 +35,9 @@ function showError(title, body) {
 //-------------
 // Light Object
 //-------------
-function Light(name, instNum) {
+function Light(name, deviceNum, instNum) {
     this.name = name;
+    this.deviceNum = deviceNum;
     this.instNum = instNum;
 }
 
@@ -63,36 +64,16 @@ function init() {
     // Lights
     //-------
     lights.forEach(function(theLight) {
-        $("#lampOn" + theLight.instNum).on("click", function(event) {
+        $("#lampOn" + theLight.deviceNum).on("click", function(event) {
             event.preventDefault();
-            switchOn(theLight.instNum);
+            switchOn(theLight.deviceNum, theLight.instNum);
         });
-        $("#lampOff" + theLight.instNum).on("click", function(event) {
+        $("#lampOff" + theLight.deviceNum).on("click", function(event) {
             event.preventDefault();
-            switchOff(theLight.instNum);
+            switchOff(theLight.deviceNum, theLight.instNum);
         });
     });
 
-
-    // Scenes
-    //-------
-    $("#leonieHomeScene").on("click", function(event) {
-        event.preventDefault();
-
-        sceneLeonieHome.lights.forEach(function(theLight) {
-            switchOn(theLight.instNum);
-        });
-    });
-
-/*
-    $("#nobbyHomeScene").on("click", function(event) {
-        event.preventDefault();
-
-        sceneNobbyHome.lights.forEach(function(theLight) {
-            switchOn(theLight.instNum);
-        });
-    });
-*/
 
     $("#about").on("click", function(event) {
         event.preventDefault();
@@ -124,11 +105,31 @@ function init() {
         });
     });
 
+    // Scenes
+    //-------
+    $("#leonieHomeScene").on("click", function(event) {
+        event.preventDefault();
+
+        sceneLeonieHome.lights.forEach(function(theLight) {
+            switchOn(theLight.deviceNum, theLight.instNum);
+        });
+    });
+
+/*
+    $("#nobbyHomeScene").on("click", function(event) {
+        event.preventDefault();
+
+        sceneNobbyHome.lights.forEach(function(theLight) {
+            switchOn(theLight.instNum);
+        });
+    });
+*/
+
     $("#allOffScene").on("click", function(event) {
         event.preventDefault();
 
         sceneAllOff.lights.forEach(function(theLight) {
-            switchOff(theLight.instNum);
+            switchOff(theLight.deviceNum, theLight.instNum);
         });
     });
 
@@ -136,7 +137,7 @@ function init() {
         event.preventDefault();
 
         sceneEmergency.lights.forEach(function(theLight) {
-            switchOn(theLight.instNum);
+            switchOn(theLight.deviceNum, theLight.instNum);
         });
     });
 
@@ -165,11 +166,11 @@ function buildLightList() {
 
             '<div class="row-fluid">' +
                 '<div class="span12">' +
-                    '<img id="lampStatus' + theLight.instNum + '" src="assets/images/lamp_off.png" style="vertical-align: middle" />' +
+                    '<img id="lampStatus' + theLight.deviceNum + '" src="assets/images/lamp_off.png" style="vertical-align: middle" />' +
                     '&nbsp;' +
-                    '<a id="lampOn' + theLight.instNum + '" class="btn btn-large btn-primary" href="#"><i class="icon-asterisk icon-white"></i> On</a>' +
+                    '<a id="lampOn' + theLight.deviceNum + '" class="btn btn-large btn-primary" href="#"><i class="icon-asterisk icon-white"></i> On</a>' +
                     '&nbsp;' +
-                    '<a id="lampOff' + theLight.instNum + '" class="btn btn-large btn-primary" href="#"><i class="icon-off icon-white"></i> Off</a>' +
+                    '<a id="lampOff' + theLight.deviceNum + '" class="btn btn-large btn-primary" href="#"><i class="icon-off icon-white"></i> Off</a>' +
                 '</div>' +
             '</div>' +
             '<br/>';
@@ -179,27 +180,28 @@ function buildLightList() {
 
 }
 
-function switchOn(instNum) {
-    cgiCall("on", instNum);
+function switchOn(deviceNum, instNum) {
+    cgiCall("on", deviceNum, instNum);
 }
 
-function switchOff(instNum) {
-    cgiCall("off", instNum);
+function switchOff(deviceNum, instNum) {
+    cgiCall("off", deviceNum, instNum);
 }
 
 // New proposed name: postSwitchCommand
-function cgiCall(switchCmd, instNum) {
+function cgiCall(switchCmd, deviceNum, instNum) {
 
-    var posting = $.post(rootUrl + "cgi-bin/switch.rb", {switchCmd: switchCmd, instNum: instNum});
+    var posting = $.post(rootUrl + "cgi-bin/switch.rb", {"switchCmd": switchCmd, "deviceNum": deviceNum, "instNum": instNum});
 
     posting.success(function(data) {
         var cmd = this.data.split('&')[0].split('=')[1];
-        var instNum = this.data.split('&')[1].split('=')[1];
+        var deviceNum = this.data.split('&')[1].split('=')[1];
+        var instNum = this.data.split('&')[2].split('=')[1];
 
         if (cmd === "on") {
-            changeLampImage(instNum, 255);
+            changeLampImage(deviceNum, 255);
         } else if (cmd === "off") {
-            changeLampImage(instNum, 0);
+            changeLampImage(deviceNum, 0);
         }
     });
 
@@ -218,24 +220,26 @@ function cgiCall(switchCmd, instNum) {
 function updateStatus() {
 
     lights.forEach(function(theLight) {
-        var posting = $.post(rootUrl + "cgi-bin/switch.rb", {"switchCmd": "status", "instNum": theLight.instNum});
+
+        var posting = $.post(rootUrl + "cgi-bin/switch.rb", {"switchCmd": "status", "deviceNum": theLight.deviceNum, "instNum": theLight.instNum});
+
         posting.success(function(data) {
-            var instNum = this.data.split('&')[1].split('=')[1];
-            changeLampImage(instNum, data);
+            var deviceNum = this.data.split('&')[1].split('=')[1];
+            changeLampImage(deviceNum, data);
         });
 
         posting.fail(function(data) {
-            var instNum = this.data.split('&')[1].split('=')[1];
-            console.log("Status retrieval failed for instance number " + instNum);
+            var deviceNum = this.data.split('&')[1].split('=')[1];
+            console.log("Status retrieval failed for device number " + deviceNum);
         });
     });
 }
 
 
-function changeLampImage(instNum, status) {
+function changeLampImage(deviceNum, status) {
     if (status == 0) {
-        $("#lampStatus" + instNum).attr("src", "assets/images/lamp_off.png");
+        $("#lampStatus" + deviceNum).attr("src", "assets/images/lamp_off.png");
     } else {
-        $("#lampStatus" + instNum).attr("src", "assets/images/lamp_on.png");
+        $("#lampStatus" + deviceNum).attr("src", "assets/images/lamp_on.png");
     }
 }
