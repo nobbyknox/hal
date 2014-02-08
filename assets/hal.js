@@ -3,13 +3,14 @@ var rootUrl = "http://nobbyk2.mooo.com:8091/";
 var lights = new Array();
 lights[0] = new Light("Front Flood Light", 2, 0);
 lights[1] = new Light("Side Passage", 3, 0);
-//lights[2] = new Light("Hallway", 2);
-//lights[3] = new Light("Side Passage", 3);
+lights[2] = new Light("Art Room", 4, 0);
+lights[3] = new Light("Front Lounge", 5, 1);
 
-var sceneLeonieHome = new Scene(0, "Leonie Home", [lights[0], lights[1]]);
-//var sceneNobbyHome = new Scene(1, "Nobby Home", [lights[1]]);
-var sceneAllOff = new Scene(2, "All Off", [lights[0], lights[1]]);
-var sceneEmergency = new Scene(2, "Emergency", [lights[0], lights[1]]);
+var sceneLeonieHome = new Scene(0, "Leonie Home", [lights[0], lights[1], lights[2]]);
+var sceneNobbyHome = new Scene(1, "Nobby Home", [lights[0], lights[3]]);
+//var sceneNobbyHome = new Scene(1, "Nobby Home", [lights[0]]);
+var sceneAllOff = new Scene(2, "All Off", [lights[0], lights[1], lights[2], lights[3]]);
+var sceneEmergency = new Scene(3, "Emergency", [lights[0], lights[1], lights[2], lights[3]]);
 
 function comingSoon() {
     showMessage("Comming Soon", "This feature is not currently available, but will be soon. Watch this space. :-)");
@@ -115,15 +116,14 @@ function init() {
         });
     });
 
-/*
     $("#nobbyHomeScene").on("click", function(event) {
         event.preventDefault();
 
         sceneNobbyHome.lights.forEach(function(theLight) {
-            switchOn(theLight.instNum);
+            console.log("Turning on light " + theLight.deviceNum);
+            switchOn(theLight.deviceNum, theLight.instNum);
         });
     });
-*/
 
     $("#allOffScene").on("click", function(event) {
         event.preventDefault();
@@ -196,7 +196,7 @@ function cgiCall(switchCmd, deviceNum, instNum) {
     posting.success(function(data) {
         var cmd = this.data.split('&')[0].split('=')[1];
         var deviceNum = this.data.split('&')[1].split('=')[1];
-        var instNum = this.data.split('&')[2].split('=')[1];
+        // var instNum = this.data.split('&')[2].split('=')[1];
 
         if (cmd === "on") {
             changeLampImage(deviceNum, 255);
