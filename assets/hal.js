@@ -8,7 +8,6 @@ lights[3] = new Light("Front Lounge", 5, 1);
 
 var sceneLeonieHome = new Scene(0, "Leonie Home", [lights[0], lights[1], lights[2]]);
 var sceneNobbyHome = new Scene(1, "Nobby Home", [lights[0], lights[3]]);
-//var sceneNobbyHome = new Scene(1, "Nobby Home", [lights[0]]);
 var sceneAllOff = new Scene(2, "All Off", [lights[0], lights[1], lights[2], lights[3]]);
 var sceneEmergency = new Scene(3, "Emergency", [lights[0], lights[1], lights[2], lights[3]]);
 
@@ -218,6 +217,8 @@ function cgiCall(switchCmd, deviceNum, instNum) {
 }
 
 function updateStatus() {
+
+    humane.log("Updating...");
 
     lights.forEach(function(theLight) {
 
