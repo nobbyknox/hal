@@ -1,10 +1,12 @@
-var rootUrl = "http://nobbyk2.mooo.com:8091/";
+//var zwaveRoot = "http://nobbyk2.mooo.com:8091/";
+//var zwaveRoot = "http://192.168.10.221:8083/";
+var halRoot = "http://192.168.10.105:3000/";
 
-var lights = new Array();
-lights[0] = new Light("Front Flood Light", 2, 0);
-lights[1] = new Light("Side Passage", 3, 0);
-lights[2] = new Light("Art Room", 4, 0);
-lights[3] = new Light("Front Lounge", 5, 1);
+var lights = [];
+//lights[0] = new Light("Front Flood Light", 2, 0);
+//lights[1] = new Light("Side Passage", 3, 0);
+//lights[2] = new Light("Art Room", 4, 0);
+lights[0] = new Light("Front Lounge", 5, 1);
 
 var sceneLeonieHome = new Scene(0, "Leonie Home", [lights[0], lights[1], lights[2]]);
 var sceneNobbyHome = new Scene(1, "Nobby Home", [lights[0], lights[3]]);
@@ -64,14 +66,15 @@ function init() {
     // Lights
     //-------
     lights.forEach(function(theLight) {
-        $("#lampOn" + theLight.deviceNum).on("click", function(event) {
+        $("#light-" + theLight.deviceNum).on("click", function(event) {
             event.preventDefault();
-            switchOn(theLight.deviceNum, theLight.instNum);
+//            switchOn(theLight.deviceNum, theLight.instNum);
+            toggleLight(theLight.deviceNum, theLight.instNum);
         });
-        $("#lampOff" + theLight.deviceNum).on("click", function(event) {
-            event.preventDefault();
-            switchOff(theLight.deviceNum, theLight.instNum);
-        });
+//        $("#light-" + theLight.deviceNum).on("click", function(event) {
+//            event.preventDefault();
+//            switchOff(theLight.deviceNum, theLight.instNum);
+//        });
     });
 
 
@@ -83,7 +86,7 @@ function init() {
     $("#sysInfo").on("click", function(event) {
         event.preventDefault();
 
-        var posting = $.post(rootUrl + "cgi-bin/sysinfo.rb", {});
+        var posting = $.post(zwaveRoot + "cgi-bin/sysinfo.rb", {});
 
         posting.success(function(data) {
             var infoText =
@@ -143,54 +146,66 @@ function init() {
 
     updateStatus();
 
-    window.setInterval(function() {
-        updateStatus();
-    }, 20000);
+    // window.setInterval(function() {
+    //     updateStatus();
+    // }, 20000);
 
 }
 
 function buildLightList() {
 
-    var lightListHtml = $("#lightlist").html();
+    var lightListElement = $('#light-list');
+    var lightListHtml = lightListElement.html();
 
     // Append the lights to the "lightlist" container
     lights.forEach(function(theLight) {
 
         lightListHtml +=
             '<div class="row-fluid">' +
-                '<div class="span12" style="margin-left: 30px; min-height: 20px">' +
-                    '<em>' + theLight.name + '</em>' +
+                '<a id="light-' + theLight.deviceNum + '" class="btn btn-large btn-primary btn-block light-button" href="#">' +
+                '<img id="lamp-status-' + theLight.deviceNum + '" src="assets/images/lamp_off.png" style="vertical-align: middle" /> ' + theLight.name +
+                '</a>' +
                 '</div>' +
-            '</div>' +
-
-            '<div class="row-fluid">' +
-                '<div class="span12">' +
-                    '<img id="lampStatus' + theLight.deviceNum + '" src="assets/images/lamp_off.png" style="vertical-align: middle" />' +
-                    '&nbsp;' +
-                    '<a id="lampOn' + theLight.deviceNum + '" class="btn btn-large btn-primary" href="#"><i class="icon-asterisk icon-white"></i> On</a>' +
-                    '&nbsp;' +
-                    '<a id="lampOff' + theLight.deviceNum + '" class="btn btn-large btn-primary" href="#"><i class="icon-off icon-white"></i> Off</a>' +
-                '</div>' +
-            '</div>' +
-            '<br/>';
+                '<br/>';
     });
 
-    $("#lightlist").html(lightListHtml);
+    lightListElement.html(lightListHtml);
 
+}
+
+//function getStatus(deviceNum, instNum) {
+//    console.log("Getting status: deviceNum: " + deviceNum + ", instNum: " + instNum);
+//    var lePost = $.post(halRoot + "status", {"deviceNum": deviceNum, "instNum": instNum});
+//
+//    lePost.done(function(data) {
+//        console.log("Got status");
+//        return 'the status';
+//    });
+//}
+
+function toggleLight(deviceNum, instNum) {
+//    cgiCall("on", deviceNum, instNum);
+
+    console.log("Toggling: deviceNum: " + deviceNum + ", instNum: " + instNum);
+    var lePost = $.post(halRoot + "toggle", {"deviceNum": deviceNum, "instNum": instNum});
 }
 
 function switchOn(deviceNum, instNum) {
-    cgiCall("on", deviceNum, instNum);
+//    cgiCall("on", deviceNum, instNum);
+
+    console.log("deviceNum: " + deviceNum + ", instNum: " + instNum);
 }
 
 function switchOff(deviceNum, instNum) {
-    cgiCall("off", deviceNum, instNum);
+//    cgiCall("off", deviceNum, instNum);
+
+    console.log("deviceNum: " + deviceNum + ", instNum: " + instNum);
 }
 
 // New proposed name: postSwitchCommand
 function cgiCall(switchCmd, deviceNum, instNum) {
 
-    var posting = $.post(rootUrl + "cgi-bin/switch.rb", {"switchCmd": switchCmd, "deviceNum": deviceNum, "instNum": instNum});
+    var posting = $.post(zwaveRoot + "cgi-bin/switch.rb", {"switchCmd": switchCmd, "deviceNum": deviceNum, "instNum": instNum});
 
     posting.success(function(data) {
         var cmd = this.data.split('&')[0].split('=')[1];
@@ -222,17 +237,24 @@ function updateStatus() {
 
     lights.forEach(function(theLight) {
 
-        var posting = $.post(rootUrl + "cgi-bin/switch.rb", {"switchCmd": "status", "deviceNum": theLight.deviceNum, "instNum": theLight.instNum});
+//        console.log('status for ' + theLight.name + ': ' + getStatus(theLight.deviceNum, theLight.instNum));
 
-        posting.success(function(data) {
-            var deviceNum = this.data.split('&')[1].split('=')[1];
-            changeLampImage(deviceNum, data);
+    $.post(halRoot + "status", {"deviceNum": theLight.deviceNum, "instNum": theLight.instNum})
+        .done(function(data) {
+            console.log('Status of ' + theLight.name + ': ' + data);
         });
 
-        posting.fail(function(data) {
-            var deviceNum = this.data.split('&')[1].split('=')[1];
-            console.log("Status retrieval failed for device number " + deviceNum);
-        });
+//        var posting = $.post(zwaveRoot + "cgi-bin/switch.rb", {"switchCmd": "status", "deviceNum": theLight.deviceNum, "instNum": theLight.instNum});
+//
+//        posting.success(function(data) {
+//            var deviceNum = this.data.split('&')[1].split('=')[1];
+//            changeLampImage(deviceNum, data);
+//        });
+//
+//        posting.fail(function(data) {
+//            var deviceNum = this.data.split('&')[1].split('=')[1];
+//            console.log("Status retrieval failed for device number " + deviceNum);
+//        });
     });
 }
 
