@@ -69,13 +69,8 @@ function init() {
     lights.forEach(function(theLight) {
         $("#light-" + theLight.deviceNum).on("click", function(event) {
             event.preventDefault();
-//            switchOn(theLight.deviceNum, theLight.instNum);
             toggleLight(theLight.deviceNum, theLight.instNum);
         });
-//        $("#light-" + theLight.deviceNum).on("click", function(event) {
-//            event.preventDefault();
-//            switchOff(theLight.deviceNum, theLight.instNum);
-//        });
     });
 
 
@@ -182,8 +177,8 @@ function toggleLight(deviceNum, instNum) {
         contentType: 'application/json'
     });
 
-    lePost.done(function() {
-//        console.log('Success!');
+    lePost.done(function(data) {
+        changeLampImage(deviceNum, data);
     });
 
     lePost.fail(function(data) {
@@ -205,8 +200,8 @@ function updateStatus() {
             contentType: 'application/json'
         });
 
-        lePost.done(function() {
-//            console.log('Success!');
+        lePost.done(function(data) {
+            changeLampImage(theLight.deviceNum, data);
         });
 
         lePost.fail(function(data) {
@@ -218,9 +213,9 @@ function updateStatus() {
 
 
 function changeLampImage(deviceNum, status) {
-    if (status == 0) {
-        $("#lampStatus" + deviceNum).attr("src", "assets/images/lamp_off.png");
+    if (status === '0') {
+        $("#lamp-status-" + deviceNum).attr("src", "assets/images/lamp_off.png");
     } else {
-        $("#lampStatus" + deviceNum).attr("src", "assets/images/lamp_on.png");
+        $("#lamp-status-" + deviceNum).attr("src", "assets/images/lamp_on.png");
     }
 }
