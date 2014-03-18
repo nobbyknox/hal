@@ -1,12 +1,13 @@
 //var zwaveRoot = "http://nobbyk2.mooo.com:8091/";
 //var zwaveRoot = "http://192.168.10.221:8083/";
-var halRoot = "http://192.168.10.105:3000/";
+//var halRoot = "http://192.168.10.105:3000/";
+var halRoot = "http://localhost:3000/";
 
 var lights = [];
-//lights[0] = new Light("Front Flood Light", 2, 0);
-//lights[1] = new Light("Side Passage", 3, 0);
-//lights[2] = new Light("Art Room", 4, 0);
-lights[0] = new Light("Front Lounge", 5, 1);
+lights[0] = new Light("Front Flood Light", 2, 0);
+lights[1] = new Light("Side Passage", 3, 0);
+lights[2] = new Light("Art Room", 4, 0);
+lights[3] = new Light("Front Lounge", 5, 1);
 
 var sceneLeonieHome = new Scene(0, "Leonie Home", [lights[0], lights[1], lights[2]]);
 var sceneNobbyHome = new Scene(1, "Nobby Home", [lights[0], lights[3]]);
@@ -122,7 +123,6 @@ function init() {
         event.preventDefault();
 
         sceneNobbyHome.lights.forEach(function(theLight) {
-            console.log("Turning on light " + theLight.deviceNum);
             switchOn(theLight.deviceNum, theLight.instNum);
         });
     });
@@ -146,9 +146,9 @@ function init() {
 
     updateStatus();
 
-    // window.setInterval(function() {
-    //     updateStatus();
-    // }, 20000);
+//    window.setInterval(function() {
+//         updateStatus();
+//    }, 20000);
 
 }
 
@@ -173,62 +173,23 @@ function buildLightList() {
 
 }
 
-//function getStatus(deviceNum, instNum) {
-//    console.log("Getting status: deviceNum: " + deviceNum + ", instNum: " + instNum);
-//    var lePost = $.post(halRoot + "status", {"deviceNum": deviceNum, "instNum": instNum});
-//
-//    lePost.done(function(data) {
-//        console.log("Got status");
-//        return 'the status';
-//    });
-//}
-
 function toggleLight(deviceNum, instNum) {
-//    cgiCall("on", deviceNum, instNum);
 
-    console.log("Toggling: deviceNum: " + deviceNum + ", instNum: " + instNum);
-    var lePost = $.post(halRoot + "toggle", {"deviceNum": deviceNum, "instNum": instNum});
-}
-
-function switchOn(deviceNum, instNum) {
-//    cgiCall("on", deviceNum, instNum);
-
-    console.log("deviceNum: " + deviceNum + ", instNum: " + instNum);
-}
-
-function switchOff(deviceNum, instNum) {
-//    cgiCall("off", deviceNum, instNum);
-
-    console.log("deviceNum: " + deviceNum + ", instNum: " + instNum);
-}
-
-// New proposed name: postSwitchCommand
-function cgiCall(switchCmd, deviceNum, instNum) {
-
-    var posting = $.post(zwaveRoot + "cgi-bin/switch.rb", {"switchCmd": switchCmd, "deviceNum": deviceNum, "instNum": instNum});
-
-    posting.success(function(data) {
-        var cmd = this.data.split('&')[0].split('=')[1];
-        var deviceNum = this.data.split('&')[1].split('=')[1];
-        // var instNum = this.data.split('&')[2].split('=')[1];
-
-        if (cmd === "on") {
-            changeLampImage(deviceNum, 255);
-        } else if (cmd === "off") {
-            changeLampImage(deviceNum, 0);
-        }
+    var lePost = $.ajax({
+        url: halRoot + 'toggle',
+        type: 'POST',
+        data: JSON.stringify({"deviceNum": deviceNum, "instNum": instNum}),
+        contentType: 'application/json'
     });
 
-    posting.fail(function(data) {
-        if (data.status == "404") {
-            alert("Unable to find resource 'cgi-bin/switch.rb'");
-        } else {
-            alert("An error occurred:\n" +
-                "readyState: " + data.readyState + "\n" +
-                "status: " + data.status + "\n" +
-                "statusText: " + data.statusText);
-        }
+    lePost.done(function() {
+//        console.log('Success!');
     });
+
+    lePost.fail(function(data) {
+        console.log('Failure - ' + data.responseText + data.response);
+    });
+
 }
 
 function updateStatus() {
@@ -237,24 +198,21 @@ function updateStatus() {
 
     lights.forEach(function(theLight) {
 
-//        console.log('status for ' + theLight.name + ': ' + getStatus(theLight.deviceNum, theLight.instNum));
-
-    $.post(halRoot + "status", {"deviceNum": theLight.deviceNum, "instNum": theLight.instNum})
-        .done(function(data) {
-            console.log('Status of ' + theLight.name + ': ' + data);
+        var lePost = $.ajax({
+            url: halRoot + 'status',
+            type: 'POST',
+            data: JSON.stringify({"deviceNum": theLight.deviceNum, "instNum": theLight.instNum}),
+            contentType: 'application/json'
         });
 
-//        var posting = $.post(zwaveRoot + "cgi-bin/switch.rb", {"switchCmd": "status", "deviceNum": theLight.deviceNum, "instNum": theLight.instNum});
-//
-//        posting.success(function(data) {
-//            var deviceNum = this.data.split('&')[1].split('=')[1];
-//            changeLampImage(deviceNum, data);
-//        });
-//
-//        posting.fail(function(data) {
-//            var deviceNum = this.data.split('&')[1].split('=')[1];
-//            console.log("Status retrieval failed for device number " + deviceNum);
-//        });
+        lePost.done(function() {
+//            console.log('Success!');
+        });
+
+        lePost.fail(function(data) {
+           console.log('Failure - ' + data.responseText + data.response);
+        });
+
     });
 }
 
