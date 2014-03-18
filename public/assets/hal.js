@@ -3,6 +3,9 @@
 //var halRoot = "http://192.168.10.105:3000/";
 var halRoot = "http://localhost:3000/";
 
+var ON_VALUE = '255';
+var OFF_VALUE = '0';
+
 var lights = [];
 lights[0] = new Light("Front Flood Light", 2, 0);
 lights[1] = new Light("Side Passage", 3, 0);
@@ -179,6 +182,44 @@ function toggleLight(deviceNum, instNum) {
 
     lePost.done(function(data) {
         changeLampImage(deviceNum, data);
+    });
+
+    lePost.fail(function(data) {
+        console.log('Failure - ' + data.responseText + data.response);
+    });
+
+}
+
+function switchOn(deviceNum, instNum) {
+
+    var lePost = $.ajax({
+        url: halRoot + 'on',
+        type: 'POST',
+        data: JSON.stringify({"deviceNum": deviceNum, "instNum": instNum}),
+        contentType: 'application/json'
+    });
+
+    lePost.done(function(data) {
+        changeLampImage(deviceNum, ON_VALUE);
+    });
+
+    lePost.fail(function(data) {
+        console.log('Failure - ' + data.responseText + data.response);
+    });
+
+}
+
+function switchOff(deviceNum, instNum) {
+
+    var lePost = $.ajax({
+        url: halRoot + 'off',
+        type: 'POST',
+        data: JSON.stringify({"deviceNum": deviceNum, "instNum": instNum}),
+        contentType: 'application/json'
+    });
+
+    lePost.done(function(data) {
+        changeLampImage(deviceNum, OFF_VALUE);
     });
 
     lePost.fail(function(data) {

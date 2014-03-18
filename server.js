@@ -71,6 +71,18 @@ app.post('/toggle', function(request, response) {
 
 });
 
+app.post('/on', function(request, response) {
+    response.send(ON_VALUE);
+    response.end();
+    setLight(request.body.deviceNum, request.body.instNum, ON_VALUE);
+});
+
+app.post('/off', function(request, response) {
+    response.send(OFF_VALUE);
+    response.end();
+    setLight(request.body.deviceNum, request.body.instNum, OFF_VALUE);
+});
+
 var server = app.listen(3000, function() {
     console.log('Listening on port %d', server.address().port);
 });
