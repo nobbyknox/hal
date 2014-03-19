@@ -1,6 +1,3 @@
-//var zwaveRoot = "http://nobbyk2.mooo.com:8091/";
-//var zwaveRoot = "http://192.168.10.221:8083/";
-//var halRoot = "http://192.168.10.105:3000/";
 var halRoot = "http://localhost:3000/";
 
 var ON_VALUE = '255';
