@@ -1,4 +1,6 @@
 var http = require('http');
+var config = require('./config/' + (process.env.NODE_ENV || 'dev') + '.json');
+
 var zwaveHostname = '192.168.10.221';
 var zwavePort = 8083;
 
@@ -10,6 +12,20 @@ var OFF_VALUE = '0';
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.bodyParser());
+
+app.use(express.basicAuth(function(user, pass, callback) {
+
+    var validUser = false;
+
+    config.users.forEach(function(dbUser) {
+       if ((dbUser.username === user) && (dbUser.password === pass)) {
+           validUser = true;
+       }
+    });
+
+    callback(null, validUser);
+
+}));
 
 app.get('/hello', function(req, res) {
     res.send('Hello World!');
