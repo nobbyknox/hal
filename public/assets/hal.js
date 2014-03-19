@@ -144,9 +144,9 @@ function init() {
 
     updateStatus();
 
-//    window.setInterval(function() {
-//         updateStatus();
-//    }, 20000);
+    window.setInterval(function() {
+         updateStatus();
+    }, 20000);
 
 }
 
