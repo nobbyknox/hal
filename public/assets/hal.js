@@ -79,29 +79,9 @@ function init() {
         $("#aboutBox").modal("show");
     });
 
-    $("#sysInfo").on("click", function(event) {
+    $("#sys-info").on("click", function(event) {
         event.preventDefault();
-
-        var posting = $.post(zwaveRoot + "cgi-bin/sysinfo.rb", {});
-
-        posting.success(function(data) {
-            var infoText =
-                "<table>" +
-                "<tr><td>Operating System:</td><td>" + data.os + "</td></tr>" +
-                "<tr><td>Kernel Version:</td><td>" + data.kernel_version + "</td></tr>" +
-                "<tr><td>Host Name:</td><td>" + data.host_name + "</td></tr>" +
-                "<tr><td>Processor:</td><td>" + data.processor + "</td></tr>" +
-                "<tr><td>Available Memory:</td><td>" + data.tot_mem + "</td></tr>" +
-                "<tr><td>Free Memory:</td><td>" + data.free_mem + "</td></tr>" +
-                "<tr><td>Up Time:</td><td>" + data.up_time + "</td></tr>" +
-                "</table>";
-
-            showMessage("System Information", infoText);
-        });
-
-        posting.fail(function(data) {
-            showError("Oops", "Oops, something went wrong getting the system information. :-(");
-        });
+        showSysInfo();
     });
 
     // Scenes
@@ -256,4 +236,30 @@ function changeLampImage(deviceNum, status) {
     } else {
         $("#lamp-status-" + deviceNum).attr("src", "assets/images/lamp_on.png");
     }
+}
+
+function showSysInfo() {
+    var lePost = $.ajax({
+        url: halRoot + 'sysinfo',
+        type: 'POST',
+        contentType: 'application/json'
+    });
+
+    lePost.done(function(data) {
+
+        $('#hostname').val(data.hostname);
+        $('#ostype').val(data.ostype);
+        $('#release').val(data.release);
+        $('#cpu').val(data.cpu);
+        $('#uptime').val(data.uptime);
+        $('#totalmem').val(data.totalmem);
+        $('#freemem').val(data.freemem);
+
+        $("#sys-info-box").modal("show");
+    });
+
+    lePost.fail(function(data) {
+        console.log('Failure - ' + data.responseText + data.response);
+    });
+
 }

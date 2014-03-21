@@ -99,6 +99,24 @@ app.post('/off', function(request, response) {
     setLight(request.body.deviceNum, request.body.instNum, OFF_VALUE);
 });
 
+app.post('/sysinfo', function(request, response) {
+
+    var os = require('os');
+    var uptime = os.uptime();
+
+    var info = {
+        'hostname': os.hostname(),
+        'ostype': os.type(),
+        'release': os.release(),
+        'cpu': os.cpus()[0].model,
+        'uptime': (uptime < 3600 ? (uptime / 60) + ' minutes' : (uptime / 60 / 60) + ' hours'),
+        'totalmem': (os.totalmem() / 1024 / 1024) + ' MB',
+        'freemem': (os.freemem() / 1024 / 1024) + ' MB'
+    };
+    response.send(info);
+    response.end();
+});
+
 var server = app.listen(3000, function() {
     console.log('Listening on port %d', server.address().port);
 });
