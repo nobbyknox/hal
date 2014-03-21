@@ -1,7 +1,8 @@
 #!/bin/bash
 
 NODE=/opt/node/bin/node
-SERVER_JS_FILE=/home/pi/hal/server.js
+HAL_DIR=/home/pi/hal
+SERVER_JS_FILE=server.js
 USER=pi
 OUT=/home/pi/hal.log
 
@@ -9,6 +10,7 @@ case "$1" in
 
 start)
 	echo "starting HAL: $NODE $SERVER_JS_FILE"
+	cd $HAL_DIR
 	sudo -u $USER NODE_ENV=production $NODE $SERVER_JS_FILE > $OUT 2>$OUT &
 	;;
 
