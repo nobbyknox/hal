@@ -1,0 +1,7 @@
+[
+    {
+        "cron": "* 0 2 * * 0",
+        "scene": "scene-dummy",
+        "description": "This is a dummy scene that triggers 2AM on Sundays"
+    }
+]
