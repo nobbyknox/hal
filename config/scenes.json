@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "name": "Leonie Home",
+        "description": "",
+        "lights": [1,2,3],
+        "action": "on"
+    },
+    {
+        "id": 2,
+        "name": "Nobby Home",
+        "description": "",
+        "lights": [1,4],
+        "action": "on"
+    },
+    {
+        "id": 3,
+        "name": "All Off",
+        "description": "Switches off everything",
+        "lights": [1,2,3,4],
+        "action": "off"
+    },
+    {
+        "id": 4,
+        "name": "Emergency",
+        "description": "Switches on everything",
+        "lights": [1,2,3,4],
+        "action": "on"
+    },
+    {
+        "id": 5,
+        "name": "Test Scene",
+        "description": "Turns on front lounge light after one minute",
+        "lights": [4],
+        "action": "toggle"
+    }
+]

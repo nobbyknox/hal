@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "name": "Front Flood Light",
+        "device": 2,
+        "instance": 0
+    },
+    {
+        "id": 2,
+        "name": "Side Passage",
+        "device": 3,
+        "instance": 0
+    },
+    {
+        "id": 3,
+        "name": "Art Room",
+        "device": 4,
+        "instance": 0
+    },
+    {
+        "id": 4,
+        "name": "Front Lounge",
+        "device": 5,
+        "instance": 1
+    }
+]
