@@ -1,7 +1,2 @@
 [
-    {
-        "cron": "0 * 1 * * 0",
-        "sceneId": 5,
-        "description": "This is a test scene"
-    }
 ]

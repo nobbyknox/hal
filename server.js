@@ -43,52 +43,76 @@ app.use(express.basicAuth(function(user, pass, callback) {
 // Route Handlers
 // --------------
 
+app.get('/lights', function(request, response) {
+    response.send(lights);
+    response.end();
+});
+
+app.get('/scenes', function(request, response) {
+    response.send(scenes);
+    response.end();
+});
+
 app.post('/status', function(request, response) {
 
-    var options = {
-        hostname: zwaveHostname,
-        port: zwavePort,
-        path: '/ZWaveAPI/Run/devices[' + request.body.deviceNum + '].instances[' + request.body.instNum + '].commandClasses[0x25].data.level.value',
-        method: 'POST'
-    };
 
-    var zwaveRequest = http.request(options, function(zwaveResponse) {
-        zwaveResponse.setEncoding('utf8');
-        zwaveResponse.on('data', function(chunk) {
-            response.send(chunk);
-            response.end();
+    // TODO: This code is a duplicate of that in getLightState. Use that function here.
+    getLight(request.body.id, function(light) {
+
+        var options = {
+            hostname: zwaveHostname,
+            port: zwavePort,
+            path: '/ZWaveAPI/Run/devices[' + light.device + '].instances[' + light.instance + '].commandClasses[0x25].data.level.value',
+            method: 'POST'
+        };
+
+        var zwaveRequest = http.request(options, function(zwaveResponse) {
+            zwaveResponse.setEncoding('utf8');
+            zwaveResponse.on('data', function(chunk) {
+                response.send(chunk);
+                response.end();
+            });
         });
-    });
 
-    zwaveRequest.on('error', function(e) {
-        console.log('Problem with request: ' + e.message);
-    });
+        zwaveRequest.on('error', function(e) {
+            console.log('Problem with request: ' + e.message);
+        });
 
-    zwaveRequest.end();
+        zwaveRequest.end();
+    });
 
 });
 
 app.post('/toggle', function(request, response) {
 
-    // TODO: Must migrate towards light ID away from device/instance IDs
+    getLight(request.body.id, function(light) {
+        getLightState(light, function(currentState) {
 
-    getLightState(request.body.deviceNum, request.body.instNum, function(currentState) {
-        var newState = (currentState === ON_VALUE ? OFF_VALUE : ON_VALUE);
+            var newState = (currentState === ON_VALUE ? OFF_VALUE : ON_VALUE);
 
-        response.send(newState);
-        response.end();
+            response.send(newState);
+            response.end();
 
-        setLight(request.body.deviceNum, request.body.instNum, newState);
+            setLight(light, newState);
+        });
     });
 
 });
 
+app.post('/scene', function(request, response) {
+    triggerScene(request.body.id);
+    response.send('ok');
+    response.end();
+});
+
+// TODO: Route is not obsolete
 app.post('/on', function(request, response) {
     response.send(ON_VALUE);
     response.end();
     setLight(request.body.deviceNum, request.body.instNum, ON_VALUE);
 });
 
+// TODO: Route is not obsolete
 app.post('/off', function(request, response) {
     response.send(OFF_VALUE);
     response.end();
@@ -150,23 +174,23 @@ function actionLights(lightIds, action) {
         getLight(item, function(light) {
 
             if ((action === 'on') || (action === 'off')) {
-                setLight(light.device, light.instance, (action === 'on' ? ON_VALUE : OFF_VALUE));
+                setLight(light, (action === 'on' ? ON_VALUE : OFF_VALUE));
             } else if (action === 'toggle') {
                 getLightState(light.device, light.instance, function(currentState) {
                     var newState = (currentState === ON_VALUE ? OFF_VALUE : ON_VALUE);
-                    setLight(light.device, light.instance, newState);
+                    setLight(light, newState);
                 });
             }
         });
     });
 }
 
-function getLightState(device, instance, callback) {
+function getLightState(light, callback) {
 
     var options = {
         hostname: zwaveHostname,
         port: zwavePort,
-        path: '/ZWaveAPI/Run/devices[' + device + '].instances[' + instance + '].commandClasses[0x25].data.level.value',
+        path: '/ZWaveAPI/Run/devices[' + light.device + '].instances[' + light.instance + '].commandClasses[0x25].data.level.value',
         method: 'POST'
     };
 
@@ -191,12 +215,12 @@ function log(mesg) {
     console.log(moment().format('YYYY-MM-DD hh:mm:ss.SSS') + ': ' + mesg);
 }
 
-function setLight(device, instance, state) {
+function setLight(light, state) {
 
     var options = {
         hostname: zwaveHostname,
         port: zwavePort,
-        path: '/ZWaveAPI/Run/devices[' + device + '].instances[' + instance + '].commandClasses[0x25].Set(' + state + ')',
+        path: '/ZWaveAPI/Run/devices[' + light.device + '].instances[' + light.instance + '].commandClasses[0x25].Set(' + state + ')',
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -241,8 +265,9 @@ function startScheduler() {
 }
 
 function triggerScene(sceneId) {
-    log('Schedule triggering scene ID ' + sceneId + '...');
-    getScene(sceneId, actionLights);
+    getScene(sceneId, function(scene) {
+        actionLights(scene.lights, scene.action);
+    });
 }
 
 function getLight(id, callback) {
@@ -256,7 +281,7 @@ function getLight(id, callback) {
 function getScene(sceneId, callback) {
     scenes.forEach(function(scene) {
         if (scene.id === sceneId) {
-            callback(scene.lights, scene.action);
+            callback(scene);
         }
     });
 }

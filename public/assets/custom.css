@@ -6,4 +6,6 @@
 .scene-button {
     font-size: 150%;
     font-weight: bold;
+    height: 54px;
+    padding-top: 10px;
 }

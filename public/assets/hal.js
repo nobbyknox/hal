@@ -4,15 +4,8 @@ var ON_VALUE = '255';
 var OFF_VALUE = '0';
 
 var lights = [];
-lights[0] = new Light("Front Flood Light", 2, 0);
-lights[1] = new Light("Side Passage", 3, 0);
-lights[2] = new Light("Art Room", 4, 0);
-lights[3] = new Light("Front Lounge", 5, 1);
+var scenes = [];
 
-var sceneLeonieHome = new Scene(0, "Leonie Home", [lights[0], lights[1], lights[2]]);
-var sceneNobbyHome = new Scene(1, "Nobby Home", [lights[0], lights[3]]);
-var sceneAllOff = new Scene(2, "All Off", [lights[0], lights[1], lights[2], lights[3]]);
-var sceneEmergency = new Scene(3, "Emergency", [lights[0], lights[1], lights[2], lights[3]]);
 
 function comingSoon() {
     showMessage("Comming Soon", "This feature is not currently available, but will be soon. Watch this space. :-)");
@@ -61,17 +54,22 @@ function Scene(id, name, lights) {
 
 function init() {
 
-    buildLightList();
+    // http://ruben.verborgh.org/blog/2012/12/31/asynchronous-error-handling-in-javascript/
+    // http://know.cujojs.com/tutorials/async/mastering-async-error-handling-with-promises
 
+    buildLightList(function(lightList) {
+        if (lightList) {
+            lights = lightList;
 
-    // Lights
-    //-------
-    lights.forEach(function(theLight) {
-        $("#light-" + theLight.deviceNum).on("click", function(event) {
-            event.preventDefault();
-            toggleLight(theLight.deviceNum, theLight.instNum);
-        });
+            buildSceneList(function(sceneList) {
+                if (sceneList) {
+                    scenes = sceneList;
+                }
+                updateStatus();
+            });
+        }
     });
+
 
 
     $("#about").on("click", function(event) {
@@ -84,42 +82,6 @@ function init() {
         showSysInfo();
     });
 
-    // Scenes
-    //-------
-    $("#leonieHomeScene").on("click", function(event) {
-        event.preventDefault();
-
-        sceneLeonieHome.lights.forEach(function(theLight) {
-            switchOn(theLight.deviceNum, theLight.instNum);
-        });
-    });
-
-    $("#nobbyHomeScene").on("click", function(event) {
-        event.preventDefault();
-
-        sceneNobbyHome.lights.forEach(function(theLight) {
-            switchOn(theLight.deviceNum, theLight.instNum);
-        });
-    });
-
-    $("#allOffScene").on("click", function(event) {
-        event.preventDefault();
-
-        sceneAllOff.lights.forEach(function(theLight) {
-            switchOff(theLight.deviceNum, theLight.instNum);
-        });
-    });
-
-    $("#emergencyScene").on("click", function(event) {
-        event.preventDefault();
-
-        sceneEmergency.lights.forEach(function(theLight) {
-            switchOn(theLight.deviceNum, theLight.instNum);
-        });
-    });
-
-
-    updateStatus();
 
     window.setInterval(function() {
          updateStatus();
@@ -127,38 +89,102 @@ function init() {
 
 }
 
-function buildLightList() {
+function buildLightList(callback) {
 
-    var lightListElement = $('#light-list');
-    var lightListHtml = lightListElement.html();
-
-    // Append the lights to the "lightlist" container
-    lights.forEach(function(theLight) {
-
-        lightListHtml +=
-            '<div class="row-fluid">' +
-                '<a id="light-' + theLight.deviceNum + '" class="btn btn-large btn-primary btn-block light-button" href="#">' +
-                '<img id="lamp-status-' + theLight.deviceNum + '" src="assets/images/lamp_off.png" style="vertical-align: middle" /> ' + theLight.name +
-                '</a>' +
-                '</div>' +
-                '<br/>';
+    var leGet = $.ajax({
+        url: halRoot + 'lights',
+        type: 'GET',
+        contentType: 'application/json'
     });
 
-    lightListElement.html(lightListHtml);
+    leGet.done(function(data) {
+
+        var lightListElement = $('#light-list');
+        var lightListHtml = lightListElement.html();
+
+        // Append the lights to the "light-list" container
+        data.forEach(function(theLight) {
+
+            lightListHtml +=
+                '<div class="row-fluid">' +
+                    '<a id="light-' + theLight.id + '" class="btn btn-large btn-primary btn-block light-button" href="#">' +
+                    '<img id="lamp-status-' + theLight.id + '" src="assets/images/lamp_off.png" style="vertical-align: middle" /> ' + theLight.name +
+                    '</a>' +
+                '</div>' +
+                '<br/>';
+        });
+
+        lightListElement.html(lightListHtml);
+
+        data.forEach(function(theLight) {
+            $('#light-' + theLight.id).on('click', function(event) {
+                event.preventDefault();
+                toggleLight(theLight.id);
+            });
+        });
+
+        if (callback && (callback instanceof Function)) {
+            callback(data);
+        }
+
+    });
 
 }
 
-function toggleLight(deviceNum, instNum) {
+function buildSceneList(callback) {
+
+    var leGet = $.ajax({
+        url: halRoot + 'scenes',
+        type: 'GET',
+        contentType: 'application/json'
+    });
+
+    leGet.done(function(data) {
+
+        var sceneListElement = $('#scene-list');
+        var sceneListHtml = sceneListElement.html();
+
+        // Append the scenes to the "scene-list" container
+        data.forEach(function(theScene) {
+
+            if (theScene.showOnUI) {
+                sceneListHtml +=
+                    '<div class="row-fluid">' +
+                        '<a id="scene-' + theScene.id + '" class="btn btn-large ' + theScene.buttonClass + ' btn-block scene-button" href="#"><span class="' + theScene.glyphiconClass + '"></span> ' + theScene.name + '</a>' +
+                    '</div>' +
+                    '<br/>';
+            }
+        });
+
+        sceneListElement.html(sceneListHtml);
+
+        data.forEach(function(theScene) {
+            if (theScene.showOnUI) {
+                $('#scene-' + theScene.id).on('click', function(event) {
+                    event.preventDefault();
+                    triggerScene(theScene.id);
+                });
+            }
+        });
+
+        if (callback && (callback instanceof Function)) {
+            callback(data);
+        }
+
+    });
+}
+
+function toggleLight(lightId) {
 
     var lePost = $.ajax({
         url: halRoot + 'toggle',
         type: 'POST',
-        data: JSON.stringify({"deviceNum": deviceNum, "instNum": instNum}),
+        data: JSON.stringify({"id": lightId}),
         contentType: 'application/json'
     });
 
     lePost.done(function(data) {
-        changeLampImage(deviceNum, data);
+        changeLampImage(lightId, data);
     });
 
     lePost.fail(function(data) {
@@ -167,6 +193,34 @@ function toggleLight(deviceNum, instNum) {
 
 }
 
+function triggerScene(sceneId) {
+
+    var lePost = $.ajax({
+        url: halRoot + 'scene',
+        type: 'POST',
+        data: JSON.stringify({"id": sceneId}),
+        contentType: 'application/json'
+    });
+
+    lePost.done(function(data) {
+
+        scenes.forEach(function(sceneItem) {
+            if (sceneItem.id === sceneId) {
+                sceneItem.lights.forEach(function(lightItem) {
+                    changeLampImage(lightItem, (sceneItem.action === 'off' ? OFF_VALUE : ON_VALUE));
+                })
+            }
+        });
+
+    });
+
+    lePost.fail(function(data) {
+        console.log('Failure - ' + data.responseText + data.response);
+    });
+
+}
+
+// TODO: Function is not obsolete
 function switchOn(deviceNum, instNum) {
 
     var lePost = $.ajax({
@@ -186,6 +240,7 @@ function switchOn(deviceNum, instNum) {
 
 }
 
+// TODO: Function is not obsolete
 function switchOff(deviceNum, instNum) {
 
     var lePost = $.ajax({
@@ -214,12 +269,12 @@ function updateStatus() {
         var lePost = $.ajax({
             url: halRoot + 'status',
             type: 'POST',
-            data: JSON.stringify({"deviceNum": theLight.deviceNum, "instNum": theLight.instNum}),
+            data: JSON.stringify({"id": theLight.id}),
             contentType: 'application/json'
         });
 
         lePost.done(function(data) {
-            changeLampImage(theLight.deviceNum, data);
+            changeLampImage(theLight.id, data);
         });
 
         lePost.fail(function(data) {
@@ -230,11 +285,11 @@ function updateStatus() {
 }
 
 
-function changeLampImage(deviceNum, status) {
+function changeLampImage(lightId, status) {
     if (status === '0') {
-        $("#lamp-status-" + deviceNum).attr("src", "assets/images/lamp_off.png");
+        $("#lamp-status-" + lightId).attr("src", "assets/images/lamp_off.png");
     } else {
-        $("#lamp-status-" + deviceNum).attr("src", "assets/images/lamp_on.png");
+        $("#lamp-status-" + lightId).attr("src", "assets/images/lamp_on.png");
     }
 }
 
