@@ -1,3 +1,8 @@
 {
-    "users": [{"username":"tsessebe", "password":""},{"username":"sable", "password":""}]
+    "users": [
+        { "username": "user1", "password": "" },
+        { "username": "user2", "password": "" }],
+    "zwaveHostname": "192.168.10.221",
+    "zwavePort": 8083,
+    "expressPort": 3000
 }
