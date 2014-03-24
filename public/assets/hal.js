@@ -1,4 +1,4 @@
-var halRoot = "http://localhost:3000/";
+var halRoot = "/";
 
 var ON_VALUE = '255';
 var OFF_VALUE = '0';
@@ -65,7 +65,12 @@ function init() {
                 if (sceneList) {
                     scenes = sceneList;
                 }
+
                 updateStatus();
+
+                window.setInterval(function() {
+                    updateStatus();
+                }, 20000);
             });
         }
     });
@@ -81,12 +86,6 @@ function init() {
         event.preventDefault();
         showSysInfo();
     });
-
-
-    window.setInterval(function() {
-         updateStatus();
-    }, 20000);
-
 }
 
 function buildLightList(callback) {
@@ -220,7 +219,7 @@ function triggerScene(sceneId) {
 
 }
 
-// TODO: Function is not obsolete
+// TODO: Function is now obsolete
 function switchOn(deviceNum, instNum) {
 
     var lePost = $.ajax({
@@ -240,7 +239,7 @@ function switchOn(deviceNum, instNum) {
 
 }
 
-// TODO: Function is not obsolete
+// TODO: Function is now obsolete
 function switchOff(deviceNum, instNum) {
 
     var lePost = $.ajax({
