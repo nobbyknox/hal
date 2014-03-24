@@ -219,46 +219,6 @@ function triggerScene(sceneId) {
 
 }
 
-// TODO: Function is now obsolete
-function switchOn(deviceNum, instNum) {
-
-    var lePost = $.ajax({
-        url: halRoot + 'on',
-        type: 'POST',
-        data: JSON.stringify({"deviceNum": deviceNum, "instNum": instNum}),
-        contentType: 'application/json'
-    });
-
-    lePost.done(function(data) {
-        changeLampImage(deviceNum, ON_VALUE);
-    });
-
-    lePost.fail(function(data) {
-        console.log('Failure - ' + data.responseText + data.response);
-    });
-
-}
-
-// TODO: Function is now obsolete
-function switchOff(deviceNum, instNum) {
-
-    var lePost = $.ajax({
-        url: halRoot + 'off',
-        type: 'POST',
-        data: JSON.stringify({"deviceNum": deviceNum, "instNum": instNum}),
-        contentType: 'application/json'
-    });
-
-    lePost.done(function(data) {
-        changeLampImage(deviceNum, OFF_VALUE);
-    });
-
-    lePost.fail(function(data) {
-        console.log('Failure - ' + data.responseText + data.response);
-    });
-
-}
-
 function updateStatus() {
 
     humane.log("Updating...");

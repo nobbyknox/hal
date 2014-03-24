@@ -105,20 +105,6 @@ app.post('/scene', function(request, response) {
     response.end();
 });
 
-// TODO: Route is not obsolete
-app.post('/on', function(request, response) {
-    response.send(ON_VALUE);
-    response.end();
-    setLight(request.body.deviceNum, request.body.instNum, ON_VALUE);
-});
-
-// TODO: Route is not obsolete
-app.post('/off', function(request, response) {
-    response.send(OFF_VALUE);
-    response.end();
-    setLight(request.body.deviceNum, request.body.instNum, OFF_VALUE);
-});
-
 app.post('/sysinfo', function(request, response) {
 
     var os = require('os');
