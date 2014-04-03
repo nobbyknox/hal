@@ -7,7 +7,7 @@
     <meta name="description" content="Home Automation Leader">
     <meta name="author" content="Nobby Knox">
 
-    <title>HAL - 2014.03.26</title>
+    <title>Hal on Ember</title>
 
     <!-- Fav and touch icons -->
     <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png"/>
@@ -21,32 +21,44 @@
 
 <body>
 
-<nav class="navbar navbar-inverse" role="navigation">
+<script type="text/x-handlebars">
+
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                {{#link-to 'index' class='navbar-brand'}}Hal on Ember{{/link-to}}
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>{{#link-to 'about'}}About{{/link-to}}</li>
+                    <li>{{#link-to 'sys-info'}}Sys info{{/link-to}}</li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <!--<h1>Welcome to Ember.js</h1>-->
     <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">HAL - 2014.03.26</a>
-        </div>
+        {{outlet}}
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a id="about" href="#">About</a></li>
-                <li><a id="sys-info" href="#">System Info</a></li>
-                <li><a id="garage-cam" href="#">Garage Camera</a></li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
+        <hr/>
 
+        <footer>
+            <p class="text-center">Copyright &copy; 2013-2014 HJU Knox</p>
+        </footer>
+    </div>
+</script>
 
-<div class="container-fluid">
+<script type="text/x-handlebars" id="index">
 
     <div id="light-list">
         <div class="row-fluid">
@@ -54,6 +66,17 @@
                 <h2>Lights</h2>
             </div>
         </div>
+
+        {{#each light in lights}}
+        <div class="row-fluid">
+            <a class="btn btn-large btn-primary btn-block light-button" href="#">
+                <img src="assets/images/lamp_off.png" style="vertical-align: middle" /> {{light}}
+            </a>
+        </div>
+
+        <br/>
+        {{/each}}
+
     </div>
 
     <div id="scene-list">
@@ -62,128 +85,37 @@
                 <h2>Scenes</h2>
             </div>
         </div>
+
+        {{#each scene in scenes}}
+        <div class="row-fluid">
+            <a class="btn btn-large btn-primary btn-block scene-button" href="#">
+                <span class="glyphicon glyphicon-film"></span>
+                {{scene}}
+            </a>
+        </div>
+
+        <br/>
+        {{/each}}
     </div>
 
-    <hr/>
+</script>
 
-    <footer>
-        <p class="text-center">Copyright &copy; 2013-2014 HJU Knox</p>
-    </footer>
+<script type="text/x-handlebars" id="about">
+    <p>This is the about view.</p>
+</script>
 
-</div>
+<script type="text/x-handlebars" id="sys-info">
+    <p>And this is the system info view.</p>
+</script>
 
-<!-- Message Box Modal -->
-<div class="modal fade" id="mesgBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 id="mesgBoxLabel" class="modal-title">Placeholder Header</h4>
-            </div>
-            <div id="mesgBoxBody" class="modal-body">
-                Placeholder content
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<!-- About Modal -->
-<div class="modal fade" id="aboutBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">About HAL</h4>
-            </div>
-            <div class="modal-body">
-                <p>
-                    Version 2014.03.26
-                </p>
-
-                <p>
-                    HAL accidentally came to stands for <i>Home Automation Leader</i> after I first used the
-                    acronym to paint similarities between this software and the main protagonist in the movie
-                    <i>2001: A Space Odyssey</i>.
-                </p>
-
-                <p>
-                    HAL is a uniquely bespoke system that operates on my precise hardware, including
-                    Raspberry PI, Razberry Z-Wave controller, and Z-Wave home automation devices.
-                    Unmodified, it will work nowhere else.
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<!-- System Info Box Modal -->
-<div class="modal fade" id="sys-info-box" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">System Information</h4>
-            </div>
-            <div class="modal-body container-fluid">
-                <form role="form">
-                    <div class="form-group">
-                        <label for="hostname">Host Name</label>
-                        <input id="hostname" type="text" class="form-control" value="some.host" readonly="readonly">
-                    </div>
-                    <div class="form-group">
-                        <label for="ostype">OS Type</label>
-                        <input id="ostype" type="text" class="form-control" value="some.host" readonly="readonly">
-                    </div>
-                    <div class="form-group">
-                        <label for="release">Kernel Version</label>
-                        <input id="release" type="text" class="form-control" value="some.host" readonly="readonly">
-                    </div>
-                    <div class="form-group">
-                        <label for="cpu">CPU</label>
-                        <input id="cpu" type="text" class="form-control" value="some.host" readonly="readonly">
-                    </div>
-                    <div class="form-group">
-                        <label for="uptime">Uptime</label>
-                        <input id="uptime" type="text" class="form-control" value="some.host" readonly="readonly">
-                    </div>
-                    <div class="form-group">
-                        <label for="totalmem">Total Memory</label>
-                        <input id="totalmem" type="text" class="form-control" value="some.host" readonly="readonly">
-                    </div>
-                    <div class="form-group">
-                        <label for="freemem">Free Memory</label>
-                        <input id="freemem" type="text" class="form-control" value="some.host" readonly="readonly">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<!-- Le javascript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
 <script src="assets/jquery/jquery-2.1.0.min.js"></script>
 <script src="assets/hal.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/humane/humane.min.js"></script>
-
-<script>
-
-    $(document).ready(function() {
-        init();
-    });
-
-</script>
+<script src="assets/ember/handlebars-1.1.2.js"></script>
+<script src="assets/ember/ember.js"></script>
+<script src="assets/ember/ember-data.js"></script>
+<script src="assets/app.js"></script>
 
 </body>
 </html>

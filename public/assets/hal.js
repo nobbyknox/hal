@@ -57,35 +57,35 @@ function init() {
     // http://ruben.verborgh.org/blog/2012/12/31/asynchronous-error-handling-in-javascript/
     // http://know.cujojs.com/tutorials/async/mastering-async-error-handling-with-promises
 
-    buildLightList(function(lightList) {
-        if (lightList) {
-            lights = lightList;
+//    buildLightList(function(lightList) {
+//        if (lightList) {
+//            lights = lightList;
+//
+//            buildSceneList(function(sceneList) {
+//                if (sceneList) {
+//                    scenes = sceneList;
+//                }
+//
+////                updateStatus();
+////
+////                window.setInterval(function() {
+////                    updateStatus();
+////                }, 20000);
+//            });
+//        }
+//    });
 
-            buildSceneList(function(sceneList) {
-                if (sceneList) {
-                    scenes = sceneList;
-                }
-
-                updateStatus();
-
-                window.setInterval(function() {
-                    updateStatus();
-                }, 20000);
-            });
-        }
-    });
 
 
-
-    $("#about").on("click", function(event) {
-        event.preventDefault();
-        $("#aboutBox").modal("show");
-    });
-
-    $("#sys-info").on("click", function(event) {
-        event.preventDefault();
-        showSysInfo();
-    });
+//    $("#about").on("click", function(event) {
+//        event.preventDefault();
+//        $("#aboutBox").modal("show");
+//    });
+//
+//    $("#sys-info").on("click", function(event) {
+//        event.preventDefault();
+//        showSysInfo();
+//    });
 }
 
 function buildLightList(callback) {
