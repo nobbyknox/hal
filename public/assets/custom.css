@@ -1,6 +1,7 @@
 .light-button {
     font-size: 150%;
     font-weight: bold;
+    margin-bottom: 20px;
 }
 
 .scene-button {
@@ -8,4 +9,5 @@
     font-weight: bold;
     height: 54px;
     padding-top: 10px;
+    margin-bottom: 20px;
 }
