@@ -7,7 +7,7 @@
     <meta name="description" content="Home Automation Leader">
     <meta name="author" content="Nobby Knox">
 
-    <title>Hal on Ember</title>
+    <title>Hal - 2014.04.04</title>
 
     <!-- Fav and touch icons -->
     <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png"/>
@@ -33,7 +33,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                {{#link-to 'index' class='navbar-brand'}}Hal on Ember{{/link-to}}
+                {{#link-to 'index' class='navbar-brand'}}Hal - 2014.04.04{{/link-to}}
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -41,7 +41,7 @@
                 <ul class="nav navbar-nav">
                     <li>{{#link-to 'index'}}Controls{{/link-to}}</li>
                     <li>{{#link-to 'about'}}About{{/link-to}}</li>
-                    <li>{{#link-to 'sys-info'}}Sys info{{/link-to}}</li>
+                    <li>{{#link-to 'sysInfo'}}Sys info{{/link-to}}</li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -69,12 +69,11 @@
         {{#each light in lights}}
         <div class="col-xs-12  col-sm-6 col-md-3">
             <a class="btn btn-large btn-primary btn-block light-button" href="#">
-                <img src="assets/images/lamp_off.png" style="vertical-align: middle" /> {{light}}
+                <img src="assets/images/lamp_off.png" style="vertical-align: middle" />&nbsp;&nbsp;{{light.name}}
             </a>
         </div>
         {{/each}}
     </div>
-
 
     <div class="row">
         <h2 class="col-xs-1 col-sm-1 col-md-1">Scenes</h2>
@@ -82,15 +81,16 @@
 
     <div class="row">
         {{#each scene in scenes}}
+        {{#if scene.showOnUI}}
         <div class="col-xs-12  col-sm-6 col-md-3">
-            <a class="btn btn-large btn-primary btn-block scene-button" href="#">
-                <span class="glyphicon glyphicon-film"></span>
-                {{scene}}
+            <!-- Static class names should be prepended with a colon -->
+            <a {{bind-attr class=":btn :btn-large :btn-block :scene-button scene.buttonClass"}} href="#">
+                <span {{bind-attr class="scene.glyphiconClass"}}></span>&nbsp;&nbsp;{{scene.name}}
             </a>
         </div>
+        {{/if}}
         {{/each}}
     </div>
-
 
 </script>
 
@@ -101,7 +101,7 @@
     </div>
 
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12">Version 2014.03.24</div>
+        <div class="col-xs-12 col-sm-12 col-md-12">Version 2014.04.04</div>
     </div>
 
     <div style="height: 15px"></div>
@@ -121,10 +121,45 @@
     </div>
 </script>
 
-<script type="text/x-handlebars" id="sys-info">
+<script type="text/x-handlebars" id="sysInfo">
+
     <div class="row">
-    <p>And this is the system info view.</p>
+        <h2 class="col-xs-12 col-sm-12 col-md-12">System Information</h2>
     </div>
+
+    <div class="row">
+        <form role="form" class="col-sm-6 col-md-5">
+            <div class="form-group">
+                <label>Host Name</label>
+                {{input value=hostName type='text' class='form-control'}}
+            </div>
+            <div class="form-group">
+                <label>Operating System Type</label>
+                {{input value=osType type='text' class='form-control'}}
+            </div>
+            <div class="form-group">
+                <label>Kernel Version</label>
+                {{input value=release type='text' class='form-control'}}
+            </div>
+            <div class="form-group">
+                <label>CPU</label>
+                {{input value=cpu type='text' class='form-control'}}
+            </div>
+            <div class="form-group">
+                <label>Up Time</label>
+                {{input value=upTime type='text' class='form-control'}}
+            </div>
+            <div class="form-group">
+                <label>Total Memory</label>
+                {{input value=totMem type='text' class='form-control'}}
+            </div>
+            <div class="form-group">
+                <label>Free Memory</label>
+                {{input value=freeMem type='text' class='form-control'}}
+            </div>
+        </form>
+    </div>
+
 </script>
 
 <script src="assets/jquery/jquery-2.1.0.min.js"></script>

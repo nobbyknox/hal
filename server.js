@@ -44,12 +44,14 @@ app.use(express.basicAuth(function(user, pass, callback) {
 // --------------
 
 app.get('/lights', function(request, response) {
-    response.send(lights);
+    var model = { "light": lights };
+    response.send(model);
     response.end();
 });
 
 app.get('/scenes', function(request, response) {
-    response.send(scenes);
+    var model = { "scene": scenes };
+    response.send(model);
     response.end();
 });
 
@@ -105,19 +107,21 @@ app.post('/scene', function(request, response) {
     response.end();
 });
 
-app.post('/sysinfo', function(request, response) {
+app.get('/sysInfos/:id', function(request, response) {
 
     var os = require('os');
     var uptime = os.uptime();
 
-    var info = {
-        'hostname': os.hostname(),
-        'ostype': os.type(),
+    var info = { 'sysInfo': {
+        'id': request.params.id,
+        'hostName': os.hostname(),
+        'osType': os.type(),
         'release': os.release(),
         'cpu': os.cpus()[0].model,
-        'uptime': (uptime < 3600 ? (uptime / 60) + ' minutes' : (uptime / 60 / 60) + ' hours'),
-        'totalmem': (os.totalmem() / 1024 / 1024) + ' MB',
-        'freemem': (os.freemem() / 1024 / 1024) + ' MB'
+        'upTime': (uptime < 3600 ? (uptime / 60) + ' minutes' : (uptime / 60 / 60) + ' hours'),
+        'totMem': (os.totalmem() / 1024 / 1024) + ' MB',
+        'freeMem': (os.freemem() / 1024 / 1024) + ' MB'
+        }
     };
 
     response.send(info);
