@@ -3,6 +3,7 @@ App = Ember.Application.create();
 App.Router.map(function() {
     this.resource('about');
     this.resource('sysInfo');
+    this.resource('garageCam');
 });
 
 
@@ -54,5 +55,11 @@ App.IndexRoute = Ember.Route.extend({
 App.SysInfoRoute = Ember.Route.extend({
     model: function() {
         return this.store.find('sysInfo', 1);
+    }
+});
+
+App.GarageCamRoute = Ember.Route.extend({
+    model: function() {
+        return { "url": "" }
     }
 });

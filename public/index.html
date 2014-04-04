@@ -42,6 +42,7 @@
                     <li>{{#link-to 'index'}}Controls{{/link-to}}</li>
                     <li>{{#link-to 'about'}}About{{/link-to}}</li>
                     <li>{{#link-to 'sysInfo'}}Sys info{{/link-to}}</li>
+                    <li>{{#link-to 'garageCam'}}Garage Camera{{/link-to}}</li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -158,6 +159,18 @@
                 {{input value=freeMem type='text' class='form-control'}}
             </div>
         </form>
+    </div>
+
+</script>
+
+<script type="text/x-handlebars" id="garageCam">
+
+    <div class="row">
+        <h2 class="col-xs-12 col-sm-12 col-md-12">Garage Camera</h2>
+    </div>
+
+    <div class="row">
+        <img {{bind-attr src="url"}} />
     </div>
 
 </script>
