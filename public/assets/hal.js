@@ -54,6 +54,10 @@ function Scene(id, name, lights) {
 
 function init() {
 
+    setTimeout(function() {
+        updateStatus();
+    }, 2000);
+
     // http://ruben.verborgh.org/blog/2012/12/31/asynchronous-error-handling-in-javascript/
     // http://know.cujojs.com/tutorials/async/mastering-async-error-handling-with-promises
 
@@ -173,17 +177,17 @@ function buildSceneList(callback) {
     });
 }
 
-function toggleLight(lightId) {
+function toggleLight(light_id) {
 
     var lePost = $.ajax({
         url: halRoot + 'toggle',
         type: 'POST',
-        data: JSON.stringify({"id": lightId}),
+        data: JSON.stringify({"id": light_id}),
         contentType: 'application/json'
     });
 
     lePost.done(function(data) {
-        changeLampImage(lightId, data);
+        changeLampImage(light_id, data);
     });
 
     lePost.fail(function(data) {
@@ -221,8 +225,15 @@ function triggerScene(sceneId) {
 
 function updateStatus() {
 
+/*
     humane.log("Updating...");
 
+    App.Store.find('light').forEach(function(item) {
+        console.log("Light " + item.name);
+    });
+*/
+
+/*
     lights.forEach(function(theLight) {
 
         var lePost = $.ajax({
@@ -241,6 +252,7 @@ function updateStatus() {
         });
 
     });
+*/
 }
 
 

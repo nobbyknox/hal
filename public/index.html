@@ -68,9 +68,9 @@
     <div class="row">
         {{#each light in lights}}
         <div class="col-xs-12  col-sm-6 col-md-3">
-            <a class="btn btn-large btn-primary btn-block light-button" href="#">
-                <img src="assets/images/lamp_off.png" style="vertical-align: middle" />&nbsp;&nbsp;{{light.name}}
-            </a>
+            <button {{action 'toggle' light}} class="btn btn-large btn-primary btn-block light-button" href="#">
+                <img {{bind-attr src=light.statusImagePath}} style="vertical-align: middle" />&nbsp;&nbsp;{{light.name}}
+            </button>
         </div>
         {{/each}}
     </div>
@@ -97,11 +97,7 @@
 <script type="text/x-handlebars" id="about">
 
     <div class="row">
-        <h2 class="col-xs-12 col-sm-12 col-md-12">About HAL</h2>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12">Version 2014.04.04</div>
+        <h2 class="col-xs-12 col-sm-12 col-md-12">About HAL <small> - Version 2014.04.04</small></h2>
     </div>
 
     <div style="height: 15px"></div>
@@ -182,6 +178,14 @@
 <script src="assets/ember/ember.js"></script>
 <script src="assets/ember/ember-data.js"></script>
 <script src="assets/app.js"></script>
+
+<script>
+
+    $(document).ready(function() {
+        init();
+    });
+
+</script>
 
 </body>
 </html>

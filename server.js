@@ -163,11 +163,11 @@ function actionLights(lightIds, action) {
     lightIds.forEach(function(item) {
         getLight(item, function(light) {
 
-            if ((action === 'on') || (action === 'off')) {
-                setLight(light, (action === 'on' ? ON_VALUE : OFF_VALUE));
-            } else if (action === 'toggle') {
+            if ((action == 'on') || (action == 'off')) {
+                setLight(light, (action == 'on' ? ON_VALUE : OFF_VALUE));
+            } else if (action == 'toggle') {
                 getLightState(light.device, light.instance, function(currentState) {
-                    var newState = (currentState === ON_VALUE ? OFF_VALUE : ON_VALUE);
+                    var newState = (currentState == ON_VALUE ? OFF_VALUE : ON_VALUE);
                     setLight(light, newState);
                 });
             }
@@ -262,7 +262,7 @@ function triggerScene(sceneId) {
 
 function getLight(id, callback) {
     lights.forEach(function(item) {
-        if (item.id === id) {
+        if (item.id == id) {
             callback(item);
         }
     });
@@ -270,7 +270,7 @@ function getLight(id, callback) {
 
 function getScene(sceneId, callback) {
     scenes.forEach(function(scene) {
-        if (scene.id === sceneId) {
+        if (scene.id == sceneId) {
             callback(scene);
         }
     });
