@@ -84,9 +84,9 @@
         {{#if scene.showOnUI}}
         <div class="col-xs-12  col-sm-6 col-md-3">
             <!-- Static class names should be prepended with a colon -->
-            <a {{bind-attr class=":btn :btn-large :btn-block :scene-button scene.buttonClass"}} href="#">
+            <button {{action 'triggerScene' scene}} {{bind-attr class=":btn :btn-large :btn-block :scene-button scene.buttonClass"}} href="#">
                 <span {{bind-attr class="scene.glyphiconClass"}}></span>&nbsp;&nbsp;{{scene.name}}
-            </a>
+            </button>
         </div>
         {{/if}}
         {{/each}}

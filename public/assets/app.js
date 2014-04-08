@@ -116,6 +116,13 @@ App.IndexController = Ember.ObjectController.extend({
             } else {
                 light.set('status', 'on');
             }
+        },
+        triggerScene: function(scene) {
+            triggerScene(scene.get('id'));
+
+            scene.get('lights').forEach(function(light) {
+                light.set('status', scene.get('action'));
+            });
         }
     }
 });
