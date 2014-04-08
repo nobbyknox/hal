@@ -73,12 +73,14 @@ App.IndexRoute = Ember.Route.extend({
 
         // NOTE: This is not the best way to do it, but it will have to do for the time being. At least it works.
         setTimeout(function() {
+            humane.log("Updating...");
             updateLightStatus(controller, model);
         }, INITIAL_LIGHT_STATUS_UPDATE_TIMEOUT);
 
         if (Ember.isNone(this.get('lightStatusPoller'))) {
             this.set('lightStatusPoller', App.LightStatusPoller.create({
                 onPoll: function() {
+                    humane.log("Updating...");
                     updateLightStatus(controller, model);
                 }
             }));
