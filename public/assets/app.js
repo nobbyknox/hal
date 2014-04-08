@@ -1,3 +1,6 @@
+var LIGHT_STATUS_UPDATE_INTERVAL = 20000;
+var INITIAL_LIGHT_STATUS_UPDATE_TIMEOUT = 1500;
+
 App = Ember.Application.create();
 
 App.Router.map(function() {
@@ -9,7 +12,7 @@ App.Router.map(function() {
 
 App.LightStatusPoller = Ember.Object.extend({
     start: function() {
-        this.timer = setInterval(this.onPoll.bind(this), 20000);
+        this.timer = setInterval(this.onPoll.bind(this), LIGHT_STATUS_UPDATE_INTERVAL);
     },
     stop: function() {
         clearInterval(this.timer);
@@ -71,7 +74,7 @@ App.IndexRoute = Ember.Route.extend({
         // NOTE: This is not the best way to do it, but it will have to do for the time being. At least it works.
         setTimeout(function() {
             updateLightStatus(controller, model);
-        }, 1500);
+        }, INITIAL_LIGHT_STATUS_UPDATE_TIMEOUT);
 
         if (Ember.isNone(this.get('lightStatusPoller'))) {
             this.set('lightStatusPoller', App.LightStatusPoller.create({
@@ -133,9 +136,6 @@ App.IndexController = Ember.ObjectController.extend({
 // -----
 
 function updateLightStatus(controller, model) {
-//    controller.get('store').find('light', 4).then(function(light) {
-//        light.set('status', 'on');
-//    });
 
     model.lights.forEach(function(item) {
 
