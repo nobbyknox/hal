@@ -2,6 +2,7 @@ var http = require('http');
 var cronJob = require('cron').CronJob;
 var moment = require('moment');
 var express = require('express');
+var jsonfile = require('jsonfile');
 
 var config = require('./config/' + (process.env.NODE_ENV || 'dev') + '.json');
 var lights = require('./config/lights.json');
@@ -53,6 +54,19 @@ app.get('/scenes', function(request, response) {
     var model = { "scene": scenes };
     response.send(model);
     response.end();
+});
+
+app.get('/schedules', function(request, response) {
+    jsonfile.readFile('./config/schedules.json', function(error, schedules) {
+        response.send(schedules);
+        response.end();
+    });
+});
+
+app.post('/schedules', function(request, response) {
+    jsonfile.writeFile('./config/schedules.json', request.body, function(error) {
+        response.end();
+    });
 });
 
 app.post('/status', function(request, response) {
