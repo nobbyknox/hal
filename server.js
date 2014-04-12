@@ -257,6 +257,7 @@ function startScheduler() {
             log('  cron: ' + item.cron + ', sceneId: ' + item.sceneId);
 
             new cronJob(item.cron, function() {
+                log('CRON: Triggering scene ' + item.sceneId + ' - ' + item.name);
                 triggerScene(item.sceneId);
             }, null, true, null);
         });
