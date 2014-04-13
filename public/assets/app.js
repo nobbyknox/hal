@@ -4,8 +4,9 @@ var INITIAL_LIGHT_STATUS_UPDATE_TIMEOUT = 1500;
 App = Ember.Application.create();
 
 App.Router.map(function() {
-    this.resource('about');
+    this.resource('schedules');
     this.resource('sysInfo');
+    this.resource('about');
     this.resource('garageCam');
 });
 
@@ -42,6 +43,12 @@ App.Scene = DS.Model.extend({
     description: DS.attr('string'),
     lights: DS.hasMany('light', {async:false}),
     action: DS.attr('string')
+});
+
+App.Schedule = DS.Model.extend({
+    cron: DS.attr('string'),
+    sceneId: DS.attr('string'),
+    description: DS.attr('string')
 });
 
 App.SysInfo = DS.Model.extend({
@@ -92,6 +99,13 @@ App.IndexRoute = Ember.Route.extend({
         this.get('lightStatusPoller').stop();
     }
 
+});
+
+App.SchedulesRoute = Ember.Route.extend({
+    model: function() {
+//        return [{ id: 1, cron: '0 40 4 * * 1-5', description: 'Turn on some lights when getting up for work'},{ id: 2, cron: '0 15 6 * * 1-5', description: 'Turn off lights when we leave for work'}];
+        return this.store.find('schedule');
+    }
 });
 
 App.SysInfoRoute = Ember.Route.extend({

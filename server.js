@@ -58,7 +58,7 @@ app.get('/scenes', function(request, response) {
 
 app.get('/schedules', function(request, response) {
     jsonfile.readFile('./config/schedules.json', function(error, schedules) {
-        response.send(schedules);
+        response.send({ "schedule": schedules });
         response.end();
     });
 });

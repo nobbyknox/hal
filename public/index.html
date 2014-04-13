@@ -7,7 +7,7 @@
     <meta name="description" content="Home Automation Leader">
     <meta name="author" content="Nobby Knox">
 
-    <title>Hal - 2014.04.08</title>
+    <title>Hal - 2014.04.xx</title>
 
     <!-- Fav and touch icons -->
     <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png"/>
@@ -33,14 +33,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                {{#link-to 'index' class='navbar-brand'}}Hal - 2014.04.08{{/link-to}}
+                {{#link-to 'index' class='navbar-brand'}}Hal - 2014.04.xx{{/link-to}}
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li>{{#link-to 'about'}}About{{/link-to}}</li>
+                    <li>{{#link-to 'schedules'}}Schedules{{/link-to}}</li>
                     <li>{{#link-to 'sysInfo'}}Sys info{{/link-to}}</li>
+                    <li>{{#link-to 'about'}}About{{/link-to}}</li>
                     <li>{{#link-to 'garageCam'}}Garage Camera{{/link-to}}</li>
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -94,10 +95,38 @@
 
 </script>
 
+<script type="text/x-handlebars" id="schedules">
+
+    <div class="row">
+        <h2 class="col-xs-12 col-sm-12 col-md-12">Schedules</h2>
+    </div>
+
+    <div style="height: 15px"></div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cron</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each schedule in model}}
+            <tr>
+                <td>{{schedule.id}}</td>
+                <td>{{schedule.cron}}</td>
+                <td>{{schedule.description}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</script>
+
 <script type="text/x-handlebars" id="about">
 
     <div class="row">
-        <h2 class="col-xs-12 col-sm-12 col-md-12">About HAL <small> - Version 2014.04.08</small></h2>
+        <h2 class="col-xs-12 col-sm-12 col-md-12">About HAL <small> - Version 2014.04.xx</small></h2>
     </div>
 
     <div style="height: 15px"></div>
