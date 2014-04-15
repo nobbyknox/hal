@@ -113,7 +113,7 @@
         </thead>
         <tbody>
             {{#each schedule in model}}
-            <tr>
+            <tr class='selectable' {{action 'showDetail' schedule}}>
                 <td>{{schedule.id}}</td>
                 <td>{{schedule.cron}}</td>
                 <td>{{schedule.description}}</td>
@@ -121,6 +121,33 @@
             {{/each}}
         </tbody>
     </table>
+</script>
+
+<script type="text/x-handlebars" id="schedule">
+
+    <div class="row">
+        <h2 class="col-xs-12 col-sm-12 col-md-12">Schedule</h2>
+    </div>
+
+    <div class="row">
+        <form role="form" class="col-sm-6 col-md-5">
+            <div class="form-group">
+                <label>ID</label>
+                {{input value=id type='text' class='form-control'}}
+            </div>
+            <div class="form-group">
+                <label>Cron</label>
+                {{input value=cron type='text' class='form-control'}}
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                {{input value=description type='text' class='form-control'}}
+            </div>
+        </form>
+    </div>
+
+    {{#link-to 'schedules'}}Go back{{/link-to}}
+
 </script>
 
 <script type="text/x-handlebars" id="about">

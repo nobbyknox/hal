@@ -5,6 +5,7 @@ App = Ember.Application.create();
 
 App.Router.map(function() {
     this.resource('schedules');
+    this.resource('schedule', { path: '/schedule/:schedule_id' });
     this.resource('sysInfo');
     this.resource('about');
     this.resource('garageCam');
@@ -108,6 +109,12 @@ App.SchedulesRoute = Ember.Route.extend({
     }
 });
 
+App.ScheduleRoute = Ember.Route.extend({
+    model: function(params) {
+        return this.store.find('schedule', params.schedule_id);
+    }
+});
+
 App.SysInfoRoute = Ember.Route.extend({
     model: function() {
         return this.store.find('sysInfo', 1);
@@ -142,6 +149,15 @@ App.IndexController = Ember.ObjectController.extend({
             scene.get('lights').forEach(function(light) {
                 light.set('status', scene.get('action'));
             });
+        }
+    }
+});
+
+App.SchedulesController = Ember.ObjectController.extend({
+    actions: {
+        showDetail: function(schedule) {
+            console.log('Showing schedule for ID ' + schedule.get('id'));
+            this.transitionToRoute('schedule', schedule.get('id'));
         }
     }
 });
