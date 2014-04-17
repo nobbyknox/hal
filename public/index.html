@@ -133,7 +133,7 @@
         <form role="form" class="col-sm-6 col-md-5">
             <div class="form-group">
                 <label>ID</label>
-                {{input value=id type='text' class='form-control'}}
+                {{input value=id type='text' class='form-control' disabled='true'}}
             </div>
             <div class="form-group">
                 <label>Cron</label>
@@ -146,7 +146,17 @@
         </form>
     </div>
 
-    {{#link-to 'schedules'}}Go back{{/link-to}}
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-5">
+            <div class="col-xs-6 col-sm-6 col-md-6" style="margin-top: 14px">
+                {{#link-to 'schedules'}}Go back{{/link-to}}
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+                <button {{action 'submitForm' id}} class='btn btn-primary btn-lg'><span class="glyphicon glyphicon-save"></span> Save</button>
+            </div>
+        </div>
+    </div>
+
 
 </script>
 

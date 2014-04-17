@@ -63,11 +63,33 @@ app.get('/schedules', function(request, response) {
     });
 });
 
-app.post('/schedules', function(request, response) {
-    jsonfile.writeFile('./config/schedules.json', request.body, function(error) {
+app.put('/schedules/:id', function(request, response) {
+
+    jsonfile.readFile('./config/schedules.json', function(error, schedules) {
         response.end();
+
+        var updated = false;
+
+        schedules.forEach(function(item) {
+            if (item.id == request.param('id')) {
+                item.cron = request.body.schedule.cron;
+                item.description = request.body.schedule.description;
+                item.sceneId = request.body.schedule.sceneId;
+
+                updated = true;
+            }
+        });
+
+        if (updated) {
+            jsonfile.writeFile('./config/schedules.json', schedules, function(error) {
+                log('Schedules saved');
+            });
+        }
     });
-});
+
+
+    response.end();
+})
 
 app.post('/status', function(request, response) {
 

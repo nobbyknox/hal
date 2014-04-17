@@ -104,7 +104,6 @@ App.IndexRoute = Ember.Route.extend({
 
 App.SchedulesRoute = Ember.Route.extend({
     model: function() {
-//        return [{ id: 1, cron: '0 40 4 * * 1-5', description: 'Turn on some lights when getting up for work'},{ id: 2, cron: '0 15 6 * * 1-5', description: 'Turn off lights when we leave for work'}];
         return this.store.find('schedule');
     }
 });
@@ -158,6 +157,15 @@ App.SchedulesController = Ember.ObjectController.extend({
         showDetail: function(schedule) {
             console.log('Showing schedule for ID ' + schedule.get('id'));
             this.transitionToRoute('schedule', schedule.get('id'));
+        }
+    }
+});
+
+App.ScheduleController = Ember.ObjectController.extend({
+    actions: {
+        submitForm: function(id) {
+            this.get('model').save();
+            this.transitionToRoute('schedules');
         }
     }
 });
