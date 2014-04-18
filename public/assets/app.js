@@ -5,7 +5,9 @@ App = Ember.Application.create();
 
 App.Router.map(function() {
     this.resource('schedules');
-    this.resource('schedule', { path: '/schedule/:schedule_id' });
+    this.resource('schedule', { path: '/schedules/:schedule_id' }, function() {
+        this.route('create');
+    });
     this.resource('sysInfo');
     this.resource('about');
     this.resource('garageCam');
@@ -104,13 +106,20 @@ App.IndexRoute = Ember.Route.extend({
 
 App.SchedulesRoute = Ember.Route.extend({
     model: function() {
+        console.log('Top of model function in App.SchedulesRoute');
         return this.store.find('schedule');
     }
 });
 
 App.ScheduleRoute = Ember.Route.extend({
     model: function(params) {
-        return this.store.find('schedule', params.schedule_id);
+        console.log('Top of model function in App.ScheduleIndexRoute');
+
+        if (params.schedule_id > 0) {
+            return this.store.find('schedule', params.schedule_id);
+        } else {
+            return new Ember.Object();
+        }
     }
 });
 
@@ -164,7 +173,19 @@ App.SchedulesController = Ember.ObjectController.extend({
 App.ScheduleController = Ember.ObjectController.extend({
     actions: {
         submitForm: function(id) {
-            this.get('model').save();
+
+            if (id > 0) {
+                this.get('model').save();
+            } else {
+                var sch = this.store.createRecord('schedule', {
+                    id: 0,
+                    cron: this.get('model').get('cron'),
+                    description: this.get('model').get('description')
+                });
+
+                sch.save();
+            }
+
             this.transitionToRoute('schedules');
         }
     }
