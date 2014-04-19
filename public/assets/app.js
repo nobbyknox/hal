@@ -106,15 +106,12 @@ App.IndexRoute = Ember.Route.extend({
 
 App.SchedulesRoute = Ember.Route.extend({
     model: function() {
-        console.log('Top of model function in App.SchedulesRoute');
         return this.store.find('schedule');
     }
 });
 
 App.ScheduleRoute = Ember.Route.extend({
     model: function(params) {
-        console.log('Top of model function in App.ScheduleIndexRoute');
-
         if (params.schedule_id > 0) {
             return this.store.find('schedule', params.schedule_id);
         } else {
@@ -164,7 +161,6 @@ App.IndexController = Ember.ObjectController.extend({
 App.SchedulesController = Ember.ObjectController.extend({
     actions: {
         showDetail: function(schedule) {
-            console.log('Showing schedule for ID ' + schedule.get('id'));
             this.transitionToRoute('schedule', schedule.get('id'));
         }
     }
@@ -185,8 +181,6 @@ App.ScheduleController = Ember.ObjectController.extend({
                 this.store.find('schedule').then(function(objs) {
 
                     objs.forEach(function(item) {
-                        console.log('id: ' + item.get('id'));
-
                         if (item && item.get('id') > lastId) {
                             lastId = item.get('id');
                         }
@@ -197,6 +191,7 @@ App.ScheduleController = Ember.ObjectController.extend({
                     var sch = theStore.createRecord('schedule', {
                         id: lastId,
                         cron: theModel.get('cron'),
+                        sceneId: theModel.get('sceneId'),
                         description: theModel.get('description')
                     });
 
