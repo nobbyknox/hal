@@ -65,20 +65,14 @@ app.get('/schedules', function(request, response) {
 
 app.post('/schedules', function(request, response) {
 
-    var lastId = 0;
-
     jsonfile.readFile('./config/schedules.json', function(error, schedules) {
         response.end();
 
-        schedules.forEach(function(item) {
-            if (item.id > lastId) {
-                lastId = item.id;
-            }
-        });
-
-        lastId++;
-        var sch = { id: lastId, cron: request.body.schedule.cron, description: request.body.schedule.description };
+        var sch = { id: request.body.schedule.id, cron: request.body.schedule.cron, description: request.body.schedule.description };
         schedules.push(sch);
+
+        log('New schedule:');
+        log(sch.id + ' - ' + sch.cron);
 
         jsonfile.writeFile('./config/schedules.json', schedules, function(error) {
             log('Schedules saved');

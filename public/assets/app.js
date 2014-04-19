@@ -177,13 +177,32 @@ App.ScheduleController = Ember.ObjectController.extend({
             if (id > 0) {
                 this.get('model').save();
             } else {
-                var sch = this.store.createRecord('schedule', {
-                    id: 0,
-                    cron: this.get('model').get('cron'),
-                    description: this.get('model').get('description')
+
+                var lastId = 0;
+                var theStore = this.store;
+                var theModel = this.get('model');
+
+                this.store.find('schedule').then(function(objs) {
+
+                    objs.forEach(function(item) {
+                        console.log('id: ' + item.get('id'));
+
+                        if (item && item.get('id') > lastId) {
+                            lastId = item.get('id');
+                        }
+                    });
+
+                    lastId++;
+
+                    var sch = theStore.createRecord('schedule', {
+                        id: lastId,
+                        cron: theModel.get('cron'),
+                        description: theModel.get('description')
+                    });
+
+                    sch.save();
                 });
 
-                sch.save();
             }
 
             this.transitionToRoute('schedules');

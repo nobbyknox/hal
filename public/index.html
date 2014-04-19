@@ -101,8 +101,6 @@
         <h2 class="col-xs-12 col-sm-12 col-md-12">Schedules</h2>
     </div>
 
-    <div style="height: 15px"></div>
-
     <table class="table table-striped">
         <thead>
             <tr>
@@ -121,6 +119,12 @@
             {{/each}}
         </tbody>
     </table>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 text-right">
+            {{#link-to 'schedule.create' 0 class='btn btn-primary'}}<span class='glyphicon glyphicon-plus'></span> Create Schedule{{/link-to}}
+        </div>
+    </div>
 </script>
 
 <script type="text/x-handlebars" data-template-name="schedule">
@@ -148,11 +152,11 @@
 
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-5">
-            <div class="col-xs-6 col-sm-6 col-md-6" style="margin-top: 14px">
-                {{#link-to 'schedules'}}Go back{{/link-to}}
+            <div class="col-xs-6 col-sm-6 col-md-6" style="margin-top: 7px">
+                {{#link-to 'schedules'}}&larr; Go back{{/link-to}}
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 text-right">
-                <button {{action 'submitForm' id}} class='btn btn-primary btn-lg'><span class="glyphicon glyphicon-save"></span> Save</button>
+                <button {{action 'submitForm' id}} class='btn btn-primary'><span class="glyphicon glyphicon-save"></span> Save</button>
             </div>
         </div>
     </div>
