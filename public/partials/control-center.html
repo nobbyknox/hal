@@ -1,0 +1,23 @@
+<div class="row">
+    <h2 class="col-xs-1 col-sm-1 col-md-1">Lights</h2>
+</div>
+
+<div class="row">
+    <div ng-repeat="light in lights" class="col-xs-12  col-sm-6 col-md-3">
+        <button class="btn btn-large btn-primary btn-block light-button" href="#">
+        <img src="assets/images/lamp_off.png" style="vertical-align: middle" />&nbsp;&nbsp;{{ light.name }}
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    <h2 class="col-xs-1 col-sm-1 col-md-1">Scenes</h2>
+</div>
+
+<div class="row">
+    <div ng-repeat="scene in scenes" class="col-xs-12  col-sm-6 col-md-3">
+        <button class="btn btn-large btn-block scene-button">
+        <span></span>&nbsp;&nbsp;{{scene.name}}
+        </button>
+    </div>
+</div>

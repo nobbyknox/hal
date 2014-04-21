@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="halApp">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -31,25 +31,24 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="#" class="navbar-brand">Hal - 2014.04.xx</a>
+                <a href="#/" class="navbar-brand">Hal - 2014.04.xx</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Schedules</a></li>
-                    <li><a href="#">Sys info</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Garage Camera</a></li>
+                    <li><a href="#/schedules">Schedules</a></li>
+                    <li><a href="#/sysInfo">Sys info</a></li>
+                    <li><a href="#/about">About</a></li>
+                    <li><a href="#/garageCam">Garage Camera</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
 
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12">Views go here</div>
-        </div>
+
+        <div ng-view></div>
 
         <hr/>
 
@@ -58,9 +57,13 @@
         </footer>
     </div>
 
-    <script src="assets/hal.js"></script>
+    <script src="assets/jquery/jquery-2.1.0.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/humane/humane.min.js"></script>
+    <script src="assets/angular/angular.min.js"></script>
+    <script src="assets/angular/angular-route.min.js"></script>
+    <script src="assets/app.js"></script>
+    <script src="assets/hal.js"></script>
 
 </body>
 </html>

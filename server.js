@@ -162,13 +162,12 @@ app.post('/scene', function(request, response) {
     response.end();
 });
 
-app.get('/sysInfos/:id', function(request, response) {
+app.get('/sysInfo', function(request, response) {
 
     var os = require('os');
     var uptime = os.uptime();
 
-    var info = { 'sysInfo': {
-        'id': request.params.id,
+    var info = {
         'hostName': os.hostname(),
         'osType': os.type(),
         'release': os.release(),
@@ -176,7 +175,6 @@ app.get('/sysInfos/:id', function(request, response) {
         'upTime': (uptime < 3600 ? (uptime / 60) + ' minutes' : (uptime / 60 / 60) + ' hours'),
         'totMem': (os.totalmem() / 1024 / 1024) + ' MB',
         'freeMem': (os.freemem() / 1024 / 1024) + ' MB'
-        }
     };
 
     response.send(info);
