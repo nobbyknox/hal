@@ -58,57 +58,31 @@ app.get('/scenes', function(request, response) {
 
 app.get('/schedules', function(request, response) {
     jsonfile.readFile('./config/schedules.json', function(error, schedules) {
-        response.send({ "schedule": schedules });
+        response.send(schedules);
         response.end();
     });
 });
 
-app.post('/schedules', function(request, response) {
+app.get('/schedule/:id', function(request, response) {
 
     jsonfile.readFile('./config/schedules.json', function(error, schedules) {
-        response.end();
 
-        var sch = { id: request.body.schedule.id, cron: request.body.schedule.cron, description: request.body.schedule.description };
-        schedules.push(sch);
+        var foundSchedule = false;
 
-        log('New schedule:');
-        log(sch.id + ' - ' + sch.cron);
-
-        jsonfile.writeFile('./config/schedules.json', schedules, function(error) {
-            log('Schedules saved');
-        });
-    });
-
-    response.end();
-});
-
-app.put('/schedules/:id', function(request, response) {
-
-    jsonfile.readFile('./config/schedules.json', function(error, schedules) {
-        response.end();
-
-        var updated = false;
-
-        schedules.forEach(function(item) {
-            if (item.id == request.param('id')) {
-                item.cron = request.body.schedule.cron;
-                item.description = request.body.schedule.description;
-                item.sceneId = request.body.schedule.sceneId;
-
-                updated = true;
+        schedules.forEach(function(sch) {
+            if (sch.id == request.param('id')) {
+                foundSchedule = true;
+                response.send(sch);
+                response.end();
             }
         });
 
-        if (updated) {
-            jsonfile.writeFile('./config/schedules.json', schedules, function(error) {
-                log('Schedules saved');
-            });
+        if (!foundSchedule) {
+            response.end();
         }
     });
 
-
-    response.end();
-})
+});
 
 app.post('/status', function(request, response) {
 

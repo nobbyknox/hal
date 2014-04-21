@@ -1,0 +1,37 @@
+<div class="row">
+    <h2 class="col-xs-12 col-sm-12 col-md-12">Schedule</h2>
+</div>
+
+<div class="row">
+    <form role="form" class="col-sm-6 col-md-5">
+        <div class="form-group">
+            <label>ID</label>
+            <input type="text" ng-model="schedule.id" class="form-control" disabled="disabled"/>
+        </div>
+        <div class="form-group">
+            <label>Cron</label>
+            <input type="text" ng-model="schedule.cron" class="form-control"/>
+            <span class='input-help'>Cron values are specified as six space delimited values.
+                They are: second, minute, hour, day of month, month, day of week</span>
+        </div>
+        <div class="form-group">
+            <label>Scene</label>
+            <input type="text" ng-model="schedule.sceneId" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <input type="text" ng-model="schedule.description" class="form-control"/>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-5">
+        <div class="col-xs-6 col-sm-6 col-md-6" style="margin-top: 7px">
+            <a href="#/schedules">&larr; Go back</a>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+            <button class='btn btn-primary'><span class="glyphicon glyphicon-save"></span> Save</button>
+        </div>
+    </div>
+</div>
