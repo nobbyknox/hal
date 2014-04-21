@@ -12,7 +12,21 @@ halApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.otherwise({ redirectTo: '/invalidRoute' });
 }]);
 
-halApp.controller('ControlCenterController', function($scope, $http) {
+halApp.controller('ControlCenterController', function($scope, $http, $timeout, $interval) {
+
+    $timeout(function() {
+        console.log('Initial status update');
+    }, 1500);
+
+    var updateTimer = $interval(function() {
+        console.log('Intermittent status update');
+    }, 20000); // check status every 20 seconds
+
+    $scope.$on('$destroy', function() {
+        console.log('In destroy event of $scope');
+        $interval.cancel(updateTimer);
+    });
+
 
     $http.get('/lights').success(function(data) {
         $scope.lights = data;
@@ -21,6 +35,14 @@ halApp.controller('ControlCenterController', function($scope, $http) {
     $http.get('/scenes').success(function(data) {
         $scope.scenes = data;
     });
+
+    $scope.toggleLight = function(id) {
+        toggleLight(id);
+    }
+
+    $scope.triggerScene = function(id) {
+        triggerScene(id);
+    }
 
 });
 

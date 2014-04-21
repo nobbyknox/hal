@@ -4,7 +4,7 @@
         "name": "Leonie Home",
         "showOnUI": true,
         "buttonClass": "btn-primary",
-        "glyphiconClass": "glyphicon glyphicon-film",
+        "iconClass": "glyphicon glyphicon-film",
         "description": "",
         "lights": [1,2,3],
         "action": "on"
@@ -14,7 +14,7 @@
         "name": "Nobby Home",
         "showOnUI": true,
         "buttonClass": "btn-primary",
-        "glyphiconClass": "glyphicon glyphicon-film",
+        "iconClass": "glyphicon glyphicon-film",
         "description": "",
         "lights": [1,4],
         "action": "on"
@@ -24,7 +24,7 @@
         "name": "All Off",
         "showOnUI": true,
         "buttonClass": "btn-warning",
-        "glyphiconClass": "glyphicon glyphicon-off",
+        "iconClass": "glyphicon glyphicon-off",
         "description": "Switches off everything",
         "lights": [1,2,3,4],
         "action": "off"
@@ -34,7 +34,7 @@
         "name": "Emergency",
         "showOnUI": true,
         "buttonClass": "btn-danger",
-        "glyphiconClass": "glyphicon glyphicon-warning-sign",
+        "iconClass": "glyphicon glyphicon-warning-sign",
         "description": "Switches on everything",
         "lights": [1,2,3,4],
         "action": "on"
@@ -44,7 +44,7 @@
         "name": "Test Scene",
         "showOnUI": false,
         "buttonClass": "",
-        "glyphiconClass": "glyphicon glyphicon-warning-sign",
+        "iconClass": "glyphicon glyphicon-warning-sign",
         "description": "Turns on front lounge light after one minute",
         "lights": [4],
         "action": "toggle"
