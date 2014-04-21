@@ -21,8 +21,6 @@
 
 <body>
 
-<script type="text/x-handlebars">
-
     <nav class="navbar navbar-inverse" role="navigation">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -33,24 +31,25 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                {{#link-to 'index' class='navbar-brand'}}Hal - 2014.04.xx{{/link-to}}
+                <a href="#" class="navbar-brand">Hal - 2014.04.xx</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li>{{#link-to 'schedules'}}Schedules{{/link-to}}</li>
-                    <li>{{#link-to 'sysInfo'}}Sys info{{/link-to}}</li>
-                    <li>{{#link-to 'about'}}About{{/link-to}}</li>
-                    <li>{{#link-to 'garageCam'}}Garage Camera{{/link-to}}</li>
+                    <li><a href="#">Schedules</a></li>
+                    <li><a href="#">Sys info</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Garage Camera</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
 
-    <!--<h1>Welcome to Ember.js</h1>-->
     <div class="container-fluid">
-        {{outlet}}
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">Views go here</div>
+        </div>
 
         <hr/>
 
@@ -58,209 +57,10 @@
             <p class="text-center">Copyright &copy; 2013-2014 HJU Knox</p>
         </footer>
     </div>
-</script>
 
-<script type="text/x-handlebars" data-template-name="index">
-
-    <div class="row">
-        <h2 class="col-xs-1 col-sm-1 col-md-1">Lights</h2>
-    </div>
-
-    <div class="row">
-        {{#each light in lights}}
-        <div class="col-xs-12  col-sm-6 col-md-3">
-            <button {{action 'toggle' light}} class="btn btn-large btn-primary btn-block light-button" href="#">
-                <img {{bind-attr src=light.statusImagePath}} style="vertical-align: middle" />&nbsp;&nbsp;{{light.name}}
-            </button>
-        </div>
-        {{/each}}
-    </div>
-
-    <div class="row">
-        <h2 class="col-xs-1 col-sm-1 col-md-1">Scenes</h2>
-    </div>
-
-    <div class="row">
-        {{#each scene in scenes}}
-        {{#if scene.showOnUI}}
-        <div class="col-xs-12  col-sm-6 col-md-3">
-            <!-- Static class names should be prepended with a colon -->
-            <button {{action 'triggerScene' scene}} {{bind-attr class=":btn :btn-large :btn-block :scene-button scene.buttonClass"}} href="#">
-                <span {{bind-attr class="scene.glyphiconClass"}}></span>&nbsp;&nbsp;{{scene.name}}
-            </button>
-        </div>
-        {{/if}}
-        {{/each}}
-    </div>
-
-</script>
-
-<script type="text/x-handlebars" data-template-name="schedules">
-
-    <div class="row">
-        <h2 class="col-xs-12 col-sm-12 col-md-12">Schedules</h2>
-    </div>
-
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Cron</th>
-                <th>Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each schedule in model}}
-            <tr class='selectable' {{action 'showDetail' schedule}}>
-                <td>{{schedule.id}}</td>
-                <td>{{schedule.cron}}</td>
-                <td>{{schedule.description}}</td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 text-right">
-            {{#link-to 'schedule.create' 0 class='btn btn-primary'}}<span class='glyphicon glyphicon-plus'></span> Create Schedule{{/link-to}}
-        </div>
-    </div>
-</script>
-
-<script type="text/x-handlebars" data-template-name="schedule">
-
-    <div class="row">
-        <h2 class="col-xs-12 col-sm-12 col-md-12">Schedule</h2>
-    </div>
-
-    <div class="row">
-        <form role="form" class="col-sm-6 col-md-5">
-            <div class="form-group">
-                <label>ID</label>
-                {{input value=id type='text' class='form-control' disabled='true'}}
-            </div>
-            <div class="form-group">
-                <label>Cron</label>
-                {{input value=cron type='text' class='form-control'}}
-                <span class='input-help'>Cron values are specified as six space delimited values.
-                    They are: second, minute, hour, day of month, month, day of week</span>
-            </div>
-            <div class="form-group">
-                <label>Scene</label>
-                {{input value=sceneId type='text' class='form-control'}}
-            </div>
-            <div class="form-group">
-                <label>Description</label>
-                {{input value=description type='text' class='form-control'}}
-            </div>
-        </form>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-5">
-            <div class="col-xs-6 col-sm-6 col-md-6" style="margin-top: 7px">
-                {{#link-to 'schedules'}}&larr; Go back{{/link-to}}
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 text-right">
-                <button {{action 'submitForm' id}} class='btn btn-primary'><span class="glyphicon glyphicon-save"></span> Save</button>
-            </div>
-        </div>
-    </div>
-
-</script>
-
-<script type="text/x-handlebars" data-template-name="about">
-
-    <div class="row">
-        <h2 class="col-xs-12 col-sm-12 col-md-12">About HAL <small> - Version 2014.04.xx</small></h2>
-    </div>
-
-    <div style="height: 15px"></div>
-
-    <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-6" style="margin-bottom: 20px">
-            HAL accidentally came to stands for <i>Home Automation Leader</i> after I first used the
-            acronym to paint similarities between this software and the main protagonist in the movie
-            <i>2001: A Space Odyssey</i>.
-        </div>
-
-        <div class="col-xs-12 col-sm-6 col-md-6" style="margin-bottom: 20px">
-            HAL is a uniquely bespoke system that operates on my precise hardware, including
-            Raspberry PI, Razberry Z-Wave controller, and Z-Wave home automation devices.
-            Unmodified, it will work nowhere else.
-        </div>
-    </div>
-</script>
-
-<script type="text/x-handlebars" data-template-name="sysInfo">
-
-    <div class="row">
-        <h2 class="col-xs-12 col-sm-12 col-md-12">System Information</h2>
-    </div>
-
-    <div class="row">
-        <form role="form" class="col-sm-6 col-md-5">
-            <div class="form-group">
-                <label>Host Name</label>
-                {{input value=hostName type='text' class='form-control'}}
-            </div>
-            <div class="form-group">
-                <label>Operating System Type</label>
-                {{input value=osType type='text' class='form-control'}}
-            </div>
-            <div class="form-group">
-                <label>Kernel Version</label>
-                {{input value=release type='text' class='form-control'}}
-            </div>
-            <div class="form-group">
-                <label>CPU</label>
-                {{input value=cpu type='text' class='form-control'}}
-            </div>
-            <div class="form-group">
-                <label>Up Time</label>
-                {{input value=upTime type='text' class='form-control'}}
-            </div>
-            <div class="form-group">
-                <label>Total Memory</label>
-                {{input value=totMem type='text' class='form-control'}}
-            </div>
-            <div class="form-group">
-                <label>Free Memory</label>
-                {{input value=freeMem type='text' class='form-control'}}
-            </div>
-        </form>
-    </div>
-
-</script>
-
-<script type="text/x-handlebars" data-template-name="garageCam">
-
-    <div class="row">
-        <h2 class="col-xs-12 col-sm-12 col-md-12">Garage Camera</h2>
-    </div>
-
-    <div class="row">
-        <img {{bind-attr src="url"}} class="col-xs-12" style="height: auto; max-width: 640px;" />
-    </div>
-
-</script>
-
-<script src="assets/jquery/jquery-2.1.0.min.js"></script>
-<script src="assets/hal.js"></script>
-<script src="assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="assets/humane/humane.min.js"></script>
-<script src="assets/ember/handlebars-1.1.2.js"></script>
-<script src="assets/ember/ember.js"></script>
-<script src="assets/ember/ember-data.js"></script>
-<script src="assets/app.js"></script>
-
-<script>
-
-    $(document).ready(function() {
-        init();
-    });
-
-</script>
+    <script src="assets/hal.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/humane/humane.min.js"></script>
 
 </body>
 </html>

@@ -305,7 +305,9 @@ function startScheduler() {
 
         log('');
     } else {
+        log('');
         log('No schedules found');
+        log('');
     }
 
 }
