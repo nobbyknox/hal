@@ -45,13 +45,13 @@ app.use(express.basicAuth(function(user, pass, callback) {
 // --------------
 
 app.get('/lights', function(request, response) {
-    var model = { "light": lights };
+    var model = lights;
     response.send(model);
     response.end();
 });
 
 app.get('/scenes', function(request, response) {
-    var model = { "scene": scenes };
+    var model = scenes;
     response.send(model);
     response.end();
 });

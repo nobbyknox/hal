@@ -15,9 +15,9 @@
 </div>
 
 <div class="row">
-    <div ng-repeat="scene in scenes" class="col-xs-12  col-sm-6 col-md-3">
-        <button class="btn btn-large btn-block scene-button">
-        <span></span>&nbsp;&nbsp;{{scene.name}}
+    <div ng-repeat="scene in scenes | filter:{showOnUI:true}" class="col-xs-12  col-sm-6 col-md-3">
+        <button class="btn btn-large btn-block scene-button {{ scene.buttonClass }}">
+        <span class="{{ scene.glyphiconClass }}"></span>&nbsp;&nbsp;{{scene.name}}
         </button>
     </div>
 </div>

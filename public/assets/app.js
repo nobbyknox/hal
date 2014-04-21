@@ -12,9 +12,16 @@ halApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.otherwise({ redirectTo: '/invalidRoute' });
 }]);
 
-halApp.controller('ControlCenterController', function($scope) {
-    $scope.lights = [ { id: 1, name: 'Light 1' }, { id: 2, name: 'Light 2' } ];
-    $scope.scenes = [ { id: 1, name: 'Scene 1' }, { id: 2, name: 'Scene 2' } ];
+halApp.controller('ControlCenterController', function($scope, $http) {
+
+    $http.get('/lights').success(function(data) {
+        $scope.lights = data;
+    });
+
+    $http.get('/scenes').success(function(data) {
+        $scope.scenes = data;
+    });
+
 });
 
 halApp.controller('SchedulesController', function($scope, $http, $location) {
