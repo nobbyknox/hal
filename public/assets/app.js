@@ -14,16 +14,19 @@ halApp.config(['$routeProvider', function($routeProvider) {
 
 halApp.controller('ControlCenterController', function($scope, $http, $timeout, $interval) {
 
+    // Check status 1.5 seconds after controller has been loaded
     $timeout(function() {
-        console.log('Initial status update');
+        humane.log("Updating...");
+        manageLightStatusUpdate($scope.lights);
     }, 1500);
 
+    // Check status every 20 seconds
     var updateTimer = $interval(function() {
-        console.log('Intermittent status update');
-    }, 20000); // check status every 20 seconds
+        humane.log("Updating...");
+        manageLightStatusUpdate($scope.lights);
+    }, 20000);
 
     $scope.$on('$destroy', function() {
-        console.log('In destroy event of $scope');
         $interval.cancel(updateTimer);
     });
 
@@ -36,12 +39,12 @@ halApp.controller('ControlCenterController', function($scope, $http, $timeout, $
         $scope.scenes = data;
     });
 
-    $scope.toggleLight = function(id) {
-        toggleLight(id);
+    $scope.toggleLight = function(theLight) {
+        toggleLight(theLight.id);
     }
 
-    $scope.triggerScene = function(id) {
-        triggerScene(id);
+    $scope.triggerScene = function(theScene) {
+        triggerScene(theScene);
     }
 
 });
