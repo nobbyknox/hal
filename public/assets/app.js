@@ -60,10 +60,20 @@ halApp.controller('SchedulesController', function($scope, $http, $location) {
     }
 });
 
-halApp.controller('ScheduleController', function($scope, $http, $routeParams) {
+halApp.controller('ScheduleController', function($scope, $http, $location, $routeParams) {
     $http.get('/schedule/' + $routeParams.id).success(function(data) {
         $scope.schedule = data;
     });
+
+    $scope.submitForm = function() {
+        $http({
+            method: 'PUT',
+            url: '/schedule/' + $scope.schedule.id,
+            data: JSON.stringify({ id: $scope.schedule.id, cron: $scope.schedule.cron, sceneId: $scope.schedule.sceneId, description: $scope.schedule.description })
+        }).success(function() {
+            $location.path('/schedules/');
+        });
+    }
 });
 
 halApp.controller('SysInfoController', function($scope, $http) {

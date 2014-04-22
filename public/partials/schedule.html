@@ -3,7 +3,7 @@
 </div>
 
 <div class="row">
-    <form role="form" class="col-sm-6 col-md-5">
+    <form role="form" class="col-sm-6 col-md-5" ng-submit="submitForm()">
         <div class="form-group">
             <label>ID</label>
             <input type="text" ng-model="schedule.id" class="form-control" disabled="disabled"/>
@@ -33,7 +33,7 @@
             <a href="#/schedules">&larr; Go back</a>
         </div>
         <div class="col-xs-6 col-sm-6 col-md-6 text-right">
-            <button class='btn btn-primary'><span class="glyphicon glyphicon-save"></span> Save</button>
+            <button class='btn btn-primary' ng-click="submitForm()"><span class="glyphicon glyphicon-save"></span> Save</button>
         </div>
     </div>
 </div>

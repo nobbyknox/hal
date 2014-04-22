@@ -84,6 +84,35 @@ app.get('/schedule/:id', function(request, response) {
 
 });
 
+app.put('/schedule/:id', function(request, response) {
+
+    var sch = request.body;
+
+    jsonfile.readFile('./config/schedules.json', function(error, schedules) {
+
+        var updated = false;
+
+        schedules.forEach(function(item) {
+            if (item.id == request.param('id')) {
+                item.cron = sch.cron;
+                item.description = sch.description;
+                item.sceneId = sch.sceneId;
+
+                updated = true;
+            }
+        });
+
+        if (updated) {
+            jsonfile.writeFile('./config/schedules.json', schedules, function(error) {
+                log('Schedules saved');
+            });
+        }
+    });
+
+    response.end();
+
+});
+
 app.post('/status', function(request, response) {
 
 
