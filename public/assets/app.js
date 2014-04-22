@@ -9,6 +9,7 @@ halApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/schedules',    { templateUrl: 'partials/schedules.html', controller: 'SchedulesController' });
     $routeProvider.when('/schedule/:id', { templateUrl: 'partials/schedule.html', controller: 'ScheduleController' });
     $routeProvider.when('/sysInfo',      { templateUrl: 'partials/sys-info.html', controller: 'SysInfoController' });
+    $routeProvider.when('/garageCam',    { templateUrl: 'partials/garage-cam.html', controller: 'GarageCamController' });
     $routeProvider.otherwise({ redirectTo: '/invalidRoute' });
 }]);
 
@@ -68,5 +69,11 @@ halApp.controller('ScheduleController', function($scope, $http, $routeParams) {
 halApp.controller('SysInfoController', function($scope, $http) {
     $http.get('/sysInfo').success(function(data) {
         $scope.sysInfo = data;
+    });
+});
+
+halApp.controller('GarageCamController', function($scope, $http) {
+    $http.get('/configGarageCamURL').success(function(data) {
+        $scope.camURL = data;
     });
 });

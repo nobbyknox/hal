@@ -155,6 +155,11 @@ app.get('/sysInfo', function(request, response) {
     response.end();
 });
 
+app.get('/configGarageCamURL', function(request, response) {
+    response.send(config.garageCamURL);
+    response.end();
+});
+
 
 // ----------
 // Main Block

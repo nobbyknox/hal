@@ -4,5 +4,6 @@
         { "username": "user2", "password": "" }],
     "zwaveHostname": "192.168.10.221",
     "zwavePort": 8083,
-    "expressPort": 3000
+    "expressPort": 3000,
+    "garageCamURL": "http://www.host.com/"
 }
