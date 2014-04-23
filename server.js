@@ -84,6 +84,33 @@ app.get('/schedule/:id', function(request, response) {
 
 });
 
+app.post('/schedule', function(request, response) {
+
+    var sch = request.body;
+    var lastId = 0;
+
+    jsonfile.readFile('./config/schedules.json', function(error, schedules) {
+
+        schedules.forEach(function(item) {
+            if (item.id > lastId) {
+                lastId = item.id;
+            }
+        });
+
+        lastId++;
+
+        sch.id = lastId;
+        schedules.push(sch);
+
+        jsonfile.writeFile('./config/schedules.json', schedules, function(error) {
+            log('Schedules saved');
+        });
+    });
+
+    response.end();
+
+});
+
 app.put('/schedule/:id', function(request, response) {
 
     var sch = request.body;
