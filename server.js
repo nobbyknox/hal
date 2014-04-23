@@ -190,6 +190,16 @@ app.get('/configGarageCamURL', function(request, response) {
 });
 
 
+// -------------------
+// Routes just for fun
+// -------------------
+
+app.get('/about/author', function(request, response) {  // And why not? ;-)
+    response.send('Nobby Knox');
+    response.end();
+});
+
+
 // ----------
 // Main Block
 // ----------
