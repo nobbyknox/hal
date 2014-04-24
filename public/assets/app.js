@@ -20,7 +20,7 @@ halApp.controller('ControlCenterController', function($scope, $http, $timeout, $
     $timeout(function() {
         humane.log("Updating...");
         manageLightStatusUpdate($scope.lights);
-    }, 1500);
+    }, 1000);
 
     // Check status every 20 seconds
     var updateTimer = $interval(function() {
