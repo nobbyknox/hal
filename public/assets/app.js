@@ -104,3 +104,14 @@ halApp.controller('GarageCamController', function($scope, $http) {
         $scope.camURL = data;
     });
 });
+
+
+// ----------
+// Directives
+// ----------
+
+halApp.directive('version', function() {
+    return {
+        template: '2014.04.26'
+    };
+});
