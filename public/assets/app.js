@@ -110,7 +110,7 @@ halApp.controller('GarageCamController', function($scope, $http) {
 // Directives
 // ----------
 
-halApp.directive('version', function() {
+halApp.directive('appVersion', function() {
     return {
         template: '2014.04.26'
     };
