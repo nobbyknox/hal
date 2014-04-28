@@ -112,6 +112,6 @@ halApp.controller('GarageCamController', function($scope, $http) {
 
 halApp.directive('appVersion', function() {
     return {
-        template: '2014.04.26'
+        template: '2014.04.28'
     };
 });
