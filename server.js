@@ -1,5 +1,5 @@
 var http = require('http');
-var cronJob = require('cron').CronJob;
+var cronJob = require('cron').CronJob; // It is also required below. Don't duplicate.
 var moment = require('moment');
 var express = require('express');
 var jsonfile = require('jsonfile');
@@ -133,6 +133,9 @@ app.put('/schedule/:id', function(request, response) {
             jsonfile.writeFile('./config/schedules.json', schedules, function(error) {
                 log('Schedules saved');
             });
+
+            // TODO: Find the running cron job, then stop and start it with the
+            // modified schedule.
         }
     });
 
@@ -340,6 +343,8 @@ function startScheduler() {
 
             log('  cron: ' + item.cron + ', sceneId: ' + item.sceneId);
 
+            // Naming convention dictates that the constructor be named "CronJob". See
+            // http://www.jspatterns.com/category/patterns/object-creation/
             new cronJob(item.cron, function() {
                 log('CRON: Triggering scene ' + item.sceneId + ' - ' + item.description);
                 triggerScene(item.sceneId);
