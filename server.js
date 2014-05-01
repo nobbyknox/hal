@@ -1,5 +1,5 @@
 var http = require('http');
-var cronJob = require('cron').CronJob; // It is also required below. Don't duplicate.
+var cron = require('cron');
 var moment = require('moment');
 var express = require('express');
 var jsonfile = require('jsonfile');
@@ -11,6 +11,8 @@ var scenes = require('./config/scenes.json');
 var zwaveHostname = config.zwaveHostname;
 var zwavePort = config.zwavePort;
 var expressPort = config.expressPort;
+
+var runningCronJobs = [];
 
 var ON_VALUE = '255';
 var OFF_VALUE = '0';
@@ -131,11 +133,24 @@ app.put('/schedule/:id', function(request, response) {
 
         if (updated) {
             jsonfile.writeFile('./config/schedules.json', schedules, function(error) {
-                log('Schedules saved');
+                log('Schedule updated');
             });
 
-            // TODO: Find the running cron job, then stop and start it with the
-            // modified schedule.
+            for (var i = 0; i < runningCronJobs.length; i++) {
+                if (runningCronJobs[i].id == request.param('id')) {
+                    log("Schedule " + runningCronJobs[i].id + " now restarting");
+                    runningCronJobs[i].job.stop();
+                    runningCronJobs.splice(i, 1);
+                }
+            }
+
+            var job = new cron.CronJob(sch.cron, function() {
+                log('Schedule ID ' + request.param('id') + ': Triggering scene ' + sch.sceneId + ' - ' + sch.description);
+                triggerScene(sch.sceneId);
+            }, null, true, null);
+
+            runningCronJobs.push({ id: request.param('id'), job: job });
+
         }
     });
 
@@ -267,7 +282,7 @@ function actionLights(lightIds, action) {
             if ((action == 'on') || (action == 'off')) {
                 setLight(light, (action == 'on' ? ON_VALUE : OFF_VALUE));
             } else if (action == 'toggle') {
-                getLightState(light.device, light.instance, function(currentState) {
+                getLightState(light, function(currentState) {
                     var newState = (currentState == ON_VALUE ? OFF_VALUE : ON_VALUE);
                     setLight(light, newState);
                 });
@@ -334,21 +349,20 @@ function startScheduler() {
 
     if (schedules && (schedules.length > 0)) {
 
-        var cronJob = require('cron').CronJob;
-
         log('');
         log('Schedules:');
 
         schedules.forEach(function(item) {
 
-            log('  cron: ' + item.cron + ', sceneId: ' + item.sceneId);
+            log('  schedule ID: ' + item.id + ', cron: ' + item.cron + ', sceneId: ' + item.sceneId);
 
-            // Naming convention dictates that the constructor be named "CronJob". See
-            // http://www.jspatterns.com/category/patterns/object-creation/
-            new cronJob(item.cron, function() {
-                log('CRON: Triggering scene ' + item.sceneId + ' - ' + item.description);
+            var job = new cron.CronJob(item.cron, function() {
+                log('Schedule ID ' + item.id + ': Triggering scene ' + item.sceneId + ' - ' + item.description);
                 triggerScene(item.sceneId);
             }, null, true, null);
+
+            runningCronJobs.push({ id: item.id, job: job });
+            
         });
 
         log('');
