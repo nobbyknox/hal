@@ -160,30 +160,11 @@ app.put('/schedule/:id', function(request, response) {
 
 app.post('/status', function(request, response) {
 
-
-    // TODO: This code is a duplicate of that in getLightState. Use that function here.
     getLight(request.body.id, function(light) {
-
-        var options = {
-            hostname: zwaveHostname,
-            port: zwavePort,
-            path: '/ZWaveAPI/Run/devices[' + light.device + '].instances[' + light.instance + '].commandClasses[0x25].data.level.value',
-            method: 'POST'
-        };
-
-        var zwaveRequest = http.request(options, function(zwaveResponse) {
-            zwaveResponse.setEncoding('utf8');
-            zwaveResponse.on('data', function(chunk) {
-                response.send(chunk);
-                response.end();
-            });
+        getLightState(light, function(currentState) {
+            response.send(currentState);
+            response.end();
         });
-
-        zwaveRequest.on('error', function(e) {
-            console.log('Problem with request: ' + e.message);
-        });
-
-        zwaveRequest.end();
     });
 
 });
@@ -362,7 +343,7 @@ function startScheduler() {
             }, null, true, null);
 
             runningCronJobs.push({ id: item.id, job: job });
-            
+
         });
 
         log('');
