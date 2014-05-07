@@ -8,6 +8,15 @@ For keeping things handy and getting things done.
 
 [AngularJS](https://angularjs.org/)
 
+## Node.js
+
+### Error Handing
+
+Check out these resources:
+
+* [Error Handling in Node.js - from Joyent](http://www.joyent.com/developers/node/design/errors)
+* [Best practice - Exception Handing](http://stackoverflow.com/questions/7310521/node-js-best-practice-exception-handling)
+
 ## Ember.js
 
 ### Official Ember Documentation
