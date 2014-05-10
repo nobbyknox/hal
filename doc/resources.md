@@ -7,6 +7,7 @@ For keeping things handy and getting things done.
 ## Angular.js
 
 [AngularJS](https://angularjs.org/)
+[How to Learn AngularJS - Your AngularJS Sherpa](http://www.ng-newsletter.com/posts/how-to-learn-angular.html)
 
 ## Node.js
 
