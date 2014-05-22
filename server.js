@@ -194,14 +194,13 @@ app.post('/scene', function(request, response) {
 app.get('/sysInfo', function(request, response) {
 
     var os = require('os');
-    var uptime = os.uptime();
 
     var info = {
         'hostName': os.hostname(),
         'osType': os.type(),
         'release': os.release(),
         'cpu': os.cpus()[0].model,
-        'upTime': (uptime < 3600 ? (uptime / 60) + ' minutes' : (uptime / 60 / 60) + ' hours'),
+        'upTime': moment().subtract('seconds', os.uptime()).fromNow(),
         'totMem': (os.totalmem() / 1024 / 1024) + ' MB',
         'freeMem': (os.freemem() / 1024 / 1024) + ' MB'
     };
