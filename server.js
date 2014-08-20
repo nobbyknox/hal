@@ -8,14 +8,12 @@ var config = require('./config/' + (process.env.NODE_ENV || 'dev') + '.json');
 var lights = require('./config/lights.json');
 var scenes = require('./config/scenes.json');
 
-var zwaveHostname = config.zwaveHostname;
-var zwavePort = config.zwavePort;
 var expressPort = config.expressPort;
 
 var runningCronJobs = [];
 
-var ON_VALUE = '255';
-var OFF_VALUE = '0';
+var ON_VALUE = 'on';
+var OFF_VALUE = 'off';
 
 
 // ---------------------
@@ -263,7 +261,7 @@ function actionLights(lightIds, action) {
                 setLight(light, (action == 'on' ? ON_VALUE : OFF_VALUE));
             } else if (action == 'toggle') {
                 getLightState(light, function(currentState) {
-                    var newState = (currentState == ON_VALUE ? OFF_VALUE : ON_VALUE);
+                    var newState = (currentState == ON_VALUE || currentState === 'true' ? OFF_VALUE : ON_VALUE);
                     setLight(light, newState);
                 });
             }
@@ -274,8 +272,8 @@ function actionLights(lightIds, action) {
 function getLightState(light, callback) {
 
     var options = {
-        hostname: zwaveHostname,
-        port: zwavePort,
+        hostname: light.controllerHost,
+        port: light.controllerPort,
         path: '/ZWaveAPI/Run/devices[' + light.device + '].instances[' + light.instance + '].commandClasses[0x25].data.level.value',
         method: 'POST'
     };
@@ -285,7 +283,16 @@ function getLightState(light, callback) {
         response.setEncoding('utf8');
 
         response.on('data', function(currentState) {
-            callback(currentState);
+
+            var simpleState = '';
+
+            if (currentState === '255' || currentState === 'true') {
+                simpleState = 'on';
+            } else {
+                simpleState = 'off';
+            }
+
+            callback(simpleState);
         });
     });
 
@@ -304,9 +311,9 @@ function log(mesg) {
 function setLight(light, state) {
 
     var options = {
-        hostname: zwaveHostname,
-        port: zwavePort,
-        path: '/ZWaveAPI/Run/devices[' + light.device + '].instances[' + light.instance + '].commandClasses[0x25].Set(' + state + ')',
+        hostname: light.controllerHost,
+        port: light.controllerPort,
+        path: '/ZWaveAPI/Run/devices[' + light.device + '].instances[' + light.instance + '].commandClasses[0x25].Set(' + (state === ON_VALUE ? 255 : 0) + ')',
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

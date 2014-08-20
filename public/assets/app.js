@@ -43,11 +43,11 @@ halApp.controller('ControlCenterController', function($scope, $http, $timeout, $
 
     $scope.toggleLight = function(theLight) {
         toggleLight(theLight.id);
-    }
+    };
 
     $scope.triggerScene = function(theScene) {
         triggerScene(theScene);
-    }
+    };
 
 });
 
@@ -112,6 +112,6 @@ halApp.controller('GarageCamController', function($scope, $http) {
 
 halApp.directive('appVersion', function() {
     return {
-        template: '2014.05.22'
+        template: '2014.08.20'
     };
 });

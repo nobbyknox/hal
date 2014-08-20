@@ -1,10 +1,10 @@
 var halRoot = "/";
-var ON_VALUE = '255';
-var OFF_VALUE = '0';
+var ON_VALUE = 'on';
+var OFF_VALUE = 'off';
 
 
 function changeLampImage(lightId, status) {
-    if (status === '0') {
+    if (status === 'off') {
         $("#lamp-status-" + lightId).attr("src", "assets/images/lamp_off.png");
     } else {
         $("#lamp-status-" + lightId).attr("src", "assets/images/lamp_on.png");
