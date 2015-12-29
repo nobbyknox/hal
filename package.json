@@ -1,12 +1,24 @@
 {
-    "name": "express1",
-    "description": "Express Test 1",
-    "version": "0.0.1",
+    "name": "hal",
+    "description": "HAL lets you see. Sometimes.",
+    "version": "0.0.2",
     "private": true,
     "dependencies": {
-        "express": "3.5.0",
-        "cron": "1.0.x",
-        "moment": "2.5.x",
-        "jsonfile": "1.1.x"
+        "body-parser": "1.5.0",
+        "bookshelf": "0.8.2",
+        "bunyan": "1.5.1",
+        "express": "4.13.3",
+        "eslint": "1.10.3",
+        "knex": "^0.8.6",
+        "mocha": "2.3.2",
+        "moment": "2.4.0",
+        "nodemon": "1.7.3",
+        "q": "1.4.1",
+        "sqlite3": "^3.1.1"
+    },
+    "scripts": {
+        "start": "HAL_ENV=development ./node_modules/.bin/nodemon lib/hal.js | ./node_modules/bunyan/bin/bunyan --color",
+        "production": "HAL_ENV=production node lib/hal.js | ./node_modules/bunyan/bin/bunyan --color",
+        "lint": "./node_modules/.bin/eslint lib"
     }
 }
