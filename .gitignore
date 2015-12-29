@@ -1,4 +1,6 @@
 hal.iml
 .idea
 .DS_Store
+*.sqlite3
 node_modules/
+config/private.json

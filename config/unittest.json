@@ -1,0 +1,21 @@
+{
+    "host": "0.0.0.0",
+    "port": 3004,
+    "loggerOptions": {
+        "name": "hal",
+        "level": "trace",
+        "src": true
+    },
+    "email": {
+        "apiKey": "abc",
+        "fromEmail": "abc@hal.com",
+        "fromName": "HAL",
+        "replyTo": "abc@hal.com"
+    },
+    "feedback": {
+        "to": [
+            "abc@hal.com"
+        ],
+        "subjectPreamble": "HAL Feedback: "
+    }
+}
