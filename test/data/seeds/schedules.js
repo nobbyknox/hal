@@ -10,22 +10,22 @@ exports.seed = function (knex, Promise) {
             id: 1,
             cron: '0 32 4 * * 1-5',
             sceneId: 1,
-            description: 'Wake-up lights',
-            enabled: 1
+            enabled: 1,
+            description: 'Wake-up lights'
         }),
         knex('schedules').insert({
             id: 2,
             cron: '0 30 23 * * 1-5',
             sceneId: 2,
-            description: 'Sleepy all off',
-            enabled: 1
+            enabled: 1,
+            description: 'Sleepy all off'
         }),
         knex('schedules').insert({
             id: 3,
             cron: '0 0 13 * * 1-5',
             sceneId: 3,
-            description: 'Test schedule',
-            enabled: 0
+            enabled: 0,
+            description: 'Test schedule'
         })
     );
 };

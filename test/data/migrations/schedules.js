@@ -5,8 +5,8 @@ exports.up = function(knex) {
         t.increments().primary();
         t.string('cron').notNullable();
         t.integer('sceneId').notNullable();
-        t.string('description').nullable();
         t.integer('enabled').notNullable();
+        t.string('description').nullable();
     });
 };
 
