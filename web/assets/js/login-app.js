@@ -20,8 +20,6 @@ loginApp.config(function($routeProvider) {
 
 loginApp.run(function($rootScope, $http, $cookies, $window) {
 
-    //$rootScope.pageTitle = 'Bookmarkly - please sign in';
-
     // If the visitor is already logged in (has a cookie), take him to the main site.
     var biscuit = $cookies.getObject('halLogin');
     if (biscuit) {
@@ -37,9 +35,6 @@ loginApp.controller('LoginController', function($scope, $rootScope, $http, $cook
         $http.post('/authenticate', {'username': $scope.username, 'password': $scope.password})
             .then(function (serverResponse) {
 
-                //console.log('Response from auth service: ' + JSON.stringify(serverResponse));
-                //console.log('Token: ' + serverResponse.data.token);
-
                 var cookiePayload = {
                     userId: serverResponse.data.userId,
                     username: serverResponse.data.username,
@@ -47,14 +42,11 @@ loginApp.controller('LoginController', function($scope, $rootScope, $http, $cook
                     token: serverResponse.data.token
                 };
 
-                //console.log('Written cookie: ', cookiePayload);
-
                 $cookies.putObject('halLogin', cookiePayload, { 'expires': new Date(2100, 1, 1) });
                 $window.location = '/';
 
             }, function() {
                 $('#passwordAlert').show();
             });
-
     };
 });
