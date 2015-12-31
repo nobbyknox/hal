@@ -1,33 +1,46 @@
 BEGIN TRANSACTION;
-CREATE TABLE "users" (
-	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-	`email`	TEXT NOT NULL UNIQUE,
-	`screenName`	TEXT NOT NULL UNIQUE,
-	`password`      TEXT,
-	`dateCreated`	TEXT
-);
-CREATE TABLE "token_cache" (
-    `id`    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-    `token` TEXT NOT NULL,
-    `userId`    INTEGER NOT NULL UNIQUE,
-    `dateCreated` TEXT,
-    `dateUpdated` TEXT
-);
+
 CREATE TABLE "lights" (
-	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-	`name`	TEXT NOT NULL,
-	`device`	INTEGER NOT NULL,
-	`instance`	INTEGER NOT NULL,
-	`controllerHost`	TEXT NOT NULL,
-	`controllerPort`	INTEGER NOT NULL
+    "id" integer not null primary key autoincrement,
+    "name" varchar(255) null,
+    "device" integer not null,
+    "instance" integer not null,
+    "controllerHost" varchar(255) not null,
+    "controllerPort" integer not null
 );
+
 CREATE TABLE "scenes" (
-	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-	`name`	TEXT NOT NULL,
-	`description`	TEXT,
-	`visible`	INTEGER NOT NULL,
-	`buttonClass`	TEXT,
-	`iconClass`	TEXT,
-	`action` TEXT
+    "id" integer not null primary key autoincrement,
+    "name" varchar(255) not null,
+    "description" varchar(255) null,
+    "visible" integer not null,
+    "enabled" integer not null,
+    "buttonClass" varchar(255) null,
+    "iconClass" varchar(255) null,
+    "action" varchar(255) null
 );
+
+CREATE TABLE "schedules" (
+    "id" integer not null primary key autoincrement,
+    "cron" varchar(255) not null,
+    "sceneId" integer not null,
+    "enabled" integer not null,
+    "description" varchar(255) null
+);
+
+CREATE TABLE "token_cache" (
+    "id" integer not null primary key autoincrement,
+    "token" varchar(255) not null,
+    "userId" integer not null,
+    "dateCreated" varchar(255) null,
+    "dateUpdated" varchar(255) null
+);
+
+CREATE TABLE "users" (
+    "id" integer not null primary key autoincrement,
+    "email" varchar(255) not null,
+    "screenName" varchar(255) null,
+    "password" varchar(255) null
+);
+
 COMMIT;
