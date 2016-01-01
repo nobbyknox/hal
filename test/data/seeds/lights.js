@@ -41,6 +41,15 @@ exports.seed = function (knex, Promise) {
             instance: 0,
             controllerHost: 'otherhost',
             controllerPort: 9090
+        }),
+        knex('lights').insert({
+            id: 5,
+            name: 'Broken Light',
+            enabled: 0,
+            device: 5,
+            instance: 0,
+            controllerHost: 'otherhost',
+            controllerPort: 9090
         })
     );
 };
