@@ -4,6 +4,7 @@ var halApp = angular.module('halApp', ['ngRoute', 'ngCookies']);
 
 halApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/',              { templateUrl: 'partials/control-center.html', controller: 'ControlCenterController' });
+    $routeProvider.when('/login',         { templateUrl: 'partials/login-required.html', controller: 'LoginController' });
     $routeProvider.when('/about',         { templateUrl: 'partials/about.html' });
     $routeProvider.when('/invalidRoute',  { templateUrl: 'partials/invalid-route.html' });
     $routeProvider.when('/schedules',     { templateUrl: 'partials/schedules.html', controller: 'SchedulesController' });
@@ -13,6 +14,91 @@ halApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/garageCam',     { templateUrl: 'partials/garage-cam.html', controller: 'GarageCamController' });
     $routeProvider.otherwise({ redirectTo: '/invalidRoute' });
 }]);
+
+halApp.run(function($rootScope, $http, $location, $window, $cookies) {
+
+    $rootScope.sessionUser = $cookies.getObject('halLogin');
+
+    if ($rootScope.sessionUser) {
+        $http.post('/validatetoken', {token: $rootScope.sessionUser.token})
+            .then(function() {
+                console.log('Welcome back, %s', $rootScope.sessionUser.screenName);
+                bootstrapApp($rootScope, $http);
+            }, function(response) {
+                $rootScope.sessionUser = null;
+                $cookies.remove('halLogin');
+                console.log(JSON.stringify(response));
+            });
+
+    } else {
+        $location.path('/login');
+    }
+
+    $rootScope.$on('$locationChangeStart', function(event, next, current) {
+
+        // if (!next.includes('/bookmarks')) {
+        //     $rootScope.searchQuery = '';
+        // }
+
+        $rootScope.previousPage = current;
+
+        if (!$rootScope.sessionUser) {
+            $location.path('/login');
+        }
+    });
+
+    // $rootScope.search = function() {
+    //     if ($rootScope.searchQuery.length >= 3) {
+    //         $window.location = '#/bookmarks?query=' + $rootScope.searchQuery;
+    //     }
+    // };
+
+    // $rootScope.sendFeedback = function() {
+    //     console.log('Subject: ' + $rootScope.feedbackSubject);
+    //     console.log('Body: ' + $rootScope.feedbackBody);
+    //
+    //     let feedbackModel = {
+    //         username: $rootScope.sessionUser.username,
+    //         screenName: $rootScope.sessionUser.screenName,
+    //         location: $window.location.href,
+    //         subject: $rootScope.feedbackSubject,
+    //         message: $rootScope.feedbackBody
+    //     };
+    //
+    //     $http.post('/feedback?token=' + $rootScope.sessionUser.token, feedbackModel)
+    //         .success(function() {
+    //             console.log('Feedback submitted successfully');
+    //         })
+    //         .error(function(data) {
+    //             console.log('Unable to submit feedback: ' + JSON.stringify(data));
+    //             alert('An error occurred during the posting of your feedback');
+    //         });
+    //
+    //     $rootScope.feedbackSubject = $rootScope.feedbackSubjects[0];
+    //     $rootScope.feedbackBody = '';
+    //
+    //     $('#feedbackModal').modal('hide');
+    // };
+
+    // $rootScope.showMessage = function(title, message) {
+    //     $('#message-modal-label').html(title);
+    //     $('#message-body').html(message);
+    //     $('#message-modal').modal('show');
+    // };
+
+    // $rootScope.deleteCallback = function() {
+    //     console.log('Hello (deleted) World!');
+    // };
+
+});
+
+halApp.controller('LoginController', function($rootScope, $window) {
+
+    setTimeout(function() {
+        $window.location = '/login.html';
+    }, 5000);
+
+});
 
 halApp.controller('ControlCenterController', function($scope, $http, $timeout, $interval) {
 
@@ -106,12 +192,28 @@ halApp.controller('GarageCamController', function($scope, $http) {
 });
 
 
-// ----------
+// -----------------------------------------------------------------------------
 // Directives
-// ----------
+// -----------------------------------------------------------------------------
 
 halApp.directive('appVersion', function() {
     return {
         template: '2016.01.01'
     };
 });
+
+
+// -----------------------------------------------------------------------------
+// Private functions
+// -----------------------------------------------------------------------------
+
+function bootstrapApp($rootScope, $http) {
+
+    // if ($rootScope.sessionUser) {
+    //     $http.get('/groups?token=' + $rootScope.sessionUser.token)
+    //         .success(function(data) {
+    //             $rootScope.groups = data;
+    //         });
+    // }
+
+}
