@@ -1,7 +1,6 @@
 'use strict';
 
-var dataStore = require('../lib/dao/data-store.js');
-var models = require('../lib/dao/models.js');
+let service = require('../../lib/services/user-service.js');
 
 var assert = require('assert');
 var path = require('path');
@@ -19,10 +18,19 @@ describe(path.basename(__filename), function() {
 
     describe('Retrieval test', function() {
 
-        it('should get all users', function(done) {
-            dataStore.get(models.UserModel, {}, {}, function(err, users) {
+        it('should get all users', (done) => {
+            service.getAll((err, users) => {
                 assert(!err);
                 assert(users);
+                assert(users.length > 0);
+                done();
+            });
+        });
+
+        it('should get on email address', (done) => {
+            service.get('user1@host.com', (err, user) => {
+                assert(!err);
+                assert(user);
                 done();
             });
         });
