@@ -6,7 +6,7 @@
 
     "loggerOptions": {
         "name": "hal",
-        "level": "trace",
+        "level": "fatal",
         "src": true
     },
     "email": {
