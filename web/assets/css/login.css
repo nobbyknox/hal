@@ -1,13 +1,14 @@
 body {
-    /*background: url('../images/wordy-web-login.jpg') no-repeat center center fixed;*/
+    background: url('../images/login-background.jpg') no-repeat center center fixed;
     background-size: cover;
     padding-top: 40px;
     padding-bottom: 40px;
 }
 
 .form-signin {
-    background-color: rgba(216,219,215,0.65);
+    background-color: rgba(31, 70, 102, 0.8);
     border-radius: 10px;
+    color: white;
     max-width: 330px;
     padding: 15px;
     margin: 50px auto;
@@ -17,6 +18,10 @@ body {
     font-size: 15px;
     margin-top: 0;
     text-align: center;
+}
+
+.form-signin a {
+    color: white;
 }
 
 .form-signin .form-signin-heading,
