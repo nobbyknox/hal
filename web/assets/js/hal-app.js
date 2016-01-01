@@ -1,6 +1,6 @@
 'use strict';
 
-var halApp = angular.module('halApp', ['ngRoute']);
+var halApp = angular.module('halApp', ['ngRoute', 'ngCookies']);
 
 halApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/',              { templateUrl: 'partials/control-center.html', controller: 'ControlCenterController' });
@@ -112,6 +112,6 @@ halApp.controller('GarageCamController', function($scope, $http) {
 
 halApp.directive('appVersion', function() {
     return {
-        template: '2014.08.20'
+        template: '2016.01.01'
     };
 });
