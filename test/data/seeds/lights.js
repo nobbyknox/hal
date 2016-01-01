@@ -9,6 +9,7 @@ exports.seed = function (knex, Promise) {
         knex('lights').insert({
             id: 1,
             name: 'Lounge',
+            enabled: 1,
             device: 1,
             instance: 0,
             controllerHost: 'localhost',
@@ -17,6 +18,7 @@ exports.seed = function (knex, Promise) {
         knex('lights').insert({
             id: 2,
             name: 'Front Flood Light',
+            enabled: 1,
             device: 2,
             instance: 0,
             controllerHost: 'localhost',
@@ -25,6 +27,7 @@ exports.seed = function (knex, Promise) {
         knex('lights').insert({
             id: 3,
             name: 'Side Passage',
+            enabled: 1,
             device: 3,
             instance: 0,
             controllerHost: 'otherhost',
@@ -33,6 +36,7 @@ exports.seed = function (knex, Promise) {
         knex('lights').insert({
             id: 4,
             name: 'Side Entrance',
+            enabled: 1,
             device: 4,
             instance: 0,
             controllerHost: 'otherhost',
