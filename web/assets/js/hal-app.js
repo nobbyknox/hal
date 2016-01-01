@@ -125,8 +125,6 @@ halApp.controller('ControlCenterController', function($scope, $http, $timeout, $
 
     $http.get('/scenes').success(function(data) {
         $scope.scenes = data;
-        console.log('Scenes:');
-        console.log(JSON.stringify(data));
     });
 
     //$scope.toggleLight = function(theLight) {
