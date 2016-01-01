@@ -100,7 +100,7 @@ halApp.controller('LoginController', function($rootScope, $window) {
 
 });
 
-halApp.controller('ControlCenterController', function($scope, $http, $timeout, $interval) {
+halApp.controller('ControlCenterController', function($rootScope, $scope, $http, $timeout, $interval) {
 
     // Check status 1.5 seconds after controller has been loaded
     //$timeout(function() {
@@ -119,11 +119,11 @@ halApp.controller('ControlCenterController', function($scope, $http, $timeout, $
     //});
 
 
-    $http.get('/lights').success(function(data) {
+    $http.get('/lights?token=' + $rootScope.sessionUser.token).success(function(data) {
         $scope.lights = data;
     });
 
-    $http.get('/scenes').success(function(data) {
+    $http.get('/scenes?token=' + $rootScope.sessionUser.token).success(function(data) {
         $scope.scenes = data;
     });
 
