@@ -12,8 +12,8 @@ exports.seed = function (knex, Promise) {
             description: 'Turn on all lights',
             visible: 1,
             enabled: 1,
-            buttonClass: 'some-class',
-            iconClass: 'icon-class',
+            buttonClass: 'btn-primary',
+            iconClass: 'glyphicon glyphicon-off',
             action: 'ON'
         }),
         knex('scenes').insert({
@@ -22,18 +22,18 @@ exports.seed = function (knex, Promise) {
             description: 'Turn off all lights',
             visible: 1,
             enabled: 1,
-            buttonClass: 'some-class',
-            iconClass: 'icon-class',
+            buttonClass: 'btn-primary',
+            iconClass: 'glyphicon glyphicon-film',
             action: 'OFF'
         }),
         knex('scenes').insert({
             id: 3,
-            name: 'test',
-            description: 'Tests something',
+            name: 'Emergency',
+            description: 'Outside lights on',
             visible: 1,
             enabled: 0,
-            buttonClass: 'some-class',
-            iconClass: 'icon-class',
+            buttonClass: 'btn-warning',
+            iconClass: 'glyphicon glyphicon-warning-sign',
             action: '50'
         })
     );
