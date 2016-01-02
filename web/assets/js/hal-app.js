@@ -179,8 +179,8 @@ halApp.controller('ScheduleController', function($scope, $http, $location, $rout
     }
 });
 
-halApp.controller('SysInfoController', function($scope, $http) {
-    $http.get('/sysInfo').success(function(data) {
+halApp.controller('SysInfoController', function($rootScope, $scope, $http) {
+    $http.get('/sysInfo?token=' + $rootScope.sessionUser.token).success(function(data) {
         $scope.sysInfo = data;
     });
 });
