@@ -137,7 +137,8 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
 
 });
 
-halApp.controller('SchedulesController', function($scope, $http, $location) {
+halApp.controller('SchedulesController', function($rootScope, $scope, $http, $location) {
+
     $http.get('/schedules?token=' + $rootScope.sessionUser.token).success(function(data) {
         $scope.schedules = data;
     });
@@ -164,7 +165,7 @@ halApp.controller('SchedulesNewController', function($scope, $http, $location) {
 
 halApp.controller('ScheduleController', function($scope, $http, $location, $routeParams) {
 
-    $http.get('/schedule/' + $routeParams.id).success(function(data) {
+    $http.get('/schedule/' + $routeParams.id + '?token=' + $rootScope.sessionUser.token).success(function(data) {
         $scope.schedule = data;
     });
 
