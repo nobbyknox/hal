@@ -138,7 +138,7 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
 });
 
 halApp.controller('SchedulesController', function($scope, $http, $location) {
-    $http.get('/schedules').success(function(data) {
+    $http.get('/schedules?token=' + $rootScope.sessionUser.token).success(function(data) {
         $scope.schedules = data;
     });
 
