@@ -181,15 +181,20 @@ halApp.controller('ScheduleController', function($scope, $http, $location, $rout
 });
 
 halApp.controller('SysInfoController', function($rootScope, $scope, $http) {
-    $http.get('/sysInfo?token=' + $rootScope.sessionUser.token).success(function(data) {
-        $scope.sysInfo = data;
-    });
+    $http.get('/sysInfo?token=' + $rootScope.sessionUser.token)
+        .success(function(data) {
+            $scope.sysInfo = data;
+        });
 });
 
-halApp.controller('GarageCamController', function($scope, $http) {
-    $http.get('/configGarageCamURL').success(function(data) {
-        $scope.camURL = data;
-    });
+halApp.controller('GarageCamController', function($rootScope, $scope, $http) {
+
+    $scope.camURL = '';
+
+    $http.get('/configGarageCamURL?token=' + $rootScope.sessionUser.token)
+        .success(function(data) {
+            $scope.camURL = data;
+        });
 });
 
 
