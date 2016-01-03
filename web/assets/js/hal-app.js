@@ -19,6 +19,8 @@ halApp.run(function($rootScope, $http, $location, $window, $cookies) {
 
     $rootScope.sessionUser = $cookies.getObject('halLogin');
 
+    console.log($rootScope.sessionUser);
+
     if ($rootScope.sessionUser) {
         $http.post('/validatetoken', {token: $rootScope.sessionUser.token})
             .then(function() {
@@ -102,11 +104,11 @@ halApp.controller('LoginController', function($rootScope, $window) {
 
 halApp.controller('ControlCenterController', function($rootScope, $scope, $http, $timeout, $interval) {
 
-    // Check status 1.5 seconds after controller has been loaded
-    //$timeout(function() {
-    //    humane.log("Updating...");
-    //    manageLightStatusUpdate($scope.lights);
-    //}, 1000);
+    // Check status 2 seconds after controller has been loaded
+    $timeout(function() {
+        humane.log("Updating...");
+        manageLightStatusUpdate($scope.lights, $rootScope.sessionUser.token);
+    }, 2000);
 
     // Check status every 20 seconds
     //var updateTimer = $interval(function() {
@@ -119,11 +121,11 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
     //});
 
 
-    $http.get('/lights?token=' + $rootScope.sessionUser.token).success(function(data) {
+    $http.get('/lights?enabled=1&token=' + $rootScope.sessionUser.token).success(function(data) {
         $scope.lights = data;
     });
 
-    $http.get('/scenes?token=' + $rootScope.sessionUser.token).success(function(data) {
+    $http.get('/scenes?enabled=1&token=' + $rootScope.sessionUser.token).success(function(data) {
         $scope.scenes = data;
     });
 

@@ -11,10 +11,10 @@ function changeLampImage(lightId, status) {
     }
 }
 
-function getLightStatus(id, callback) {
+function getLightStatus(id, token, callback) {
 
     var lePost = $.ajax({
-        url: halRoot + 'status',
+        url: halRoot + 'status?token=' + token,
         type: 'POST',
         data: JSON.stringify({ "id": id }),
         contentType: 'application/json'
@@ -26,10 +26,10 @@ function getLightStatus(id, callback) {
 
 }
 
-function manageLightStatusUpdate(lights) {
+function manageLightStatusUpdate(lights, token) {
 
     lights.forEach(function(light) {
-        getLightStatus(light.id, function(status) {
+        getLightStatus(light.id, token, function(status) {
             changeLampImage(light.id, status);
         });
     });

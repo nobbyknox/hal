@@ -22,6 +22,9 @@ loginApp.run(function($rootScope, $http, $cookies, $window) {
 
     // If the visitor is already logged in (has a cookie), take him to the main site.
     var biscuit = $cookies.getObject('halLogin');
+
+    console.log('Cookie: ' + biscuit);
+
     if (biscuit) {
         $window.location = '/';
     }
