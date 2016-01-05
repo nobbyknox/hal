@@ -4,9 +4,36 @@
 
 <div class="row">
     <div ng-repeat="light in lights" class="col-xs-12  col-sm-6 col-md-3">
+<!--
         <button class="btn btn-large btn-primary btn-block light-button" ng-click="toggleLight(light)">
             <img id="lamp-status-{{ light.id }}" src="assets/images/lamp_off.png" style="vertical-align: middle" />&nbsp;&nbsp;{{ light.name }}
         </button>
+-->
+<!--
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary btn-large light-button" ng-click="toggleLight(light)">
+                <img id="lamp-status-{{ light.id }}" src="assets/images/lamp_off.png" style="vertical-align: middle" />&nbsp;&nbsp;{{ light.name }}
+            </button>
+            <button type="button" class="btn btn-primary btn-large light-button dropdown-toggle" style="height: 56px" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#">{{ light.name }}</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+            </ul>
+        </div>
+-->
+        <div class="light-button">
+            <span class="selectable" ng-click="toggleLight(light)">
+                <img id="lamp-status-{{ light.id }}" src="assets/images/lamp_off.png" style="vertical-align: middle" /><span class="glyphicon glyphicon-hourglass"></span>&nbsp;&nbsp;{{ light.name }}
+            </span>
+            &nbsp; &nbsp;
+            <span class="selectable glyphicon glyphicon-menu-hamburger" ng-click="lightMenu(light)"></span>
+        </div>
     </div>
 </div>
 
@@ -20,4 +47,15 @@
             <span class="{{ scene.iconClass }}"></span>&nbsp;&nbsp;{{scene.name}}
         </button>
     </div>
+</div>
+
+<div id="light-menu" class="light-menu">
+    <div class="title">Light Name Here</div>
+    <div class="default-item selectable" ng-click="onFor5Secs()">On for 5 seconds</div>  <!-- For testing only -->
+    <div class="default-item selectable" ng-click="onFor1()">On for 1 minute</div>
+    <div class="default-item selectable" ng-click="onFor10()">On for 10 minutes</div>
+    <div class="default-item selectable" ng-click="onFor20()">On for 20 minutes</div>
+    <div class="default-item selectable" ng-click="onFor30()">On for 30 minutes</div>
+    <div class="spacer"></div>
+    <div class="cancel-item selectable" onclick="$('#light-menu').hide('fast');">Cancel</div>
 </div>

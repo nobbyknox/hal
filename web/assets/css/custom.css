@@ -3,9 +3,61 @@
 }
 
 .light-button {
+    background-color: #337AB7;
+    border-radius: 5px;
+    color: white;
     font-size: 150%;
     font-weight: bold;
     margin-bottom: 20px;
+    padding: 10px;
+    text-align: center;
+}
+
+.light-menu {
+    background-color: rgba(211, 211, 211, 0.75);
+    border-radius: 5px;
+    display: none;
+    position:absolute;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+    margin-left: auto;
+    margin-right:auto;
+    min-width: 250px;
+    padding: 10px;
+    z-index: 10;
+}
+
+.light-menu .title {
+    font-size: 135%;
+    font-weight: bold;
+    padding-bottom: 5px;
+    text-align: center;
+}
+
+.light-menu .default-item {
+    background-color: #337AB7;
+    border-radius: 5px;
+    color: white;
+    font-size: 120%;
+    margin-bottom: 5px;
+    padding: 5px;
+    text-align: center;
+}
+
+.light-menu .cancel-item {
+    background-color: #b12727;
+    border-radius: 5px;
+    color: white;
+    font-size: 120%;
+    /*margin-top: 10px;*/
+    margin-bottom: 5px;
+    padding: 5px;
+    text-align: center;
+}
+
+.light-menu .spacer {
+    min-height: 6px;
 }
 
 .scene-button {

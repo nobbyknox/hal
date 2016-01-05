@@ -104,11 +104,13 @@ halApp.controller('LoginController', function($rootScope, $window) {
 
 halApp.controller('ControlCenterController', function($rootScope, $scope, $http, $timeout, $interval) {
 
+    $scope.menuLight = null;
+
     // Check status 2 seconds after controller has been loaded
-    $timeout(function() {
-        humane.log("Updating...");
-        manageLightStatusUpdate($scope.lights, $rootScope.sessionUser.token);
-    }, 2000);
+    //$timeout(function() {
+    //    humane.log("Updating...");
+    //    manageLightStatusUpdate($scope.lights, $rootScope.sessionUser.token);
+    //}, 2000);
 
     // Check status every 20 seconds
     //var updateTimer = $interval(function() {
@@ -129,13 +131,55 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
         $scope.scenes = data;
     });
 
-    //$scope.toggleLight = function(theLight) {
-    //    toggleLight(theLight.id);
-    //};
-    //
-    //$scope.triggerScene = function(theScene) {
-    //    triggerScene(theScene);
-    //};
+    $scope.toggleLight = function(theLight) {
+        //toggleLight(theLight.id, $rootScope.sessionUser.token);
+        console.log('Toggling light ', theLight);
+    };
+
+    $scope.triggerScene = function(theScene) {
+        //triggerScene(theScene, $rootScope.sessionUser.token);
+        console.log('Triggering scene ', theScene);
+    };
+
+    $scope.lightMenu = function(theLight) {
+        $scope.menuLight = theLight;
+        $("#light-menu .title").html(theLight.name);
+        $("#light-menu").show("fast");
+    };
+
+    // Testing only
+    $scope.onFor5Secs = function() {
+        console.log('Turning on ' + $scope.menuLight.name + ' light for 5 seconds');
+        $("#light-menu").hide("fast");
+
+        $http({
+            method: 'POST',
+            url: '/lighttimer?token=' + $rootScope.sessionUser.token,
+            data: JSON.stringify({ lightId: $scope.menuLight.id, "action": "on", "delay": 5 })
+        }).success(function(data) {
+            console.log('Server says: ', data);
+        });
+    };
+
+    $scope.onFor1 = function() {
+        console.log('Turning on ' + $scope.menuLight.name + ' light for 1 minute');
+        $("#light-menu").hide("fast");
+    };
+
+    $scope.onFor10 = function() {
+        console.log('Turning on ' + $scope.menuLight.name + ' light for 10 minutes');
+        $("#light-menu").hide("fast");
+    };
+
+    $scope.onFor20 = function() {
+        console.log('Turning on ' + $scope.menuLight.name + ' light for 20 minutes');
+        $("#light-menu").hide("fast");
+    };
+
+    $scope.onFor30 = function() {
+        console.log('Turning on ' + $scope.menuLight.name + ' light for 30 minutes');
+        $("#light-menu").hide("fast");
+    };
 
 });
 
