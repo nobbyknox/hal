@@ -166,18 +166,18 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
         $("#light-menu").hide("fast");
     };
 
-    $scope.onFor10 = function() {
-        console.log('Turning on ' + $scope.menuLight.name + ' light for 10 minutes');
-        $("#light-menu").hide("fast");
-    };
-
-    $scope.onFor20 = function() {
-        console.log('Turning on ' + $scope.menuLight.name + ' light for 20 minutes');
+    $scope.onFor15 = function() {
+        console.log('Turning on ' + $scope.menuLight.name + ' light for 15 minutes');
         $("#light-menu").hide("fast");
     };
 
     $scope.onFor30 = function() {
         console.log('Turning on ' + $scope.menuLight.name + ' light for 30 minutes');
+        $("#light-menu").hide("fast");
+    };
+
+    $scope.onFor60 = function() {
+        console.log('Turning on ' + $scope.menuLight.name + ' light for 60 minutes');
         $("#light-menu").hide("fast");
     };
 
