@@ -3,6 +3,7 @@ BEGIN TRANSACTION;
 CREATE TABLE "lights" (
     "id" integer not null primary key autoincrement,
     "name" varchar(255) null,
+    "enabled" integer not null,
     "device" integer not null,
     "instance" integer not null,
     "controllerHost" varchar(255) not null,
@@ -18,6 +19,12 @@ CREATE TABLE "scenes" (
     "buttonClass" varchar(255) null,
     "iconClass" varchar(255) null,
     "action" varchar(255) null
+);
+
+CREATE TABLE "scenes_lights" (
+    "id" integer not null primary key autoincrement,
+    "scene_id" integer not null,
+    "light_id" integer not null
 );
 
 CREATE TABLE "schedules" (
@@ -40,7 +47,8 @@ CREATE TABLE "users" (
     "id" integer not null primary key autoincrement,
     "email" varchar(255) not null,
     "screenName" varchar(255) null,
-    "password" varchar(255) null
+    "password" varchar(255) null,
+    "enabled" integer not null
 );
 
 COMMIT;
