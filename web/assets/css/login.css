@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Tienne:400,900);
+
 body {
     background: url('../images/login-background.jpg') no-repeat center center fixed;
     background-size: cover;
@@ -8,10 +10,24 @@ body {
 .form-signin {
     background-color: rgba(31, 70, 102, 0.8);
     border-radius: 10px;
-    color: white;
-    max-width: 330px;
+    color: #dfdfdf;
     padding: 15px;
-    margin: 50px auto;
+    left: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 300px;
+    text-align: center;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    z-index: 10;
+
+}
+
+.form-signin h1 {
+    font-family: 'Tienne', serif;
+    font-size: 3em;
+    font-weight: bold;
 }
 
 .form-signin h3 {
@@ -21,7 +37,7 @@ body {
 }
 
 .form-signin a {
-    color: white;
+    color: #dfdfdf;
 }
 
 .form-signin .form-signin-heading,

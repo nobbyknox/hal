@@ -25,6 +25,8 @@ body {
 
 .fanfare h1 {
     font-family: 'Tienne', serif;
+    font-size: 3em;
+    font-weight: bold;
 }
 
 .fanfare p {
