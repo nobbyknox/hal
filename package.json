@@ -21,7 +21,7 @@
     "scripts": {
         "start": "HAL_ENV=development ./node_modules/.bin/nodemon lib/hal.js | ./node_modules/bunyan/bin/bunyan --color",
         "production": "HAL_ENV=production node lib/hal.js | ./node_modules/bunyan/bin/bunyan --no-color >> hal.log 2>> hal-error.log",
-        "test": "HAL_ENV=unittest ./node_modules/.bin/mocha -t 10000 --recursive -R spec test/ || true",
+        "test": "HAL_ENV=unittest ./node_modules/.bin/mocha -t 2000 --recursive -R spec test/ || true",
         "lint": "./node_modules/.bin/eslint lib || true"
     }
 }
