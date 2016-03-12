@@ -21,6 +21,12 @@ CREATE TABLE "scenes" (
     "action" varchar(255) null
 );
 
+CREATE TABLE "scenes_lights" (
+    "id" integer not null primary key autoincrement,
+    "scene_id" integer not null,
+    "light_id" integer not null
+);
+
 CREATE TABLE "schedules" (
     "id" integer not null primary key autoincrement,
     "cron" varchar(255) not null,
