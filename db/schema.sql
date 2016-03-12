@@ -3,6 +3,7 @@ BEGIN TRANSACTION;
 CREATE TABLE "lights" (
     "id" integer not null primary key autoincrement,
     "name" varchar(255) null,
+    "enabled" integer not null,
     "device" integer not null,
     "instance" integer not null,
     "controllerHost" varchar(255) not null,
@@ -40,7 +41,8 @@ CREATE TABLE "users" (
     "id" integer not null primary key autoincrement,
     "email" varchar(255) not null,
     "screenName" varchar(255) null,
-    "password" varchar(255) null
+    "password" varchar(255) null,
+    "enabled" integer not null
 );
 
 COMMIT;
