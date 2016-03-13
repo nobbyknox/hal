@@ -105,10 +105,10 @@ halApp.controller('LoginController', function($rootScope, $window) {
 halApp.controller('ControlCenterController', function($rootScope, $scope, $http, $timeout, $interval) {
 
     // Check status 2 seconds after controller has been loaded
-    $timeout(function() {
-        humane.log("Updating...");
-        manageLightStatusUpdate($scope.lights, $rootScope.sessionUser.token);
-    }, 2000);
+    // $timeout(function() {
+    //     humane.log("Updating...");
+    //     manageLightStatusUpdate($scope.lights, $rootScope.sessionUser.token);
+    // }, 2000);
 
     // Check status every 20 seconds
     //var updateTimer = $interval(function() {
@@ -121,13 +121,13 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
     //});
 
 
-    $http.get('/lights?enabled=1&token=' + $rootScope.sessionUser.token).success(function(data) {
-        $scope.lights = data;
-    });
+    // $http.get('/lights?enabled=1&token=' + $rootScope.sessionUser.token).success(function(data) {
+    //     $scope.lights = data;
+    // });
 
-    $http.get('/scenes?enabled=1&token=' + $rootScope.sessionUser.token).success(function(data) {
-        $scope.scenes = data;
-    });
+    // $http.get('/scenes?enabled=1&token=' + $rootScope.sessionUser.token).success(function(data) {
+    //     $scope.scenes = data;
+    // });
 
     //$scope.toggleLight = function(theLight) {
     //    toggleLight(theLight.id);

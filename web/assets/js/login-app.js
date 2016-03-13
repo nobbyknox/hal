@@ -25,7 +25,7 @@ loginApp.run(function($rootScope, $http, $cookies, $window) {
 
     if (biscuit) {
         console.log('Cookie: ' + biscuit);
-        $window.location = '/';
+        $window.location = 'hal.html';
     }
 
 });
