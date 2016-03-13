@@ -52,4 +52,8 @@ loginApp.controller('LoginController', function($scope, $rootScope, $http, $cook
                 $('#passwordAlert').show();
             });
     };
+
+    $scope.forgotPassword = function() {
+        alert('Soon, my lovely. Soon.');
+    };
 });
