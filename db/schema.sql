@@ -16,21 +16,21 @@ CREATE TABLE "scenes" (
     "description" text null,
     "visible" integer not null,
     "enabled" integer not null,
-    "buttonClass" text null,
-    "iconClass" text null,
+    "buttonMeta" text null,
+    "iconMeta" text null,
     "action" text null
 );
 
 CREATE TABLE "scenes_lights" (
     "id" text not null primary key,
-    "scene_id" integer not null,
-    "light_id" integer not null
+    "sceneId" integer not null,
+    "lightId" integer not null
 );
 
 CREATE TABLE "schedules" (
     "id" text not null primary key,
     "cron" text not null,
-    "scene_id" integer not null,
+    "sceneId" integer not null,
     "enabled" integer not null,
     "description" text null
 );
@@ -38,7 +38,7 @@ CREATE TABLE "schedules" (
 CREATE TABLE "token_cache" (
     "id" text not null primary key,
     "token" text not null,
-    "user_id" integer not null,
+    "userId" integer not null,
     "dateCreated" text null,
     "dateUpdated" text null
 );
