@@ -36,8 +36,12 @@ body {
     text-align: center;
 }
 
-.form-signin a {
+.form-signin .password-helper {
     color: #dfdfdf;
+}
+
+.form-signin .password-helper:hover {
+    color: white;
 }
 
 .form-signin .form-signin-heading,
