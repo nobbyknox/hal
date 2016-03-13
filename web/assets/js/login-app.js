@@ -45,7 +45,7 @@ loginApp.controller('LoginController', function($scope, $rootScope, $http, $cook
                 };
 
                 $cookies.putObject('halLogin', cookiePayload, { 'expires': new Date(2100, 1, 1) });
-                $window.location = '/';
+                $window.location = 'hal.html';
 
             }, function() {
                 $('#passwordAlert').show();
