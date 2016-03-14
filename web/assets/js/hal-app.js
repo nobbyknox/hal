@@ -6,7 +6,7 @@ halApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/',              { templateUrl: 'partials/control-center.html', controller: 'ControlCenterController' });
     $routeProvider.when('/login',         { templateUrl: 'partials/login-required.html', controller: 'LoginController' });
     $routeProvider.when('/logout',        { templateUrl: 'partials/logout.html', controller: 'LogoutController' });
-    $routeProvider.when('/about',         { templateUrl: 'partials/about.html', controller: 'AboutController' });
+    $routeProvider.when('/admin',         { templateUrl: 'partials/admin.html', controller: 'AdminController' });
     $routeProvider.when('/invalidRoute',  { templateUrl: 'partials/invalid-route.html' });
     $routeProvider.when('/schedules',     { templateUrl: 'partials/schedules.html', controller: 'SchedulesController' });
     $routeProvider.when('/schedules/new', { templateUrl: 'partials/schedule.html', controller: 'SchedulesNewController' });
@@ -95,8 +95,8 @@ halApp.run(function($rootScope, $http, $location, $window, $cookies) {
 
 });
 
-halApp.controller('AboutController', function($rootScope, $window) {
-    $rootScope.selectedArea = 'about';
+halApp.controller('AdminController', function($rootScope, $window) {
+    $rootScope.selectedArea = 'admin';
 });
 
 halApp.controller('LoginController', function($rootScope, $window) {
