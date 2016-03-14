@@ -7,9 +7,9 @@ INSERT into "lights" (id, name, enabled, device, instance, controllerHost, contr
 INSERT into "lights" (id, name, enabled, device, instance, controllerHost, controllerPort) VALUES ('9d5209ab-1e2b-463e-9495-d8b5cdd78195', 'Side Passage', 1, 3, 0, 'host1', 8083);
 
 -- Scenes
-INSERT into "scenes" (id, name, description, visible, enabled, buttonMeta, iconMeta, action) VALUES ('7830d3fc-bd6b-436e-a006-03b0619008a0', 'All On', 'Turns everything on', 1, 1, 'button', 'icon', 'on');
-INSERT into "scenes" (id, name, description, visible, enabled, buttonMeta, iconMeta, action) VALUES ('ad09e2e5-7178-49d9-b3ba-c6e37c7a8395', 'All Off', 'Turns everything off', 1, 1, 'button', 'icon', 'off');
-INSERT into "scenes" (id, name, description, visible, enabled, buttonMeta, iconMeta, action) VALUES ('e9d4c4d9-19f1-4367-be05-cc856f6e1e1f', 'Arrive At Night', 'Turns on a few lights when we arrive at night', 1, 1, 'button', 'icon', 'on');
+INSERT into "scenes" (id, name, description, visible, enabled, buttonMeta, iconMeta, action) VALUES ('7830d3fc-bd6b-436e-a006-03b0619008a0', 'All On', 'Turns everything on', 1, 1, 'btn-primary', 'glyphicon glyphicon-film', 'on');
+INSERT into "scenes" (id, name, description, visible, enabled, buttonMeta, iconMeta, action) VALUES ('ad09e2e5-7178-49d9-b3ba-c6e37c7a8395', 'All Off', 'Turns everything off', 1, 1, 'btn-warning', 'glyphicon glyphicon-off', 'off');
+INSERT into "scenes" (id, name, description, visible, enabled, buttonMeta, iconMeta, action) VALUES ('e9d4c4d9-19f1-4367-be05-cc856f6e1e1f', 'Arrive At Night', 'Turns on a few lights when we arrive at night', 1, 1, 'btn-primary', 'glyphicon glyphicon-film', 'on');
 
 -- Lights of scenes
 INSERT into "scenes_lights" (id, sceneId, lightId) VALUES ('8c6fafdf-b172-4385-bf5a-ca24d665f90c', '7830d3fc-bd6b-436e-a006-03b0619008a0', 'c35adb27-ed0e-4189-b1f4-47de24363fdf');
