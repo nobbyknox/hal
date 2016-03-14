@@ -107,8 +107,16 @@ halApp.controller('LoginController', function($rootScope, $window) {
 
 });
 
-halApp.controller('LogoutController', function($rootScope, $window) {
-    $rootScope.selectedArea = 'logout';
+halApp.controller('LogoutController', function($rootScope, $window, $cookies) {
+    $rootScope.selectedArea = 'logout'; // TODO: Maybe rename 'selectedArea' to 'region'?
+
+    $cookies.remove('halLogin');
+    $rootScope.sessionUser = null;
+
+    setTimeout(function() {
+        $window.location = '/';
+    }, 4000);
+                                
 });
 
 halApp.controller('ControlCenterController', function($rootScope, $scope, $http, $timeout, $interval) {
