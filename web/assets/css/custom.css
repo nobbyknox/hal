@@ -1,3 +1,9 @@
+/* TOOD: Rename this file to "hal.css" */
+
+body {
+    margin-top: 50px;
+}
+
 .input-help {
     font-style: italic;
 }
@@ -18,4 +24,49 @@
 
 .selectable {
     cursor: pointer;
+}
+
+.hal-nav {
+}
+
+.hal-nav ul {
+    background-color: #333;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+
+.hal-nav li {
+    float: left;
+    border-right:1px solid #bbb;
+}
+
+.hal-nav li:last-child {
+    border-right: none;
+}
+
+.hal-nav li a {
+    display: block;
+    color: #d8d7d7;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.hal-nav li a:hover {
+    color: white;
+}
+
+.hal-nav li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.hal-nav .active {
+    /* background-color: #4CAF50; */
+    background-color: #0C447B;
 }

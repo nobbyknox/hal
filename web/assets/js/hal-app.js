@@ -121,13 +121,13 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
     //});
 
 
-    // $http.get('/lights?enabled=1&token=' + $rootScope.sessionUser.token).success(function(data) {
-    //     $scope.lights = data;
-    // });
+    $http.get('/lights?enabled=1&token=' + $rootScope.sessionUser.token).success(function(data) {
+        $scope.lights = data;
+    });
 
-    // $http.get('/scenes?enabled=1&token=' + $rootScope.sessionUser.token).success(function(data) {
-    //     $scope.scenes = data;
-    // });
+    $http.get('/scenes?enabled=1&token=' + $rootScope.sessionUser.token).success(function(data) {
+        $scope.scenes = data;
+    });
 
     //$scope.toggleLight = function(theLight) {
     //    toggleLight(theLight.id);
