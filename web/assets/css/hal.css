@@ -95,12 +95,12 @@ body {
 
 .admin-menu li {
     float: left;
-    border-right:1px solid #bbb;
+    /* border-right:1px solid #bbb; */
 }
 
-.admin-menu li:last-child {
-    border-right: none;
-}
+/* .admin-menu li:last-child { */
+/*     border-right: none; */
+/* } */
 
 .admin-menu li a {
     display: block;
