@@ -96,13 +96,9 @@ halApp.run(function($rootScope, $http, $location, $window, $cookies) {
 
 });
 
-halApp.controller('AdminController', function($rootScope, $window) {
-    // TODO: Rename 'selectedArea' to 'selectedMenu'. New item 'selectedSubMenu' to come.
-    $rootScope.selectedArea = 'admin';
-});
-
 halApp.controller('AboutController', function($rootScope, $window) {
-    $rootScope.selectedArea = 'about';
+    $rootScope.selectedMenu = 'admin';
+    $rootScope.selectedSubMenu = 'about';
 });
 
 halApp.controller('LoginController', function($rootScope, $window) {
@@ -112,7 +108,8 @@ halApp.controller('LoginController', function($rootScope, $window) {
 });
 
 halApp.controller('LogoutController', function($rootScope, $window, $cookies) {
-    $rootScope.selectedArea = 'logout'; // TODO: Maybe rename 'selectedArea' to 'region'?
+    $rootScope.selectedMenu = 'logout';
+    $rootScope.selectedSubMenu = '';
 
     $cookies.remove('halLogin');
     $rootScope.sessionUser = null;
@@ -125,7 +122,8 @@ halApp.controller('LogoutController', function($rootScope, $window, $cookies) {
 
 halApp.controller('ControlCenterController', function($rootScope, $scope, $http, $timeout, $interval) {
 
-    $rootScope.selectedArea = 'control-center';
+    $rootScope.selectedMenu = 'control-center';
+    $rootScope.selectedSubMenu = '';
 
     // Check status 2 seconds after controller has been loaded
     // $timeout(function() {
@@ -163,6 +161,9 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
 });
 
 halApp.controller('SchedulesController', function($rootScope, $scope, $http, $location) {
+
+    $rootScope.selectedMenu = 'admin';
+    $rootScope.selectedSubMenu = 'schedules';
 
     $http.get('/schedules?token=' + $rootScope.sessionUser.token).success(function(data) {
         $scope.schedules = data;

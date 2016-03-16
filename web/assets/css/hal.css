@@ -1,5 +1,3 @@
-/* TOOD: Rename this file to "hal.css" */
-
 body {
     margin-top: 62px;
 }
@@ -47,11 +45,6 @@ body {
 
 .hal-nav li {
     float: left;
-    border-right:1px solid #bbb;
-}
-
-.hal-nav li:last-child {
-    border-right: none;
 }
 
 .hal-nav li a {
@@ -95,12 +88,7 @@ body {
 
 .admin-menu li {
     float: left;
-    /* border-right:1px solid #bbb; */
 }
-
-/* .admin-menu li:last-child { */
-/*     border-right: none; */
-/* } */
 
 .admin-menu li a {
     display: block;
@@ -115,5 +103,7 @@ body {
 }
 
 .admin-menu .active {
-    background-color: #4CAF50;
+    /* background-color: #4CAF50; */
+    background-color: #3078BF;
+    /* background-color: green; */
 }
