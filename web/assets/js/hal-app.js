@@ -9,8 +9,10 @@ halApp.config(['$routeProvider', function($routeProvider) {
     // $routeProvider.when('/admin',         { templateUrl: 'partials/admin.html', controller: 'AdminController' });
     $routeProvider.when('/about',         { templateUrl: 'partials/about.html', controller: 'AboutController' });
     $routeProvider.when('/invalidRoute',  { templateUrl: 'partials/invalid-route.html' });
+    $routeProvider.when('/lights',        { templateUrl: 'partials/lights.html', controller: 'LightsController' });
+    $routeProvider.when('/lights/:id',    { templateUrl: 'partials/light.html', controller: 'LightController' });
     $routeProvider.when('/schedules',     { templateUrl: 'partials/schedules.html', controller: 'SchedulesController' });
-    $routeProvider.when('/schedules/new', { templateUrl: 'partials/schedule.html', controller: 'SchedulesNewController' });
+    // $routeProvider.when('/schedules/new', { templateUrl: 'partials/schedule.html', controller: 'SchedulesNewController' });
     $routeProvider.when('/schedule/:id',  { templateUrl: 'partials/schedule.html', controller: 'ScheduleController' });
     $routeProvider.when('/sysInfo',       { templateUrl: 'partials/sys-info.html', controller: 'SysInfoController' });
     $routeProvider.when('/garageCam',     { templateUrl: 'partials/garage-cam.html', controller: 'GarageCamController' });
@@ -159,6 +161,47 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
     //};
 
 });
+
+// ------
+// Lights
+// ------
+
+halApp.controller('LightsController', function($rootScope, $scope, $http, $location) {
+
+    $rootScope.selectedMenu = 'admin';
+    $rootScope.selectedSubMenu = 'lights';
+
+    $http.get('/lights?token=' + $rootScope.sessionUser.token)
+        .then(function(response) {
+            $scope.lights = response.data;
+        });
+
+    $scope.showDetail = function(id) {
+        $location.path('/light/' + id);
+    }
+});
+
+halApp.controller('LightController', function($scope, $http, $location, $routeParams) {
+
+    $http.get('/lights/' + $routeParams.id + '?token=' + $rootScope.sessionUser.token)
+        .then(function(response) {
+            $scope.light = response.data;
+        });
+
+    $scope.submitForm = function() {
+        $http({
+            method: 'PUT',
+            url: '/lights',
+            data: JSON.stringify($scope.light)
+        }).then(function() {
+            $location.path('/lights');
+        });
+    }
+});
+
+// ---------
+// Schedules
+// ---------
 
 halApp.controller('SchedulesController', function($rootScope, $scope, $http, $location) {
 

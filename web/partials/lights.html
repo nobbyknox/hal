@@ -1,0 +1,28 @@
+<div class="admin-menu" ng-include="'partials/includes/admin-menu.html'"></div>
+
+<div class="row">
+    <h2 class="col-xs-12 col-sm-12 col-md-12">Lights</h2>
+</div>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Enabled</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="light in lights" ng-click="showDetail(light.id)" class='selectable'>
+            <td>{{ light.id }}</td>
+            <td>{{ light.name }}</td>
+            <td>{{ light.enabled }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 text-right">
+        <a href="#/lights/new"><span class='glyphicon glyphicon-plus'></span> Create Light</a>
+    </div>
+</div>
