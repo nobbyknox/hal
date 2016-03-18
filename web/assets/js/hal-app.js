@@ -181,7 +181,12 @@ halApp.controller('LightsController', function($rootScope, $scope, $http, $locat
     }
 });
 
-halApp.controller('LightController', function($scope, $http, $location, $routeParams) {
+halApp.controller('LightController', function($rootScope, $scope, $http, $location, $routeParams) {
+
+    $rootScope.selectedMenu = 'admin';
+    $rootScope.selectedSubMenu = 'lights';
+
+    $scope.light = {};
 
     $http.get('/lights/' + $routeParams.id + '?token=' + $rootScope.sessionUser.token)
         .then(function(response) {
@@ -189,13 +194,23 @@ halApp.controller('LightController', function($scope, $http, $location, $routePa
         });
 
     $scope.submitForm = function() {
-        $http({
-            method: 'PUT',
-            url: '/lights',
-            data: JSON.stringify($scope.light)
-        }).then(function() {
-            $location.path('/lights');
-        });
+        if ($scope.light.id && $scope.light.id > 0) {
+            $http({
+                method: 'PUT',
+                url: '/lights',
+                data: JSON.stringify($scope.light)
+            }).then(function() {
+                $location.path('/lights');
+            });
+        } else {
+            $http({
+                method: 'POST',
+                url: '/lights',
+                data: JSON.stringify($scope.light)
+            }).then(function() {
+                $location.path('/lights');
+            });
+        }
     }
 });
 
@@ -232,7 +247,7 @@ halApp.controller('SchedulesNewController', function($scope, $http, $location) {
     }
 });
 
-halApp.controller('ScheduleController', function($scope, $http, $location, $routeParams) {
+halApp.controller('ScheduleController', function($rootScope, $scope, $http, $location, $routeParams) {
 
     $http.get('/schedule/' + $routeParams.id + '?token=' + $rootScope.sessionUser.token).success(function(data) {
         $scope.schedule = data;
