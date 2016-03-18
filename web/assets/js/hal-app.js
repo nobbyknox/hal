@@ -232,35 +232,46 @@ halApp.controller('SchedulesController', function($rootScope, $scope, $http, $lo
     }
 });
 
-halApp.controller('SchedulesNewController', function($scope, $http, $location) {
+// halApp.controller('SchedulesNewController', function($scope, $http, $location) {
 
-    $scope.schedule = {};
+//     $scope.schedule = {};
 
-    $scope.submitForm = function() {
-        $http({
-            method: 'POST',
-            url: '/schedule/',
-            data: JSON.stringify({ id: 0, cron: $scope.schedule.cron, sceneId: $scope.schedule.sceneId, description: $scope.schedule.description })
-        }).success(function() {
-            $location.path('/schedules');
-        });
-    }
-});
+//     $scope.submitForm = function() {
+//         $http({
+//             method: 'POST',
+//             url: '/schedule/',
+//             data: JSON.stringify({ id: 0, cron: $scope.schedule.cron, sceneId: $scope.schedule.sceneId, description: $scope.schedule.description })
+//         }).success(function() {
+//             $location.path('/schedules');
+//         });
+//     }
+// });
 
 halApp.controller('ScheduleController', function($rootScope, $scope, $http, $location, $routeParams) {
 
-    $http.get('/schedule/' + $routeParams.id + '?token=' + $rootScope.sessionUser.token).success(function(data) {
-        $scope.schedule = data;
-    });
+    $http.get('/schedules/' + $routeParams.id + '?token=' + $rootScope.sessionUser.token)
+        .then(function(response) {
+            $scope.schedule = response.data;
+        });
 
     $scope.submitForm = function() {
-        $http({
-            method: 'PUT',
-            url: '/schedule/' + $scope.schedule.id,
-            data: JSON.stringify({ id: $scope.schedule.id, cron: $scope.schedule.cron, sceneId: $scope.schedule.sceneId, description: $scope.schedule.description })
-        }).success(function() {
-            $location.path('/schedules');
-        });
+        if ($scope.schedule.id && $scope.schedule.id > 0) {
+            $http({
+                method: 'PUT',
+                url: '/schedule/' + $scope.schedule.id,
+                data: $scope.schedule
+            }).success(function() {
+                $location.path('/schedules');
+            });
+        } else {
+            $http({
+                method: 'PUT',
+                url: '/schedule/' + $scope.schedule.id,
+                data: $scope.schedule
+            }).success(function() {
+                $location.path('/schedules');
+            });
+        }
     }
 });
 
