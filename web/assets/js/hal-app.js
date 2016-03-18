@@ -177,7 +177,7 @@ halApp.controller('LightsController', function($rootScope, $scope, $http, $locat
         });
 
     $scope.showDetail = function(id) {
-        $location.path('/light/' + id);
+        $location.path('/lights/' + id);
     }
 });
 
