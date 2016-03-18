@@ -265,6 +265,9 @@ halApp.controller('SchedulesController', function($rootScope, $scope, $http, $lo
 
 halApp.controller('ScheduleController', function($rootScope, $scope, $http, $location, $routeParams) {
 
+    $rootScope.selectedMenu = 'admin';
+    $rootScope.selectedSubMenu = 'schedules';
+
     $http.get('/schedules/' + $routeParams.id)
         .then(function(response) {
             $scope.schedule = response.data;
