@@ -5,12 +5,28 @@
 <div class="row">
     <form role="form" class="col-sm-12 col-md-12" ng-submit="submitForm()">
         <div class="form-group">
-            <label>ID</label>
-            <input type="text" ng-model="light.id" class="form-control" disabled="disabled"/>
-        </div>
-        <div class="form-group">
             <label>Name</label>
             <input type="text" ng-model="light.name" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label>Enabled</label>
+            <input type="checkbox" ng-model="light.enabled" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label>Device</label>
+            <input type="number" ng-model="light.device" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label>Instance</label>
+            <input type="number" ng-model="light.instance" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label>Host</label>
+            <input type="text" ng-model="light.controllerHost" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label>Port</label>
+            <input type="number" ng-model="light.controllerPort" class="form-control"/>
         </div>
     </form>
 </div>

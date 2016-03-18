@@ -5,14 +5,12 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <th>ID</th>
         <th>Name</th>
         <th>Enabled</th>
     </tr>
     </thead>
     <tbody>
         <tr ng-repeat="light in lights" ng-click="showDetail(light.id)" class='selectable'>
-            <td>{{ light.id }}</td>
             <td>{{ light.name }}</td>
             <td>{{ light.enabled }}</td>
         </tr>
