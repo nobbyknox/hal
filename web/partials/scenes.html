@@ -1,0 +1,26 @@
+<div class="admin-menu" ng-include="'partials/includes/admin-menu.html'"></div>
+
+<h2>Scenes</h2>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Enabled</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="scene in scenes" ng-click="showDetail(scene.id)" class='selectable'>
+            <td>{{ scene.id }}</td>
+            <td>{{ scene.name }}</td>
+            <td>{{ scene.enabled }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 text-right">
+        <a href="#/scenes/new"><span class='glyphicon glyphicon-plus'></span> Create Scene</a>
+    </div>
+</div>

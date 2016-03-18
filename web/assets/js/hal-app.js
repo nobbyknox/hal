@@ -11,6 +11,8 @@ halApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/invalidRoute',  { templateUrl: 'partials/invalid-route.html' });
     $routeProvider.when('/lights',        { templateUrl: 'partials/lights.html', controller: 'LightsController' });
     $routeProvider.when('/lights/:id',    { templateUrl: 'partials/light.html', controller: 'LightController' });
+    $routeProvider.when('/scenes',        { templateUrl: 'partials/scenes.html', controller: 'ScenesController' });
+    $routeProvider.when('/scenes/:id',    { templateUrl: 'partials/scene.html', controller: 'SceneController' });
     $routeProvider.when('/schedules',     { templateUrl: 'partials/schedules.html', controller: 'SchedulesController' });
     // $routeProvider.when('/schedules/new', { templateUrl: 'partials/schedule.html', controller: 'SchedulesNewController' });
     $routeProvider.when('/schedule/:id',  { templateUrl: 'partials/schedule.html', controller: 'ScheduleController' });
@@ -135,7 +137,7 @@ halApp.controller('LogoutController', function($rootScope, $window, $cookies) {
     setTimeout(function() {
         $window.location = '/';
     }, 4000);
-                                
+
 });
 
 halApp.controller('ControlCenterController', function($rootScope, $scope, $http, $timeout, $interval) {
@@ -178,9 +180,9 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
 
 });
 
-// ------
+// -----------------------------------------------------------------------------
 // Lights
-// ------
+// -----------------------------------------------------------------------------
 
 halApp.controller('LightsController', function($rootScope, $scope, $http, $location) {
 
@@ -230,9 +232,61 @@ halApp.controller('LightController', function($rootScope, $scope, $http, $locati
     }
 });
 
-// ---------
+// -----------------------------------------------------------------------------
+// Scenes
+// -----------------------------------------------------------------------------
+
+halApp.controller('ScenesController', function($rootScope, $scope, $http, $location) {
+
+    $rootScope.selectedMenu = 'admin';
+    $rootScope.selectedSubMenu = 'scenes';
+
+    $http.get('/scenes')
+        .then(function(response) {
+            $scope.scenes = response.data;
+        });
+
+    $scope.showDetail = function(id) {
+        $location.path('/scenes/' + id);
+    }
+});
+
+halApp.controller('SceneController', function($rootScope, $scope, $http, $location, $routeParams) {
+
+    $rootScope.selectedMenu = 'admin';
+    $rootScope.selectedSubMenu = 'scenes';
+
+    $scope.scene = {};
+
+    $http.get('/scenes/' + $routeParams.id)
+        .then(function(response) {
+            $scope.scene = response.data;
+        });
+
+    $scope.submitForm = function() {
+        if ($scope.scene.id && $scope.scene.id > 0) {
+            $http({
+                method: 'PUT',
+                url: '/scenes',
+                data: JSON.stringify($scope.scene)
+            }).then(function() {
+                $location.path('/scenes');
+            });
+        } else {
+            $http({
+                method: 'POST',
+                url: '/scenes',
+                data: JSON.stringify($scope.scene)
+            }).then(function() {
+                $location.path('/scenes');
+            });
+        }
+    }
+});
+
+// -----------------------------------------------------------------------------
 // Schedules
-// ---------
+// -----------------------------------------------------------------------------
 
 halApp.controller('SchedulesController', function($rootScope, $scope, $http, $location) {
 
