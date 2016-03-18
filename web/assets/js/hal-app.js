@@ -19,6 +19,22 @@ halApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.otherwise({ redirectTo: '/invalidRoute' });
 }]);
 
+halApp.config(['$httpProvider', function($http) {
+    $http.interceptors.push(function($q, $cookies, $rootScope) {
+        return {
+            'request': function(config) {
+                if ($rootScope.sessionUser && $rootScope.sessionUser.token) {
+                    config.headers['token'] = $rootScope.sessionUser.token;
+                }
+                return config;
+            },
+            'response': function(config) {
+                return config;
+            }
+        };
+    });
+}]);
+
 halApp.run(function($rootScope, $http, $location, $window, $cookies) {
 
     $rootScope.sessionUser = $cookies.getObject('halLogin');
@@ -171,7 +187,7 @@ halApp.controller('LightsController', function($rootScope, $scope, $http, $locat
     $rootScope.selectedMenu = 'admin';
     $rootScope.selectedSubMenu = 'lights';
 
-    $http.get('/lights?token=' + $rootScope.sessionUser.token)
+    $http.get('/lights')
         .then(function(response) {
             $scope.lights = response.data;
         });
@@ -188,7 +204,7 @@ halApp.controller('LightController', function($rootScope, $scope, $http, $locati
 
     $scope.light = {};
 
-    $http.get('/lights/' + $routeParams.id + '?token=' + $rootScope.sessionUser.token)
+    $http.get('/lights/' + $routeParams.id)
         .then(function(response) {
             $scope.light = response.data;
         });
@@ -249,7 +265,7 @@ halApp.controller('SchedulesController', function($rootScope, $scope, $http, $lo
 
 halApp.controller('ScheduleController', function($rootScope, $scope, $http, $location, $routeParams) {
 
-    $http.get('/schedules/' + $routeParams.id + '?token=' + $rootScope.sessionUser.token)
+    $http.get('/schedules/' + $routeParams.id)
         .then(function(response) {
             $scope.schedule = response.data;
         });
