@@ -6,7 +6,6 @@ halApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/',              { templateUrl: 'partials/control-center.html', controller: 'ControlCenterController' });
     $routeProvider.when('/login',         { templateUrl: 'partials/login-required.html', controller: 'LoginController' });
     $routeProvider.when('/logout',        { templateUrl: 'partials/logout.html', controller: 'LogoutController' });
-    // $routeProvider.when('/admin',         { templateUrl: 'partials/admin.html', controller: 'AdminController' });
     $routeProvider.when('/about',         { templateUrl: 'partials/about.html', controller: 'AboutController' });
     $routeProvider.when('/invalidRoute',  { templateUrl: 'partials/invalid-route.html' });
     $routeProvider.when('/lights',        { templateUrl: 'partials/lights.html', controller: 'LightsController' });
@@ -14,7 +13,6 @@ halApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/scenes',        { templateUrl: 'partials/scenes.html', controller: 'ScenesController' });
     $routeProvider.when('/scenes/:id',    { templateUrl: 'partials/scene.html', controller: 'SceneController' });
     $routeProvider.when('/schedules',     { templateUrl: 'partials/schedules.html', controller: 'SchedulesController' });
-    // $routeProvider.when('/schedules/new', { templateUrl: 'partials/schedule.html', controller: 'SchedulesNewController' });
     $routeProvider.when('/schedule/:id',  { templateUrl: 'partials/schedule.html', controller: 'ScheduleController' });
     $routeProvider.when('/sysInfo',       { templateUrl: 'partials/sys-info.html', controller: 'SysInfoController' });
     $routeProvider.when('/garageCam',     { templateUrl: 'partials/garage-cam.html', controller: 'GarageCamController' });
@@ -229,7 +227,7 @@ halApp.controller('LightController', function($rootScope, $scope, $http, $locati
                 $location.path('/lights');
             });
         }
-    }
+    };
 });
 
 // -----------------------------------------------------------------------------
@@ -376,18 +374,79 @@ halApp.directive('appVersion', function() {
     };
 });
 
+/**
+ * Bootstrap-toggle Directive
+ * Forked from from: https://gist.github.com/dave-newson/f6c5e9c2f3bc315e292c
+ * This version supports ngDisabled directive.
+ *
+ * @link https://gist.github.com/jjmontesl/54457bf1342edeb218b7
+ */
+halApp.directive('toggleCheckbox', function() {
+
+    return {
+        restrict: 'A',
+        transclude: true,
+        replace: false,
+        require: 'ngModel',
+        link: function($scope, $element, $attr, require) {
+
+            var ngModel = require;
+
+            // update model from Element
+            var updateModelFromElement = function() {
+                // If modified
+                var checked = $element.prop('checked');
+                if (checked != ngModel.$viewValue) {
+                    // Update ngModel
+                    ngModel.$setViewValue(checked);
+                    $scope.$apply();
+                }
+            };
+
+            // Update input from Model
+            var updateElementFromModel = function() {
+                // Update button state to match model
+                var state = !$($element).attr('disabled');
+                $($element).bootstrapToggle("enable");
+                $element.trigger('change');
+                $($element).bootstrapToggle(state ? "enable" : "disable");
+            };
+
+            // Observe: Element changes affect Model
+            $element.on('change', function() {
+                updateModelFromElement();
+            });
+
+            // Observe: ngModel for changes
+            $scope.$watch(function() {
+                return ngModel.$viewValue;
+            }, function() {
+                updateElementFromModel();
+            });
+
+            // Observe: disabled attribute set by ngDisabled
+            $scope.$watch(function() {
+                return $($element).attr('disabled');
+            }, function(newVal) {
+                $($element).bootstrapToggle(!newVal ? "enable" : "disable");
+            });
+
+            // Initialise BootstrapToggle
+            // See http://www.bootstraptoggle.com/#api for more details
+            $element.bootstrapToggle({
+                on: $attr.on || "On",
+                off: $attr.off || "Off",
+                size: $attr.size || 'small'
+            });
+
+        }
+    };
+});
+
 
 // -----------------------------------------------------------------------------
 // Private functions
 // -----------------------------------------------------------------------------
 
 function bootstrapApp($rootScope, $http) {
-
-    // if ($rootScope.sessionUser) {
-    //     $http.get('/groups?token=' + $rootScope.sessionUser.token)
-    //         .success(function(data) {
-    //             $rootScope.groups = data;
-    //         });
-    // }
-
 }

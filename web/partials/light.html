@@ -3,30 +3,42 @@
 <h2>Light</h2>
 
 <div class="row">
-    <form role="form" class="col-sm-12 col-md-12" ng-submit="submitForm()">
+    <form role="form" class="col-sm-12 col-md-12 form-horizontal" ng-submit="submitForm()">
         <div class="form-group">
-            <label>Name</label>
-            <input type="text" ng-model="light.name" class="form-control"/>
+            <label class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-10">
+                <input type="text" ng-model="light.name" class="form-control"/>
+            </div>
         </div>
         <div class="form-group">
-            <label>Enabled</label>
-            <input type="checkbox" ng-model="light.enabled" class="form-control"/>
+            <label class="col-sm-2 control-label">Status</label>
+            <div class="col-sm-10">
+                <input type="checkbox" toggle-checkbox data-size="small" data-on="Enabled" data-off="Disabled" data-onstyle="success" data-offstyle="danger" ng-model="light.enabled" ng-true-value="1" ng-false-value="0">
+            </div>
         </div>
         <div class="form-group">
-            <label>Device</label>
-            <input type="number" ng-model="light.device" class="form-control"/>
+            <label class="col-sm-2 control-label">Device</label>
+            <div class="col-sm-10">
+                <input type="number" ng-model="light.device" class="form-control"/>
+            </div>
         </div>
         <div class="form-group">
-            <label>Instance</label>
-            <input type="number" ng-model="light.instance" class="form-control"/>
+            <label class="col-sm-2 control-label">Instance</label>
+            <div class="col-sm-10">
+                <input type="number" ng-model="light.instance" class="form-control"/>
+            </div>
         </div>
         <div class="form-group">
-            <label>Host</label>
-            <input type="text" ng-model="light.controllerHost" class="form-control"/>
+            <label class="col-sm-2 control-label">Host</label>
+            <div class="col-sm-10">
+                <input type="text" ng-model="light.controllerHost" class="form-control"/>
+            </div>
         </div>
         <div class="form-group">
-            <label>Port</label>
-            <input type="number" ng-model="light.controllerPort" class="form-control"/>
+            <label class="col-sm-2 control-label">Port</label>
+            <div class="col-sm-10">
+                <input type="number" ng-model="light.controllerPort" class="form-control"/>
+            </div>
         </div>
     </form>
 </div>
