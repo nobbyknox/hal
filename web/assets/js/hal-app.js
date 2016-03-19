@@ -202,7 +202,9 @@ halApp.controller('LightController', function($rootScope, $scope, $http, $locati
     $rootScope.selectedMenu = 'admin';
     $rootScope.selectedSubMenu = 'lights';
 
-    $scope.light = {};
+    $scope.light = {
+        'enabled': 1
+    };
 
     $http.get('/lights/' + $routeParams.id)
         .then(function(response) {
@@ -210,7 +212,7 @@ halApp.controller('LightController', function($rootScope, $scope, $http, $locati
         });
 
     $scope.submitForm = function() {
-        if ($scope.light.id && $scope.light.id > 0) {
+        if ($scope.light.id && $scope.light.id.trim().length > 0) {
             $http({
                 method: 'PUT',
                 url: '/lights',
@@ -229,6 +231,7 @@ halApp.controller('LightController', function($rootScope, $scope, $http, $locati
         }
     };
 });
+
 
 // -----------------------------------------------------------------------------
 // Scenes
