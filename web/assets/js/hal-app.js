@@ -219,6 +219,8 @@ halApp.controller('LightController', function($rootScope, $scope, $http, $locati
                 data: JSON.stringify($scope.light)
             }).then(function() {
                 $location.path('/lights');
+            }, function(response) {
+                alert(JSON.stringify(response.data));
             });
         } else {
             $http({
@@ -227,6 +229,8 @@ halApp.controller('LightController', function($rootScope, $scope, $http, $locati
                 data: JSON.stringify($scope.light)
             }).then(function() {
                 $location.path('/lights');
+            }, function(response) {
+                alert(JSON.stringify(response.data));
             });
         }
     };
