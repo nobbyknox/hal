@@ -14,7 +14,7 @@
         <tr ng-repeat="scene in scenes" ng-click="showDetail(scene.id)" class='selectable'>
             <td>{{ scene.id }}</td>
             <td>{{ scene.name }}</td>
-            <td>{{ scene.enabled }}</td>
+            <td><input type="checkbox" toggle-checkbox data-size="small" data-on="Enabled" data-off="Disabled" data-onstyle="success" data-offstyle="danger" ng-model="scene.enabled" ng-true-value="1" ng-false-value="0" disabled></td>
         </tr>
     </tbody>
 </table>

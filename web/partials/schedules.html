@@ -8,6 +8,7 @@
         <th>ID</th>
         <th>Cron</th>
         <th>Description</th>
+        <th>Status</th>
     </tr>
     </thead>
     <tbody>
@@ -15,6 +16,7 @@
             <td>{{ schedule.id }}</td>
             <td>{{ schedule.cron }}</td>
             <td>{{ schedule.description }}</td>
+            <td><input type="checkbox" toggle-checkbox data-size="small" data-on="Enabled" data-off="Disabled" data-onstyle="success" data-offstyle="danger" ng-model="schedule.enabled" ng-true-value="1" ng-false-value="0" disabled></td>
         </tr>
     </tbody>
 </table>
