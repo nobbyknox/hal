@@ -261,7 +261,9 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
     $rootScope.selectedMenu = 'admin';
     $rootScope.selectedSubMenu = 'scenes';
 
-    $scope.scene = {};
+    $scope.scene = {
+        'enabled': true
+    };
 
     $http.get('/scenes/' + $routeParams.id)
         .then(function(response) {
@@ -269,7 +271,7 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
         });
 
     $scope.submitForm = function() {
-        if ($scope.scene.id && $scope.scene.id > 0) {
+        if (!isUndefinedOrEmpty($scope.scene.id)) {
             $http({
                 method: 'PUT',
                 url: '/scenes',
@@ -456,4 +458,21 @@ halApp.directive('toggleCheckbox', function() {
 // -----------------------------------------------------------------------------
 
 function bootstrapApp($rootScope, $http) {
+}
+
+// -----------------------------------------------------------------------------
+// Utility functions
+// -----------------------------------------------------------------------------
+
+function isUndefinedOrEmpty(testValue) {
+    if (testValue === undefined || testValue === null) {
+        return true;
+    } else {
+        if (typeof testValue === 'string') {
+            return testValue === undefined || testValue === null || testValue.replace(/^\s+|\s+$/gm,'').length === 0;
+        } else {
+            // We only cater for strings and return false for everything else.
+            return false;
+        }
+    }
 }
