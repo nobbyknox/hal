@@ -4,5 +4,6 @@ hal.iml
 scratch.txt
 *.sqlite3
 *.sh
+bower_components/
 node_modules/
 config/private.json
