@@ -13,7 +13,7 @@ halApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/scenes',        { templateUrl: 'partials/scenes.html', controller: 'ScenesController' });
     $routeProvider.when('/scenes/:id',    { templateUrl: 'partials/scene.html', controller: 'SceneController' });
     $routeProvider.when('/schedules',     { templateUrl: 'partials/schedules.html', controller: 'SchedulesController' });
-    $routeProvider.when('/schedule/:id',  { templateUrl: 'partials/schedule.html', controller: 'ScheduleController' });
+    $routeProvider.when('/schedules/:id', { templateUrl: 'partials/schedule.html', controller: 'ScheduleController' });
     $routeProvider.when('/sysInfo',       { templateUrl: 'partials/sys-info.html', controller: 'SysInfoController' });
     $routeProvider.when('/garageCam',     { templateUrl: 'partials/garage-cam.html', controller: 'GarageCamController' });
     $routeProvider.otherwise({ redirectTo: '/invalidRoute' });
@@ -312,48 +312,42 @@ halApp.controller('SchedulesController', function($rootScope, $scope, $http, $lo
     });
 
     $scope.showDetail = function(id) {
-        $location.path('/schedule/' + id);
+        $location.path('/schedules/' + id);
     }
 });
-
-// halApp.controller('SchedulesNewController', function($scope, $http, $location) {
-
-//     $scope.schedule = {};
-
-//     $scope.submitForm = function() {
-//         $http({
-//             method: 'POST',
-//             url: '/schedule/',
-//             data: JSON.stringify({ id: 0, cron: $scope.schedule.cron, sceneId: $scope.schedule.sceneId, description: $scope.schedule.description })
-//         }).success(function() {
-//             $location.path('/schedules');
-//         });
-//     }
-// });
 
 halApp.controller('ScheduleController', function($rootScope, $scope, $http, $location, $routeParams) {
 
     $rootScope.selectedMenu = 'admin';
     $rootScope.selectedSubMenu = 'schedules';
 
-    $http.get('/schedules/' + $routeParams.id)
-        .then(function(response) {
-            $scope.schedule = response.data;
-        });
+    $('#cron').focus();
+
+    // Default values for new schedules
+    $scope.schedule = {
+        'enabled': 1
+    };
+
+    if ($routeParams.id && $routeParams.id !== 'new') {
+        $http.get('/schedules/' + $routeParams.id)
+            .then(function(response) {
+                $scope.schedule = response.data;
+            });
+    }
 
     $scope.submitForm = function() {
         if (!isUndefinedOrEmpty($scope.schedule.id)) {
             $http({
                 method: 'PUT',
-                url: '/schedule/' + $scope.schedule.id,
+                url: '/schedules',
                 data: $scope.schedule
             }).success(function() {
                 $location.path('/schedules');
             });
         } else {
             $http({
-                method: 'PUT',
-                url: '/schedule/' + $scope.schedule.id,
+                method: 'POST',
+                url: '/schedules',
                 data: $scope.schedule
             }).success(function() {
                 $location.path('/schedules');
