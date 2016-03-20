@@ -212,7 +212,7 @@ halApp.controller('LightController', function($rootScope, $scope, $http, $locati
         });
 
     $scope.submitForm = function() {
-        if ($scope.light.id && $scope.light.id.trim().length > 0) {
+        if (!isUndefinedOrEmpty($scope.light.id)) {
             $http({
                 method: 'PUT',
                 url: '/lights',
@@ -458,21 +458,4 @@ halApp.directive('toggleCheckbox', function() {
 // -----------------------------------------------------------------------------
 
 function bootstrapApp($rootScope, $http) {
-}
-
-// -----------------------------------------------------------------------------
-// Utility functions
-// -----------------------------------------------------------------------------
-
-function isUndefinedOrEmpty(testValue) {
-    if (testValue === undefined || testValue === null) {
-        return true;
-    } else {
-        if (typeof testValue === 'string') {
-            return testValue === undefined || testValue === null || testValue.replace(/^\s+|\s+$/gm,'').length === 0;
-        } else {
-            // We only cater for strings and return false for everything else.
-            return false;
-        }
-    }
 }
