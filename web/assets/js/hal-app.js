@@ -335,7 +335,7 @@ halApp.controller('ScheduleController', function($rootScope, $scope, $http, $loc
         });
 
     $scope.submitForm = function() {
-        if ($scope.schedule.id && $scope.schedule.id > 0) {
+        if (!isUndefinedOrEmpty($scope.schedule.id)) {
             $http({
                 method: 'PUT',
                 url: '/schedule/' + $scope.schedule.id,
@@ -447,7 +447,6 @@ halApp.directive('toggleCheckbox', function() {
                 off: $attr.off || "Off",
                 size: $attr.size || 'small'
             });
-
         }
     };
 });
@@ -457,5 +456,7 @@ halApp.directive('toggleCheckbox', function() {
 // Private functions
 // -----------------------------------------------------------------------------
 
+// TODO: This function should either be used or removed. It can't be
+// hanging around indefinitely.
 function bootstrapApp($rootScope, $http) {
 }
