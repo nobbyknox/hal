@@ -3,34 +3,40 @@
 <h2>Schedule</h2>
 
 <div class="row">
-    <form role="form" class="col-sm-12 col-md-12" ng-submit="submitForm()">
+    <form role="form" class="col-sm-12 col-md-12 form-horizontal" ng-submit="submitForm()">
         <input type="submit" hidden />
 
         <div class="form-group">
-            <label>Cron</label>
-            <input type="text" ng-model="schedule.cron" class="form-control"/>
-            <span class='input-help'>Cron values are specified as six space delimited values.
-                They are: second, minute, hour, day of month, month, day of week. For
-                more information, see the
-                <a href="https://github.com/ncb000gt/node-cron">documentation</a>.</span>
+            <label class="col-sm-2 control-label">Cron</label>
+            <div class="col-sm-10">
+                <input type="text" ng-model="schedule.cron" class="form-control"/>
+                <span class='input-help'>Cron values are specified as six space delimited values.
+                    They are: second, minute, hour, day of month, month, day of week. For
+                    more information, see the
+                    <a href="https://github.com/ncb000gt/node-cron">documentation</a>.</span>
+            </div>
         </div>
         <div class="form-group">
-            <label>Scene</label>
-            <input type="text" ng-model="schedule.sceneId" class="form-control"/>
+            <label class="col-sm-2 control-label">Scene</label>
+            <div class="col-sm-10">
+                <input type="text" ng-model="schedule.sceneId" class="form-control"/>
+            </div>
         </div>
         <div class="form-group">
-            <label>Description</label>
-            <input type="text" ng-model="schedule.description" class="form-control"/>
+            <label class="col-sm-2 control-label">Description</label>
+            <div class="col-sm-10">
+                <input type="text" ng-model="schedule.description" class="form-control"/>
+            </div>
         </div>
     </form>
 </div>
 
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="col-xs-6 col-sm-6 col-md-6" style="margin-top: 7px">
+    <div class="col-xs-12 col-sm-12 col-md-12 form-control-panel">
+        <div class="col-xs-6 col-sm-6 col-md-6 form-nav">
             <a href="#/schedules">&larr; Go back</a>
         </div>
-        <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+        <div class="col-xs-6 col-sm-6 col-md-6 form-action">
             <button class='btn btn-primary' ng-click="submitForm()"><span class="glyphicon glyphicon-save"></span> Save</button>
         </div>
     </div>
