@@ -14,7 +14,7 @@
         <tr ng-repeat="schedule in schedules" ng-click="showDetail(schedule.id)" class='selectable'>
             <td>{{ schedule.cron }}</td>
             <td>{{ schedule.description }}</td>
-            <td><input type="checkbox" toggle-checkbox data-size="small" data-on="Enabled" data-off="Disabled" data-onstyle="success" data-offstyle="danger" ng-model="schedule.enabled" ng-true-value="1" ng-false-value="0" disabled></td>
+            <td><input type="checkbox" toggle-checkbox data-size="small" data-on="Enabled" data-off="Disabled" data-onstyle="success" data-offstyle="default" ng-model="schedule.enabled" ng-true-value="1" ng-false-value="0" disabled></td>
         </tr>
     </tbody>
 </table>
