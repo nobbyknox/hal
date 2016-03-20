@@ -261,14 +261,21 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
     $rootScope.selectedMenu = 'admin';
     $rootScope.selectedSubMenu = 'scenes';
 
+    $('#scene-name').focus();
+
+    // Default values for new scenes
     $scope.scene = {
-        'enabled': true
+        'visible': 1,
+        'enabled': 1,
+        'action': 'on'
     };
 
-    $http.get('/scenes/' + $routeParams.id)
-        .then(function(response) {
-            $scope.scene = response.data;
-        });
+    if ($routeParams.id && $routeParams.id !== 'new') {
+        $http.get('/scenes/' + $routeParams.id)
+            .then(function(response) {
+                $scope.scene = response.data;
+            });
+    };
 
     $scope.submitForm = function() {
         if (!isUndefinedOrEmpty($scope.scene.id)) {
