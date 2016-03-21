@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Tienne:400,900);
+
 body {
     margin-top: 62px;
 }
@@ -56,6 +58,7 @@ body {
 }
 
 .hal-nav li:first-child {
+    font-family: 'Tienne', serif;
     width: 75px;
 }
 
