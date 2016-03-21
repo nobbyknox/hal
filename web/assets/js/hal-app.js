@@ -202,6 +202,8 @@ halApp.controller('LightController', function($rootScope, $scope, $http, $locati
     $rootScope.selectedMenu = 'admin';
     $rootScope.selectedSubMenu = 'lights';
 
+    $('#light-name').focus();
+
     $scope.light = {
         'enabled': 1
     };
