@@ -75,7 +75,8 @@ body {
 }
 
 .hal-nav .control-center-active {
-    background-color: #0C447B;
+    /* background-color: #0C447B; */
+    background-color: #1253DA;
 }
 
 /* -------------------------------------------------------------------------- */
