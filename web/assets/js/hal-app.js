@@ -328,14 +328,39 @@ halApp.controller('ScheduleController', function($rootScope, $scope, $http, $loc
         'enabled': 1
     };
 
-    if ($routeParams.id && $routeParams.id !== 'new') {
-        $http.get('/schedules/' + $routeParams.id)
-            .then(function(response) {
-                $scope.schedule = response.data;
-            });
-    }
+    $scope.selectedSceneId = '';
+    $scope.scenes = [];
+
+    $http.get('/scenes')
+        .then(function(response) {
+            $scope.scenes = response.data;
+
+            if ($routeParams.id) {
+                if ($routeParams.id === 'new') {
+                    if (response.data.length > 0) {
+                        $scope.selectedSceneId = response.data[0].id;
+                    }
+                } else {
+                    $http.get('/schedules/' + $routeParams.id)
+                        .then(function(response) {
+                            $scope.schedule = response.data;
+
+                            if ($scope.scenes.length > 0) {
+                                $scope.scenes.forEach(function(item) {
+                                    if (item.id === $scope.schedule.sceneId) {
+                                        $scope.selectedSceneId = item.id;
+                                    }
+                                });
+                            }
+                        });
+                }
+            }
+        });
 
     $scope.submitForm = function() {
+
+        $scope.schedule.sceneId = $scope.selectedSceneId;
+
         if (!isUndefinedOrEmpty($scope.schedule.id)) {
             $http({
                 method: 'PUT',
