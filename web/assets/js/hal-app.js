@@ -168,10 +168,10 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
         $scope.scenes = data;
     });
 
-    //$scope.toggleLight = function(theLight) {
-    //    toggleLight(theLight.id);
-    //};
-    //
+    $scope.toggleLight = function(theLight) {
+        toggleLight(theLight.id, $rootScope.sessionUser.token);
+    };
+
     //$scope.triggerScene = function(theScene) {
     //    triggerScene(theScene);
     //};

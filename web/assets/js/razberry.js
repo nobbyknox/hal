@@ -35,13 +35,14 @@ function manageLightStatusUpdate(lights, token) {
     });
 }
 
-function toggleLight(lightId) {
+function toggleLight(lightId, token) {
 
     var lePost = $.ajax({
         url: halRoot + 'toggle',
         type: 'POST',
         data: JSON.stringify({ "id": lightId }),
-        contentType: 'application/json'
+        contentType: 'application/json',
+        headers: {"token": token}
     });
 
     lePost.done(function(data) {
