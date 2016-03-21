@@ -12,7 +12,7 @@
     </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="scene in scenes" ng-click="showDetail(scene.id)" class='selectable'>
+        <tr ng-repeat="scene in scenes | orderBy:'name'" ng-click="showDetail(scene.id)" class='selectable'>
             <td>{{ scene.name }}</td>
             <td>{{ scene.action }}</td>
             <td><input type="checkbox" toggle-checkbox data-size="small" data-on="Visible" data-off="Hidden" data-onstyle="success" data-offstyle="default" ng-model="scene.visible" ng-true-value="1" ng-false-value="0" disabled></td>
