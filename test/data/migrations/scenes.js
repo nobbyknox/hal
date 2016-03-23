@@ -2,7 +2,7 @@
 
 exports.up = function(knex) {
     return knex.schema.createTable('scenes', function(t) {
-        t.increments().primary();
+        t.string('id').primary();
         t.string('name').notNullable();
         t.string('description').nullable();
         t.integer('visible').notNullable();

@@ -1,6 +1,6 @@
 'use strict';
 
-let service = require('../../lib/services/light-service.js');
+let service = require('../../lib/services/schedule-service.js');
 
 var assert = require('assert');
 var path = require('path');
@@ -19,10 +19,10 @@ describe(path.basename(__filename), function() {
     describe('Retrieval test', function() {
 
         it('should find with ID', (done) => {
-            service.find(1, (err, light) => {
+            service.find('9bcfdf86-1a12-4062-9420-3192325cfd2d', (err, light) => {
                 assert(!err);
                 assert(light);
-                assert(light.id === 1);
+                assert(light.id === '9bcfdf86-1a12-4062-9420-3192325cfd2d');
                 done();
             });
         });

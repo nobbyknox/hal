@@ -7,7 +7,7 @@ exports.seed = function (knex, Promise) {
 
         // Inserts seed entries
         knex('scenes').insert({
-            id: 1,
+            id: '1ecaee1f-b324-4407-a024-1019e84060f8',
             name: 'All On',
             description: 'Turn on all lights',
             visible: 1,
@@ -17,7 +17,7 @@ exports.seed = function (knex, Promise) {
             action: 'ON'
         }),
         knex('scenes').insert({
-            id: 2,
+            id: '8c504974-aa46-43cf-b891-dd84bdd5edc8',
             name: 'All Off',
             description: 'Turn off all lights',
             visible: 1,
@@ -27,7 +27,7 @@ exports.seed = function (knex, Promise) {
             action: 'OFF'
         }),
         knex('scenes').insert({
-            id: 3,
+            id: '6c20efec-d661-4b58-9570-578e62e00c5c',
             name: 'Emergency',
             description: 'Outside lights on',
             visible: 1,

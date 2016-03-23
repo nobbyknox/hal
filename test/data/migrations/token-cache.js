@@ -2,7 +2,7 @@
 
 exports.up = function(knex) {
     return knex.schema.createTable('token_cache', function (t) {
-        t.increments().primary();
+        t.string('id').primary();
         t.string('token').notNullable();
         t.integer('userId').notNullable();
         t.string('dateCreated').nullable();

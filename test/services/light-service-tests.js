@@ -19,10 +19,10 @@ describe(path.basename(__filename), function() {
     describe('Retrieval test', function() {
 
         it('should find with ID', (done) => {
-            service.find(1, (err, light) => {
+            service.find('bd59cf73-8fbe-4505-a8d0-42018cab3820', (err, light) => {
                 assert(!err);
                 assert(light);
-                assert(light.id === 1);
+                assert(light.id === 'bd59cf73-8fbe-4505-a8d0-42018cab3820');
                 done();
             });
         });

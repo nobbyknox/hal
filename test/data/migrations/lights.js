@@ -2,7 +2,7 @@
 
 exports.up = function(knex) {
     return knex.schema.createTable('lights', function (t) {
-        t.increments().primary();
+        t.string('id').primary();
         t.string('name').nullable();
         t.integer('enabled').notNullable();
         t.integer('device').notNullable();
