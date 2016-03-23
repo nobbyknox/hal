@@ -20,7 +20,6 @@ describe(path.basename(__filename), function() {
 
         it('should be successful', function(done) {
             service.authenticateUser('user1@host.com', 'abc123', (err, result) => {
-                console.log(err);
                 assert(!err);
                 assert(result);
                 done();
