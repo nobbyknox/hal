@@ -43,16 +43,4 @@ describe(path.basename(__filename), function() {
         });
     });
 
-    // describe('Raw test', function() {
-
-    //     it('should list all users with rawest of queries', function(done) {
-    //         dataStore.raw('select email, screenName from users where id = ?', ['dbc23146-7467-4656-a843-5523dfa016cf'], (err, users) => {
-    //             log.debug(err);
-    //             log.debug(users);
-    //             done();
-    //         });
-    //     });
-
-    // });
-
 });
