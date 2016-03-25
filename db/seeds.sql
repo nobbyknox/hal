@@ -1,11 +1,11 @@
 BEGIN TRANSACTION;
 
 -- Lights
-INSERT into "lights" (id, name, enabled, device, instance, controllerHost, controllerPort) VALUES ('c35adb27-ed0e-4189-b1f4-47de24363fdf', 'Front Spotlight', 1, 1, 0, 'host1', 8083);
-INSERT into "lights" (id, name, enabled, device, instance, controllerHost, controllerPort) VALUES ('cd894a36-c41f-41d9-a6b6-6bbdb0fc0a76', 'Front Lounge', 1, 2, 0, 'host1', 8083);
-INSERT into "lights" (id, name, enabled, device, instance, controllerHost, controllerPort) VALUES ('3e6241bb-dd7f-486a-9b7b-1f4cef0db9a8', 'Main Garage', 1, 3, 0, 'host1', 8083);
-INSERT into "lights" (id, name, enabled, device, instance, controllerHost, controllerPort) VALUES ('9d5209ab-1e2b-463e-9495-d8b5cdd78195', 'Side Passage', 1, 4, 0, 'host1', 8083);
-INSERT into "lights" (id, name, enabled, device, instance, controllerHost, controllerPort) VALUES ('5f14ccd3-af0d-4f3d-a8e1-651598d99467', 'Dungeon Door', 0, 5, 0, 'host1', 8083);
+INSERT into "lights" (id, name, enabled, device, instance, controllerHost, controllerPort) VALUES ('c35adb27-ed0e-4189-b1f4-47de24363fdf', 'Front Flood Light', 1, 2, 0, '192.168.10.221', 8083);
+INSERT into "lights" (id, name, enabled, device, instance, controllerHost, controllerPort) VALUES ('cd894a36-c41f-41d9-a6b6-6bbdb0fc0a76', 'Side Passage', 1, 3, 0, '192.168.10.221', 8083);
+INSERT into "lights" (id, name, enabled, device, instance, controllerHost, controllerPort) VALUES ('3e6241bb-dd7f-486a-9b7b-1f4cef0db9a8', 'Art Room', 1, 4, 0, '192.168.10.221', 8083);
+INSERT into "lights" (id, name, enabled, device, instance, controllerHost, controllerPort) VALUES ('9d5209ab-1e2b-463e-9495-d8b5cdd78195', 'Lounge', 1, 5, 1, '192.168.10.221', 8083);
+INSERT into "lights" (id, name, enabled, device, instance, controllerHost, controllerPort) VALUES ('5f14ccd3-af0d-4f3d-a8e1-651598d99467', 'Man Cave', 1, 2, 0, '192.168.10.223', 8083);
 
 -- Scenes
 INSERT into "scenes" (id, name, description, visible, enabled, buttonMeta, iconMeta, action) VALUES ('7830d3fc-bd6b-436e-a006-03b0619008a0', 'All On', 'Turns everything on', 1, 1, 'btn-primary', 'glyphicon glyphicon-film', 'on');
