@@ -13,14 +13,14 @@ var path = require('path');
 
 describe(path.basename(__filename), function() {
 
-    before(function(done) {
-        var timer = setInterval(function() {
-            if (global.unittestDataSeeded) {
-                clearInterval(timer);
-                done();
-            }
-        }, 50);
-    });
+    // before(function(done) {
+    //     var timer = setInterval(function() {
+    //         if (global.unittestDataSeeded) {
+    //             clearInterval(timer);
+    //             done();
+    //         }
+    //     }, 50);
+    // });
 
     describe('Retrieval test', function() {
 
