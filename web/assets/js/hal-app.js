@@ -47,9 +47,10 @@ halApp.run(function($rootScope, $http, $location, $window, $cookies) {
                 console.log('Welcome back, %s', $rootScope.sessionUser.screenName);
                 bootstrapApp($rootScope, $http);
             }, function(response) {
+                console.log(JSON.stringify(response));
                 $rootScope.sessionUser = null;
                 $cookies.remove('halLogin');
-                console.log(JSON.stringify(response));
+                $location.path('/login');
             });
 
     } else {
