@@ -28,9 +28,10 @@ INSERT into "scenes_lights" (id, sceneId, lightId) VALUES ('aa47b2ea-48d0-4f7c-a
 -- Schedules
 INSERT into "schedules" (id, cron, sceneId, enabled, description) VALUES ('d2749084-8016-4ed9-b7b2-5bff8c93d3f2', '0 32 4 * * *', '7830d3fc-bd6b-436e-a006-03b0619008a0', 1, 'Lights on at 04:32 every day');
 INSERT into "schedules" (id, cron, sceneId, enabled, description) VALUES ('99459713-7f04-4461-8f49-a9207094d123', '0 30 22 * * *', 'ad09e2e5-7178-49d9-b3ba-c6e37c7a8395', 1, 'Lights off at 22:30 every day');
+INSERT into "schedules" (id, cron, sceneId, enabled, description) VALUES ('42bfa3ca-f1eb-4f18-9948-f672abf2c7c4', '0 30 22 * * *', 'ad09e2e5-7178-49d9-b3ba-c6e37c7a8395', 0, 'Disabled schedule');
 
 -- Users
-INSERT into "users" (id, email, screenName, password, enabled) VALUES ('22fb75ff-0ae4-46d9-893c-e72ba73a1ad3', 'test1@host.com', 'Unicode', 'a9993e364706816aba3e25717850c26c9cd0d89d', 1);
-INSERT into "users" (id, email, screenName, password, enabled) VALUES ('f032ca5b-e149-4cb1-bf49-92f312b0ce62', 'test2@host.com', 'ASCII', 'a9993e364706816aba3e25717850c26c9cd0d89d', 1);
+INSERT into "users" (id, email, screenName, password, enabled) VALUES ('22fb75ff-0ae4-46d9-893c-e72ba73a1ad3', 'test1@host.com', 'Unicode', 'a9993e364706816aba3e25717850c26c9cd0d89d', 1);  -- password: abc
+INSERT into "users" (id, email, screenName, password, enabled) VALUES ('f032ca5b-e149-4cb1-bf49-92f312b0ce62', 'test2@host.com', 'ASCII', 'a9993e364706816aba3e25717850c26c9cd0d89d', 1);    -- password: abc
 
 COMMIT;
