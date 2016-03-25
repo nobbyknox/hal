@@ -160,13 +160,19 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
     //});
 
 
-    $http.get('/lights?enabled=1&token=' + $rootScope.sessionUser.token).success(function(data) {
-        $scope.lights = data;
-    });
+    $http.get('/lights?enabled=1&token=' + $rootScope.sessionUser.token)
+        .then(function(response) {
+            $scope.lights = response.data;
+        }, function(response) {
+            alert('Error getting lights: ' + response.message);
+        });
 
-    $http.get('/scenes?enabled=1&token=' + $rootScope.sessionUser.token).success(function(data) {
-        $scope.scenes = data;
-    });
+    $http.get('/scenes?enabled=1&token=' + $rootScope.sessionUser.token)
+        .then(function(response) {
+            $scope.scenes = response.data;
+        }, function(response) {
+            alert('Error getting scenes: ' + response.message);
+        });
 
     $scope.toggleLight = function(theLight) {
         toggleLight(theLight.id, $rootScope.sessionUser.token);
