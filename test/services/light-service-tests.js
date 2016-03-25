@@ -11,12 +11,12 @@ describe(path.basename(__filename), function() {
     describe('Retrieval test', function() {
 
         it('should find with ID', (done) => {
-            service.find('bd59cf73-8fbe-4505-a8d0-42018cab3820', (err, light) => {
+            service.find('c35adb27-ed0e-4189-b1f4-47de24363fdf', (err, light) => {
                 if (err) return done(err);
 
                 try {
                     assert(light);
-                    assert.equal(light.id, 'bd59cf73-8fbe-4505-a8d0-42018cab3820');
+                    assert.equal(light.id, 'c35adb27-ed0e-4189-b1f4-47de24363fdf');
                     done();
                 } catch (err) {
                     done(err);
@@ -38,14 +38,19 @@ describe(path.basename(__filename), function() {
             });
         });
 
-        // TODO: The get function will change. This test will then be
-        // updated accordingly.
-        // it('should get all disabled lights', (done) => {
-        //     service.get(0, (err, lights) => {
-        //         assert(!err);
-        //         assert(lights);
-        //         done();
-        //     });
-        // });
+        it('should get all disabled lights', (done) => {
+            service.get(0, (err, lights) => {
+                if (err) return done(err);
+
+                try {
+                    assert(lights, 'Expected to find some disabled lights');
+                    assert.equal(lights.length, 1);
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            });
+        });
+
     });
 });
