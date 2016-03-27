@@ -414,7 +414,7 @@ halApp.controller('GarageCamController', function($rootScope, $scope, $http) {
 
 halApp.directive('appVersion', function() {
     return {
-        template: '2.0-Alpha.1'
+        template: '3.0-RC.1'
     };
 });
 
