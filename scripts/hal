@@ -1,25 +1,31 @@
 #!/bin/bash
+### BEGIN INIT INFO
+# Provides:          hal
+# Required-Start:
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description:
+# Description:       HAL service
+### END INIT INFO
 
-NODE=/opt/node/bin/node
 HAL_DIR=/home/pi/hal
-SERVER_JS_FILE=server.js
 USER=pi
-OUT=/home/pi/hal.log
 
 case "$1" in
 
 start)
-	echo "starting HAL: $NODE $SERVER_JS_FILE"
-	cd $HAL_DIR
-	sudo -u $USER NODE_ENV=production $NODE $SERVER_JS_FILE > $OUT 2>$OUT &
-	;;
+    echo "starting HAL"
+    cd $HAL_DIR
+    sudo -u $USER -E /home/pi/hal/run-server.sh &
+    ;;
 
 stop)
-	killall $NODE
-	;;
+    killall node
+    ;;
 
 *)
-	echo "usage: $0 (start|stop)"
+    echo "usage: $0 (start|stop)"
 esac
 
 exit 0
