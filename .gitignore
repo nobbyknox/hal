@@ -2,6 +2,7 @@ hal.iml
 .idea
 .DS_Store
 scratch.txt
+*.log
 *.sqlite3
 *.sh
 bower_components/
