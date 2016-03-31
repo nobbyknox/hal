@@ -25,7 +25,15 @@ loginApp.run(function($rootScope, $http, $cookies, $window) {
 
     if (biscuit) {
         console.log('Cookie: ' + biscuit);
-        $window.location = 'hal.html';
+
+        $http.post('/validatetoken', {token: biscuit.token})
+            .then(function() {
+                console.log('Welcome back, %s', biscuit.screenName);
+                $window.location = 'hal.html';
+            }, function(response) {
+                $cookies.remove('halLogin');
+                console.log('Your token expired. Please log in.')
+            });
     }
 
 });
