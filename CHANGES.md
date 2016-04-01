@@ -7,7 +7,8 @@
 ---
 ## Version 3.0
 
-Version 3 contains huge chunks of new and rewritten code. It looks almost nothing like version 2 under the hood.
+Version 3.0 was released on 1 April 2016 and contains huge chunks of new and rewritten code.
+It looks almost nothing like version 2 under the hood. The UI has also received some care.
 
 ### New Features / Changes
 
