@@ -39,8 +39,6 @@ halApp.run(function($rootScope, $http, $location, $window, $cookies) {
 
     $rootScope.sessionUser = $cookies.getObject('halLogin');
 
-    console.log($rootScope.sessionUser);
-
     if ($rootScope.sessionUser) {
         $http.post('/validatetoken', {token: $rootScope.sessionUser.token})
             .then(function() {
@@ -64,6 +62,8 @@ halApp.run(function($rootScope, $http, $location, $window, $cookies) {
             $location.path('/login');
         }
     });
+
+    console.log('HAL version 3.0 ready');
 });
 
 halApp.controller('AboutController', function($rootScope, $window) {
@@ -365,7 +365,7 @@ halApp.controller('GarageCamController', function($rootScope, $scope, $http) {
 
 halApp.directive('appVersion', function() {
     return {
-        template: '3.0-RC.1'
+        template: '3.0'
     };
 });
 
