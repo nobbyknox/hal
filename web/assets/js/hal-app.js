@@ -58,61 +58,12 @@ halApp.run(function($rootScope, $http, $location, $window, $cookies) {
     }
 
     $rootScope.$on('$locationChangeStart', function(event, next, current) {
-
-        // if (!next.includes('/bookmarks')) {
-        //     $rootScope.searchQuery = '';
-        // }
-
         $rootScope.previousPage = current;
 
         if (!$rootScope.sessionUser) {
             $location.path('/login');
         }
     });
-
-    // $rootScope.search = function() {
-    //     if ($rootScope.searchQuery.length >= 3) {
-    //         $window.location = '#/bookmarks?query=' + $rootScope.searchQuery;
-    //     }
-    // };
-
-    // $rootScope.sendFeedback = function() {
-    //     console.log('Subject: ' + $rootScope.feedbackSubject);
-    //     console.log('Body: ' + $rootScope.feedbackBody);
-    //
-    //     let feedbackModel = {
-    //         username: $rootScope.sessionUser.username,
-    //         screenName: $rootScope.sessionUser.screenName,
-    //         location: $window.location.href,
-    //         subject: $rootScope.feedbackSubject,
-    //         message: $rootScope.feedbackBody
-    //     };
-    //
-    //     $http.post('/feedback?token=' + $rootScope.sessionUser.token, feedbackModel)
-    //         .success(function() {
-    //             console.log('Feedback submitted successfully');
-    //         })
-    //         .error(function(data) {
-    //             console.log('Unable to submit feedback: ' + JSON.stringify(data));
-    //             alert('An error occurred during the posting of your feedback');
-    //         });
-    //
-    //     $rootScope.feedbackSubject = $rootScope.feedbackSubjects[0];
-    //     $rootScope.feedbackBody = '';
-    //
-    //     $('#feedbackModal').modal('hide');
-    // };
-
-    // $rootScope.showMessage = function(title, message) {
-    //     $('#message-modal-label').html(title);
-    //     $('#message-body').html(message);
-    //     $('#message-modal').modal('show');
-    // };
-
-    // $rootScope.deleteCallback = function() {
-    //     console.log('Hello (deleted) World!');
-    // };
-
 });
 
 halApp.controller('AboutController', function($rootScope, $window) {
