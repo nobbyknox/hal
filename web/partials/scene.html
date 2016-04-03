@@ -48,6 +48,23 @@
     </form>
 </div>
 
+<h3>Lights</h3>
+
+<table class="table table-striped">
+    <thead>
+        <th>Light</th>
+        <th>Enabled</th>
+        <td>Actions</td>
+    </thead>
+    <tbody>
+        <tr ng-repeat="light in sceneLights" ng-click="showDetail(light.scenesLightsId)" class='selectable'>
+            <td>{{ light.name }}</td>
+            <td>{{ light.enabled }}</td>
+            <td><button class="btn btn-danger btn-xs">Remove</button></td>
+        </tr>
+    </tbody>
+</table>
+
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 form-control-panel">
         <div class="col-xs-6 col-sm-6 col-md-6 form-nav">

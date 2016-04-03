@@ -1,0 +1,27 @@
+<div class="admin-menu" ng-include="'partials/includes/admin-menu.html'"></div>
+
+<h2>Scene Light</h2>
+
+<div class="row">
+    <form role="form" class="col-sm-12 col-md-12 form-horizontal" ng-submit="submitForm()">
+        <input type="submit" hidden />
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-10">
+                <input id="scene-name" type="text" class="form-control">
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 form-control-panel">
+        <div class="col-xs-6 col-sm-6 col-md-6 form-nav">
+            <a href="#/scenes">&larr; Go back</a>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 form-action">
+            <button class='btn btn-primary' ng-click="submitForm()"><span class="glyphicon glyphicon-save"></span> Save</button>
+        </div>
+    </div>
+</div>

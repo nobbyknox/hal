@@ -12,6 +12,7 @@ halApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/lights/:id',    { templateUrl: 'partials/light.html', controller: 'LightController' });
     $routeProvider.when('/scenes',        { templateUrl: 'partials/scenes.html', controller: 'ScenesController' });
     $routeProvider.when('/scenes/:id',    { templateUrl: 'partials/scene.html', controller: 'SceneController' });
+    $routeProvider.when('/scenelight/:id',{ templateUrl: 'partials/scene-light.html', controller: 'SceneLightController' });
     $routeProvider.when('/schedules',     { templateUrl: 'partials/schedules.html', controller: 'SchedulesController' });
     $routeProvider.when('/schedules/:id', { templateUrl: 'partials/schedule.html', controller: 'ScheduleController' });
     $routeProvider.when('/sysInfo',       { templateUrl: 'partials/sys-info.html', controller: 'SysInfoController' });
@@ -230,11 +231,22 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
         'action': 'on'
     };
 
+    $scope.sceneLights = [];
+
     if ($routeParams.id && $routeParams.id !== 'new') {
         $http.get('/scenes/' + $routeParams.id)
             .then(function(response) {
                 $scope.scene = response.data;
+                return $http.get('/lights?sceneId=' + $routeParams.id);
+            })
+            .then(function(response) {
+                $scope.sceneLights = response.data;
             });
+    }
+
+    $scope.showDetail = function (sceneLightId) {
+        console.log('sceneLightId: ' + sceneLightId);
+        $location.path('/scenelight/' + sceneLightId);
     };
 
     $scope.submitForm = function() {
@@ -255,6 +267,49 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
                 $location.path('/scenes');
             });
         }
+    }
+});
+
+halApp.controller('SceneLightController', function($rootScope, $scope, $http, $location, $routeParams) {
+
+    $rootScope.selectedMenu = 'admin';
+    $rootScope.selectedSubMenu = 'scenes';
+
+    //$('#scene-name').focus();
+
+    //if ($routeParams.id && $routeParams.id !== 'new') {
+    //    $http.get('/scenes/' + $routeParams.id)
+    //        .then(function(response) {
+    //            $scope.scene = response.data;
+    //            return $http.get('/lights?sceneId=' + $routeParams.id);
+    //        })
+    //        .then(function(response) {
+    //            $scope.sceneLights = response.data;
+    //        });
+    //}
+
+    //$scope.showDetail = function (sceneLightId) {
+    //    console.log('sceneLightId: ' + sceneLightId);
+    //};
+
+    $scope.submitForm = function() {
+        //if (!isUndefinedOrEmpty($scope.scene.id)) {
+        //    $http({
+        //        method: 'PUT',
+        //        url: '/scenes',
+        //        data: JSON.stringify($scope.scene)
+        //    }).then(function() {
+        //        $location.path('/scenes');
+        //    });
+        //} else {
+        //    $http({
+        //        method: 'POST',
+        //        url: '/scenes',
+        //        data: JSON.stringify($scope.scene)
+        //    }).then(function() {
+        //        $location.path('/scenes');
+        //    });
+        //}
     }
 });
 
