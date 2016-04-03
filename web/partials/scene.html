@@ -57,9 +57,9 @@
         <td>Actions</td>
     </thead>
     <tbody>
-        <tr ng-repeat="light in sceneLights" ng-click="showDetail(light.scenesLightsId)" class='selectable'>
-            <td>{{ light.name }}</td>
-            <td>{{ light.enabled }}</td>
+        <tr ng-repeat="light in sceneLights" class='selectable'>
+            <td ng-click="showDetail(light.scenesLightsId)">{{ light.name }}</td>
+            <td><input type="checkbox" toggle-checkbox data-size="small" data-on="Enabled" data-off="Disabled" data-onstyle="success" data-offstyle="default" ng-model="light.enabledInScene" ng-true-value="1" ng-false-value="0"></td>
             <td><button class="btn btn-danger btn-xs">Remove</button></td>
         </tr>
     </tbody>

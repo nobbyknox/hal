@@ -237,7 +237,7 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
         $http.get('/scenes/' + $routeParams.id)
             .then(function(response) {
                 $scope.scene = response.data;
-                return $http.get('/lights?sceneId=' + $routeParams.id);
+                return $http.get('/scenelights/' + $routeParams.id);
             })
             .then(function(response) {
                 $scope.sceneLights = response.data;
