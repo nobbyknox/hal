@@ -237,14 +237,14 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
         $http.get('/scenes/' + $routeParams.id)
             .then(function(response) {
                 $scope.scene = response.data;
-                return $http.get('/scenelights/' + $routeParams.id);
+                return $http.get('/scenelights?sceneId=' + $routeParams.id);
             })
             .then(function(response) {
                 $scope.sceneLights = response.data;
             });
     }
 
-    $scope.showDetail = function (sceneLightId) {
+    $scope.showDetail = function(sceneLightId) {
         console.log('sceneLightId: ' + sceneLightId);
         $location.path('/scenelight/' + sceneLightId);
     };
@@ -275,18 +275,19 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
     $rootScope.selectedMenu = 'admin';
     $rootScope.selectedSubMenu = 'scenes';
 
-    //$('#scene-name').focus();
+    $scope.sceneLight = {
+        'name': 'dummy'
+    };
 
-    //if ($routeParams.id && $routeParams.id !== 'new') {
-    //    $http.get('/scenes/' + $routeParams.id)
-    //        .then(function(response) {
-    //            $scope.scene = response.data;
-    //            return $http.get('/lights?sceneId=' + $routeParams.id);
-    //        })
-    //        .then(function(response) {
-    //            $scope.sceneLights = response.data;
-    //        });
-    //}
+    if ($routeParams.id && $routeParams.id !== 'new') {
+        $http.get('/scenelights/' + $routeParams.id)
+            .then(function(response) {
+                $scope.sceneLight = response.data;
+
+                console.log('Found scene light');
+                console.dir($scope.sceneLight);
+            });
+    }
 
     //$scope.showDetail = function (sceneLightId) {
     //    console.log('sceneLightId: ' + sceneLightId);
