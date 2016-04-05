@@ -113,6 +113,7 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
     //});
 
 
+    // TODO: The token should not be passed.
     $http.get('/lights?enabled=1&token=' + $rootScope.sessionUser.token)
         .then(function(response) {
             $scope.lights = response.data;
@@ -120,6 +121,7 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
             alert('Error getting lights: ' + response.message);
         });
 
+    // TODO: The token should not be passed.
     $http.get('/scenes?enabled=1&token=' + $rootScope.sessionUser.token)
         .then(function(response) {
             $scope.scenes = response.data;
@@ -246,7 +248,7 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
 
     $scope.showDetail = function(sceneLightId) {
         console.log('sceneLightId: ' + sceneLightId);
-        $location.path('/scenelight/' + sceneLightId);
+        $location.path('/scenelight/' + sceneLightId).search('sceneId', $scope.scene.id);
     };
 
     $scope.submitForm = function() {
@@ -275,42 +277,51 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
     $rootScope.selectedMenu = 'admin';
     $rootScope.selectedSubMenu = 'scenes';
 
-    $scope.sceneLight = {
-        'name': 'dummy'
-    };
+    console.log('sceneId: ' + $routeParams.sceneId);
 
-    if ($routeParams.id && $routeParams.id !== 'new') {
-        $http.get('/scenelights/' + $routeParams.id)
-            .then(function(response) {
-                $scope.sceneLight = response.data;
+    $scope.sceneId = $routeParams.sceneId;
+    $scope.sceneLight = {};
+    $scope.selectedLightId = '';
+    $scope.lights = [];
 
-                console.log('Found scene light');
-                console.dir($scope.sceneLight);
-            });
-    }
+    $http.get('/lights?enabled=1')
+        .then(function(response) {
+            $scope.lights = response.data;
 
-    //$scope.showDetail = function (sceneLightId) {
-    //    console.log('sceneLightId: ' + sceneLightId);
-    //};
+            if ($routeParams.id && $routeParams.id !== 'new') {
+                $http.get('scenelights/' + $routeParams.id)
+                    .then(function(response) {
+                        $scope.sceneLight = response.data;
+                        $scope.selectedLightId = $scope.sceneLight.id;
+                    });
+            }
+        });
 
     $scope.submitForm = function() {
-        //if (!isUndefinedOrEmpty($scope.scene.id)) {
-        //    $http({
-        //        method: 'PUT',
-        //        url: '/scenes',
-        //        data: JSON.stringify($scope.scene)
-        //    }).then(function() {
-        //        $location.path('/scenes');
-        //    });
-        //} else {
-        //    $http({
-        //        method: 'POST',
-        //        url: '/scenes',
-        //        data: JSON.stringify($scope.scene)
-        //    }).then(function() {
-        //        $location.path('/scenes');
-        //    });
-        //}
+        let payload = {
+            'id': ($routeParams.id ? $routeParams.id : null),
+            'sceneId': $scope.sceneId,
+            'lightId': $scope.selectedLightId,
+            'enabled': $scope.sceneLight.enabledInScene
+        };
+
+        if (!isUndefinedOrEmpty($scope.sceneLight.id)) {
+            $http({
+                method: 'PUT',
+                url: '/scenelights',
+                data: JSON.stringify(payload)
+            }).then(function() {
+                $location.path('/scenes/' + $scope.sceneId);
+            });
+        } else {
+            $http({
+                method: 'POST',
+                url: '/scenelights',
+                data: JSON.stringify(payload)
+            }).then(function() {
+                $location.path('/scenes/' + $scope.sceneId);
+            });
+        }
     }
 });
 
