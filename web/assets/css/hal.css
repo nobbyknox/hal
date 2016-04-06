@@ -66,7 +66,7 @@ body {
     color: white;
 }
 
-.hal-nav li a:hover:not(.active):not(.control-center-active):not(.logout-active) {
+.hal-nav li a:hover:not(.active):not(.control-center-active) {
     background-color: #111;
 }
 
@@ -76,10 +76,6 @@ body {
 
 .hal-nav .control-center-active {
     background-color: #105A99;
-}
-
-.hal-nav .logout-active {
-    background-color: #8C0505;
 }
 
 /* -------------------------------------------------------------------------- */
