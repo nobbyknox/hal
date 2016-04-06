@@ -251,6 +251,10 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
         $location.path('/scenelight/' + sceneLightId).search('sceneId', $scope.scene.id);
     };
 
+    $scope.addLight = function() {
+        $location.path('/scenelight/new').search('sceneId', $scope.scene.id);
+    };
+
     $scope.submitForm = function() {
         if (!isUndefinedOrEmpty($scope.scene.id)) {
             $http({
@@ -280,7 +284,11 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
     console.log('sceneId: ' + $routeParams.sceneId);
 
     $scope.sceneId = $routeParams.sceneId;
-    $scope.sceneLight = {};
+
+    $scope.sceneLight = {
+        'enabledInScene': 1
+    };
+
     $scope.selectedLightId = '';
     $scope.lights = [];
 
