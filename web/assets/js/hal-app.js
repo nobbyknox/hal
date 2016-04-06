@@ -292,7 +292,7 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
     $scope.selectedLightId = '';
     $scope.lights = [];
 
-    $http.get('/lights?enabled=1')
+    $http.get('/lights?notInScene=' + $scope.sceneId)
         .then(function(response) {
             $scope.lights = response.data;
 
