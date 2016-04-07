@@ -5,7 +5,6 @@ var halApp = angular.module('halApp', ['ngRoute', 'ngCookies']);
 halApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/',              { templateUrl: 'partials/control-center.html', controller: 'ControlCenterController' });
     $routeProvider.when('/login',         { templateUrl: 'partials/login-required.html', controller: 'LoginController' });
-    $routeProvider.when('/logout',        { templateUrl: 'partials/logout.html', controller: 'LogoutController' });
     $routeProvider.when('/about',         { templateUrl: 'partials/about.html', controller: 'AboutController' });
     $routeProvider.when('/invalidRoute',  { templateUrl: 'partials/invalid-route.html' });
     $routeProvider.when('/lights',        { templateUrl: 'partials/lights.html', controller: 'LightsController' });
@@ -76,19 +75,6 @@ halApp.controller('LoginController', function($rootScope, $window) {
     setTimeout(function() {
         $window.location = '/login.html';
     }, 5000);
-});
-
-halApp.controller('LogoutController', function($rootScope, $window, $cookies) {
-    $rootScope.selectedMenu = 'logout';
-    $rootScope.selectedSubMenu = '';
-
-    $cookies.remove('halLogin');
-    $rootScope.sessionUser = null;
-
-    setTimeout(function() {
-        $window.location = '/';
-    }, 4000);
-
 });
 
 halApp.controller('ControlCenterController', function($rootScope, $scope, $http, $timeout, $interval) {
