@@ -293,7 +293,7 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
 
     $scope.submitForm = function() {
         let payload = {
-            'id': ($routeParams.id ? $routeParams.id : null),
+            'id': ($routeParams.id && $routeParams.id !== 'new' ? $routeParams.id : null),
             'sceneId': $scope.sceneId,
             'lightId': $scope.selectedLightId,
             'enabled': $scope.sceneLight.enabledInScene
@@ -306,6 +306,9 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
                 data: JSON.stringify(payload)
             }).then(function() {
                 $location.path('/scenes/' + $scope.sceneId);
+            }, function(response) {
+                alert(response.data);
+                console.log(response.data);
             });
         } else {
             $http({
@@ -314,6 +317,9 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
                 data: JSON.stringify(payload)
             }).then(function() {
                 $location.path('/scenes/' + $scope.sceneId);
+            }, function(response) {
+                alert(response.data);
+                console.log(response.data);
             });
         }
     }
