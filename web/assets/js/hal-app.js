@@ -292,7 +292,7 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
         });
 
     $scope.submitForm = function() {
-        let payload = {
+        var payload = {
             'id': ($routeParams.id && $routeParams.id !== 'new' ? $routeParams.id : null),
             'sceneId': $scope.sceneId,
             'lightId': $scope.selectedLightId,
