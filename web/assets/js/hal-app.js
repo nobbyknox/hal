@@ -307,8 +307,8 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
             }).then(function() {
                 $location.path('/scenes/' + $scope.sceneId);
             }, function(response) {
-                alert(response.data);
-                console.log(response.data);
+                alert(response.data.message);
+                console.log(response.data.message);
             });
         } else {
             $http({
@@ -318,8 +318,8 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
             }).then(function() {
                 $location.path('/scenes/' + $scope.sceneId);
             }, function(response) {
-                alert(response.data);
-                console.log(response.data);
+                alert(response.data.message);
+                console.log(response.data.message);
             });
         }
     }
