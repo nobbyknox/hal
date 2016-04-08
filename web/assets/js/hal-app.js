@@ -167,9 +167,10 @@ halApp.controller('LightController', function($rootScope, $scope, $http, $locati
                 url: '/lights',
                 data: JSON.stringify($scope.light)
             }).then(function() {
+                showBriefSuccessMessage(null, 'Light <b>' + $scope.light.name + '</b> updated successfully');
                 $location.path('/lights');
             }, function(response) {
-                alert(JSON.stringify(response.data));
+                showPromiseError(null, response, 'Unable to update this light');
             });
         } else {
             $http({
@@ -177,9 +178,10 @@ halApp.controller('LightController', function($rootScope, $scope, $http, $locati
                 url: '/lights',
                 data: JSON.stringify($scope.light)
             }).then(function() {
+                showBriefSuccessMessage(null, 'Light <b>' + $scope.light.name + '</b> created successfully');
                 $location.path('/lights');
             }, function(response) {
-                alert(JSON.stringify(response.data));
+                showPromiseError(null, response, 'Unable to create this light');
             });
         }
     };
@@ -248,7 +250,10 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
                 url: '/scenes',
                 data: JSON.stringify($scope.scene)
             }).then(function() {
+                showBriefSuccessMessage(null, 'Scene <b>' + $scope.scene.name + '</b> updated successfully');
                 $location.path('/scenes');
+            }, function(response) {
+                showPromiseError(null, response, 'Unable to update this scene');
             });
         } else {
             $http({
@@ -256,7 +261,10 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
                 url: '/scenes',
                 data: JSON.stringify($scope.scene)
             }).then(function() {
+                showBriefSuccessMessage(null, 'Scene <b>' + $scope.scene.name + '</b> created successfully');
                 $location.path('/scenes');
+            }, function(response) {
+                showPromiseError(null, response, 'Unable to create this scene');
             });
         }
     }
@@ -305,7 +313,7 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
                 url: '/scenelights',
                 data: JSON.stringify(payload)
             }).then(function() {
-                showBriefSuccessMessage(null, 'Scene light updated');
+                showBriefSuccessMessage(null, 'Scene light updated successfully');
                 $location.path('/scenes/' + $scope.sceneId);
             }, function(response) {
                 showPromiseError(null, response, 'Unable to update this scene light');
@@ -316,7 +324,7 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
                 url: '/scenelights',
                 data: JSON.stringify(payload)
             }).then(function() {
-                showBriefSuccessMessage(null, 'Scene light updated');
+                showBriefSuccessMessage(null, 'Scene light created successfully');
                 $location.path('/scenes/' + $scope.sceneId);
             }, function(response) {
                 showPromiseError(null, response, 'Unable to create this scene light');
@@ -394,7 +402,10 @@ halApp.controller('ScheduleController', function($rootScope, $scope, $http, $loc
                 url: '/schedules',
                 data: $scope.schedule
             }).success(function() {
+                showBriefSuccessMessage(null, 'Schedule updated successfully');
                 $location.path('/schedules');
+            }, function(response) {
+                showPromiseError(null, response, 'Unable to update this schedule');
             });
         } else {
             $http({
@@ -402,7 +413,10 @@ halApp.controller('ScheduleController', function($rootScope, $scope, $http, $loc
                 url: '/schedules',
                 data: $scope.schedule
             }).success(function() {
+                showBriefSuccessMessage(null, 'Schedule created successfully');
                 $location.path('/schedules');
+            }, function(response) {
+                showPromiseError(null, response, 'Unable to create this schedule');
             });
         }
     }
