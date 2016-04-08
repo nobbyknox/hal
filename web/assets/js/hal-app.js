@@ -305,10 +305,10 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
                 url: '/scenelights',
                 data: JSON.stringify(payload)
             }).then(function() {
+                showBriefSuccessMessage(null, 'Scene light updated');
                 $location.path('/scenes/' + $scope.sceneId);
             }, function(response) {
-                alert(response.data.message);
-                console.log(response.data.message);
+                showPromiseError(null, response, 'Unable to update this scene light');
             });
         } else {
             $http({
@@ -316,10 +316,10 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
                 url: '/scenelights',
                 data: JSON.stringify(payload)
             }).then(function() {
+                showBriefSuccessMessage(null, 'Scene light updated');
                 $location.path('/scenes/' + $scope.sceneId);
             }, function(response) {
-                alert(response.data.message);
-                console.log(response.data.message);
+                showPromiseError(null, response, 'Unable to create this scene light');
             });
         }
     }

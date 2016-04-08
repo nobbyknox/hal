@@ -17,6 +17,8 @@
         "angular-route": "1.4.10",
         "angular-sanitize": "1.4.10",
         "angular-cookies": "1.4.10",
-        "bootstrap-toggle": "2.2.2"
+        "bootstrap-toggle": "2.2.2",
+        "sweetalert": "1.1.1",
+        "pnotify": "3.0.0"
     }
 }

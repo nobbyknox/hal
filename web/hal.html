@@ -16,6 +16,8 @@
     <!-- Bower versions -->
     <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link href="sweetalert/dist/sweetalert.css" rel="stylesheet">
+    <link href="pnotify/dist/pnotify.css" rel="stylesheet">
 
     <!-- CDN versions -->
     <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"> -->
@@ -59,6 +61,8 @@
     <script src="angular-sanitize/angular-sanitize.min.js"></script>
     <script src="angular-cookies/angular-cookies.min.js"></script>
     <script src="bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
+    <script src="sweetalert/dist/sweetalert.min.js"></script>
+    <script src="pnotify/dist/pnotify.js"></script>
 
     <!-- CDN versions -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script> -->
@@ -74,6 +78,14 @@
     <script src="assets/js/hal-app.js"></script>
     <script src="assets/js/razberry.js"></script>
     <script src="assets/js/utilities.js"></script>
+    <script src="assets/js/notifications.js"></script>
+
+    <script>
+        $(function() {
+            PNotify.prototype.options.styling = "bootstrap3";
+            PNotify.prototype.options.delay = 2500;
+        });
+    </script>
 
 </body>
 </html>
