@@ -56,7 +56,7 @@
         <th>Enabled</th>
     </thead>
     <tbody>
-        <tr ng-repeat="light in sceneLights" class='selectable' ng-click="showDetail(light.scenesLightsId)">
+        <tr ng-repeat="light in sceneLights | orderBy: 'name'" class='selectable' ng-click="showDetail(light.scenesLightsId)">
             <td>{{ light.name }}</td>
             <td><input type="checkbox" toggle-checkbox data-size="small" data-on="Enabled" data-off="Disabled" data-onstyle="success" data-offstyle="default" ng-model="light.enabledInScene" ng-true-value="1" ng-false-value="0" disabled></td>
         </tr>
@@ -71,7 +71,7 @@
             <a href="#/scenes">&larr; Go back</a>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 text-center">
-            <button class='btn btn-default' ng-click="addLight()">Add Light</button>
+            <button class='btn btn-default' ng-show="scene.id" ng-click="addLight()">Add Light</button>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 form-action">
             <button class='btn btn-primary' ng-click="submitForm()"><span class="glyphicon glyphicon-save"></span> Save</button>
