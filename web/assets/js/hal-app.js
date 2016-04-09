@@ -243,6 +243,20 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
         $location.path('/scenelight/new').search('sceneId', $scope.scene.id);
     };
 
+    $scope.delete = function() {
+        confirmDeletion(null, 'Are you sure that you want to delete the scene <br/><b>' + $scope.scene.name + '</b>?', function() {
+            $http({
+                method: 'DELETE',
+                url: '/scenes/' + $scope.scene.id
+            }).then(function() {
+                clearDeleteConfirmation();
+                showBriefSuccessMessage(null, 'Scene <b>' + $scope.scene.name + '</b> deleted');
+                $location.path('/scenes');
+            }, function(response) {
+                showPromiseError(null, response, 'Unable to delete scene <b>' + $scope.scene.name + '</b>');
+            });
+        });    };
+
     $scope.submitForm = function() {
         if (!isUndefinedOrEmpty($scope.scene.id)) {
             $http({

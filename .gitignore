@@ -5,6 +5,7 @@ scratch.txt
 *.log
 *.sqlite3
 *.sh
+*.swp
 bower_components/
 node_modules/
 config/private.json
