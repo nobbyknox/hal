@@ -233,7 +233,6 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
     }
 
     $scope.showDetail = function(sceneLightId) {
-        console.log('sceneLightId: ' + sceneLightId);
         $location.path('/scenelight/' + sceneLightId).search('sceneId', $scope.scene.id);
     };
 
@@ -253,7 +252,8 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
             }, function(response) {
                 showPromiseError(null, response, 'Unable to delete scene <b>' + $scope.scene.name + '</b>');
             });
-        });    };
+        });
+    };
 
     $scope.submitForm = function() {
         if (!isUndefinedOrEmpty($scope.scene.id)) {
@@ -287,8 +287,6 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
     $rootScope.selectedMenu = 'admin';
     $rootScope.selectedSubMenu = 'scenes';
 
-    console.log('sceneId: ' + $routeParams.sceneId);
-
     $scope.sceneId = $routeParams.sceneId;
 
     $scope.sceneLight = {
@@ -310,6 +308,21 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
                     });
             }
         });
+
+    $scope.delete = function() {
+        confirmDeletion(null, 'Are you sure that you want to remove the light from the scene?', function() {
+            $http({
+                method: 'DELETE',
+                url: '/scenelights/' + $scope.sceneLight.scenesLightsId
+            }).then(function() {
+                clearDeleteConfirmation();
+                showBriefSuccessMessage(null, 'Light removed from scene');
+                $location.path('/scenes/' + $scope.sceneId);
+            }, function(response) {
+                showPromiseError(null, response, 'Unable to remove the light from the scene');
+            });
+        });
+    };
 
     $scope.submitForm = function() {
         var payload = {
