@@ -63,7 +63,7 @@ halApp.run(function($rootScope, $http, $location, $window, $cookies) {
         }
     });
 
-    console.log('HAL version 3.0 ready');
+    console.log('HAL version 3.1-dev ready');
 });
 
 halApp.controller('AboutController', function($rootScope, $window) {
@@ -471,7 +471,7 @@ halApp.controller('GarageCamController', function($rootScope, $scope, $http) {
 
 halApp.directive('appVersion', function() {
     return {
-        template: '3.0'
+        template: '3.1-dev'
     };
 });
 
