@@ -99,16 +99,14 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
     //});
 
 
-    // TODO: The token should not be passed.
-    $http.get('/lights?enabled=1&token=' + $rootScope.sessionUser.token)
+    $http.get('/lights?enabled=1')
         .then(function(response) {
             $scope.lights = response.data;
         }, function(response) {
             alert('Error getting lights: ' + response.message);
         });
 
-    // TODO: The token should not be passed.
-    $http.get('/scenes?enabled=1&token=' + $rootScope.sessionUser.token)
+    $http.get('/scenes?enabled=1')
         .then(function(response) {
             $scope.scenes = response.data;
         }, function(response) {
