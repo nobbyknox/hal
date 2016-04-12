@@ -82,20 +82,19 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
     $rootScope.selectedSubMenu = '';
 
     // Check status 2 seconds after controller has been loaded
-    // $timeout(function() {
-    //     humane.log("Updating...");
-    //     manageLightStatusUpdate($scope.lights, $rootScope.sessionUser.token);
-    // }, 2000);
+    $timeout(function() {
+        manageLightStatusUpdate($scope.lights, $rootScope.sessionUser.token);
+    }, 2000);
 
-    // Check status every 20 seconds
-    //var updateTimer = $interval(function() {
-    //    humane.log("Updating...");
-    //    manageLightStatusUpdate($scope.lights);
-    //}, 20000);
+    // Check status every 10 seconds
+    var updateTimer = $interval(function() {
+        manageLightStatusUpdate($scope.lights, $rootScope.sessionUser.token);
+    }, 10000);
 
-    //$scope.$on('$destroy', function() {
-    //    $interval.cancel(updateTimer);
-    //});
+    $scope.$on('$destroy', function() {
+        console.log('Cancelling timer');
+        $interval.cancel(updateTimer);
+    });
 
 
     $http.get('/lights?enabled=1')

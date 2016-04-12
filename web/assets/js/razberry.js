@@ -11,17 +11,18 @@ function changeLampImage(lightId, status) {
     }
 }
 
-function getLightStatus(id, token, callback) {
+function getLightStatus(id, token, next) {
 
     var lePost = $.ajax({
-        url: halRoot + 'status?token=' + token,
+        url: halRoot + 'status',
         type: 'POST',
         data: JSON.stringify({ "id": id }),
-        contentType: 'application/json'
+        contentType: 'application/json',
+        headers: {"token": token}
     });
 
     lePost.done(function(status) {
-        callback(status);
+        next(status);
     });
 
 }
@@ -35,8 +36,6 @@ function manageLightStatusUpdate(lights, token) {
 }
 
 function toggleLight(lightId, token) {
-
-    alert('Top of toggleLight');
 
     var lePost = $.ajax({
         url: halRoot + 'toggle',
