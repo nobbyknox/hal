@@ -27,7 +27,6 @@ function getLightStatus(id, token, callback) {
 }
 
 function manageLightStatusUpdate(lights, token) {
-
     lights.forEach(function(light) {
         getLightStatus(light.id, token, function(status) {
             changeLampImage(light.id, status);
@@ -57,33 +56,26 @@ function toggleLight(lightId, token) {
 
 }
 
-function razTest() {
-    alert('Top of razTest');
-}
-
-function razTriggerScene(scene) {
-
-    // debug start
-    alert('halRoot: ' + halRoot + '\n\ +
-          'scene: ' + JSON.stringify(scene));
-    // debug end
+function triggerScene(sceneId, token, next) {
 
     var lePost = $.ajax({
         url: halRoot + 'scene',
         type: 'POST',
-        data: JSON.stringify({ "id": scene.id }),
+        data: JSON.stringify({ "id": sceneId }),
         contentType: 'application/json',
         headers: {"token": token}
     });
 
     lePost.done(function(data) {
-        scene.lights.forEach(function(lightId) {
-            changeLampImage(lightId, (scene.action == 'off' ? OFF_VALUE : ON_VALUE));
-        });
+        //scene.lights.forEach(function(lightId) {
+        //    changeLampImage(lightId, (scene.action == 'off' ? OFF_VALUE : ON_VALUE));
+        //});
+        next();
     });
 
     lePost.fail(function(data) {
         console.log('Failure - ' + data.responseText + data.response);
+        next(data);
     });
 
 }

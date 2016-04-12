@@ -117,8 +117,11 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
     };
 
     $scope.triggerScene = function(theScene) {
-        // razTriggerScene(theScene);
-        razTest();
+        triggerScene(theScene.id, $rootScope.sessionUser.token, function(err) {
+            if (!err) {
+                manageLightStatusUpdate($scope.lights, $rootScope.sessionUser.token);
+            }
+        });
     };
 
 });
