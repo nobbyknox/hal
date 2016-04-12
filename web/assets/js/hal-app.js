@@ -43,7 +43,6 @@ halApp.run(function($rootScope, $http, $location, $window, $cookies) {
         $http.post('/validatetoken', {token: $rootScope.sessionUser.token})
             .then(function() {
                 console.log('Welcome back, %s', $rootScope.sessionUser.screenName);
-                bootstrapApp($rootScope, $http);
             }, function(response) {
                 console.log(JSON.stringify(response));
                 $rootScope.sessionUser = null;
@@ -117,9 +116,10 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
         toggleLight(theLight.id, $rootScope.sessionUser.token);
     };
 
-    //$scope.triggerScene = function(theScene) {
-    //    triggerScene(theScene);
-    //};
+    $scope.triggerScene = function(theScene) {
+        // razTriggerScene(theScene);
+        razTest();
+    };
 
 });
 

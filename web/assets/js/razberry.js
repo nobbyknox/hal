@@ -37,6 +37,8 @@ function manageLightStatusUpdate(lights, token) {
 
 function toggleLight(lightId, token) {
 
+    alert('Top of toggleLight');
+
     var lePost = $.ajax({
         url: halRoot + 'toggle',
         type: 'POST',
@@ -55,13 +57,23 @@ function toggleLight(lightId, token) {
 
 }
 
-function triggerScene(scene) {
+function razTest() {
+    alert('Top of razTest');
+}
+
+function razTriggerScene(scene) {
+
+    // debug start
+    alert('halRoot: ' + halRoot + '\n\ +
+          'scene: ' + JSON.stringify(scene));
+    // debug end
 
     var lePost = $.ajax({
         url: halRoot + 'scene',
         type: 'POST',
         data: JSON.stringify({ "id": scene.id }),
-        contentType: 'application/json'
+        contentType: 'application/json',
+        headers: {"token": token}
     });
 
     lePost.done(function(data) {
