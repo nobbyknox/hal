@@ -542,13 +542,3 @@ halApp.directive('toggleCheckbox', function() {
         }
     };
 });
-
-
-// -----------------------------------------------------------------------------
-// Private functions
-// -----------------------------------------------------------------------------
-
-// TODO: This function should either be used or removed. It can't be
-// hanging around indefinitely.
-function bootstrapApp($rootScope, $http) {
-}
