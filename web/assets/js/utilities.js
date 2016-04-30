@@ -1,3 +1,5 @@
+'use strict';
+
 function isUndefinedOrEmpty(testValue) {
     if (testValue === undefined || testValue === null) {
         return true;
@@ -9,4 +11,8 @@ function isUndefinedOrEmpty(testValue) {
             return false;
         }
     }
+}
+
+function isNumeric(testValue) {
+    return !isNaN(parseFloat(testValue)) && isFinite(testValue);
 }

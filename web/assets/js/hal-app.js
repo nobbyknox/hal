@@ -164,7 +164,52 @@ halApp.controller('LightController', function($rootScope, $scope, $http, $locati
             showApiError(null, response, 'Unable to retrieve lights');
         });
 
+    $scope.validateDevice = function() {
+        var deviceErrors = [];
+
+        if (isUndefinedOrEmpty($scope.light.device)) {
+            deviceErrors.push('Please enter the device number');
+        } else {
+            if (!isNumeric($scope.light.device)) {
+                deviceErrors.push('Device must be a number');
+            }
+        }
+
+        return deviceErrors;
+    };
+
+    $scope.isInvalidDevice = function() {
+        return $scope.validateDevice().length > 0;
+    };
+
+    $scope.validateInstance = function() {
+        var instErrors = [];
+
+        if (isUndefinedOrEmpty($scope.light.instance)) {
+            instErrors.push('Please enter the instance number');
+        } else {
+            if (!isNumeric($scope.light.instance)) {
+                instErrors.push('Instance must be a number');
+            }
+        }
+
+        return instErrors;
+    };
+
+    $scope.isInvalidInstance = function() {
+        return $scope.validateInstance().length > 0;
+    };
+
     $scope.submitForm = function() {
+
+        var errors = $scope.validateDevice()
+            .concat($scope.validateInstance());
+
+        if (errors.length > 0) {
+            showErrorMessageList(null, null, errors);
+            return;
+        }
+
         if (!isUndefinedOrEmpty($scope.light.id)) {
             $http({
                 method: 'PUT',
