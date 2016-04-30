@@ -101,14 +101,14 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
         .then(function(response) {
             $scope.lights = response.data;
         }, function(response) {
-            showPromiseError(null, response, 'Unable to retrieve lights');
+            showApiError(null, response, 'Unable to retrieve lights');
         });
 
     $http.get('/scenes?enabled=1')
         .then(function(response) {
             $scope.scenes = response.data;
         }, function(response) {
-            showPromiseError(null, response, 'Unable to retrieve scenes');
+            showApiError(null, response, 'Unable to retrieve scenes');
         });
 
     $scope.toggleLight = function(theLight) {
@@ -138,7 +138,7 @@ halApp.controller('LightsController', function($rootScope, $scope, $http, $locat
         .then(function(response) {
             $scope.lights = response.data;
         }, function(response) {
-            showPromiseError(null, response, 'Unable to retrieve lights');
+            showApiError(null, response, 'Unable to retrieve lights');
         });
 
     $scope.showDetail = function(id) {
@@ -161,7 +161,7 @@ halApp.controller('LightController', function($rootScope, $scope, $http, $locati
         .then(function(response) {
             $scope.light = response.data;
         }, function(response) {
-            showPromiseError(null, response, 'Unable to retrieve lights');
+            showApiError(null, response, 'Unable to retrieve lights');
         });
 
     $scope.submitForm = function() {
@@ -174,7 +174,7 @@ halApp.controller('LightController', function($rootScope, $scope, $http, $locati
                 showBriefSuccessMessage(null, 'Light <b>' + $scope.light.name + '</b> updated successfully');
                 $location.path('/lights');
             }, function(response) {
-                showPromiseError(null, response, 'Unable to update the light');
+                showApiError(null, response, 'Unable to update the light');
             });
         } else {
             $http({
@@ -185,7 +185,7 @@ halApp.controller('LightController', function($rootScope, $scope, $http, $locati
                 showBriefSuccessMessage(null, 'Light <b>' + $scope.light.name + '</b> created successfully');
                 $location.path('/lights');
             }, function(response) {
-                showPromiseError(null, response, 'Unable to create the light');
+                showApiError(null, response, 'Unable to create the light');
             });
         }
     };
@@ -205,7 +205,7 @@ halApp.controller('ScenesController', function($rootScope, $scope, $http, $locat
         .then(function(response) {
             $scope.scenes = response.data;
         }, function(response) {
-            showPromiseError(null, response, 'Unable to retrieve scenes');
+            showApiError(null, response, 'Unable to retrieve scenes');
         });
 
     $scope.showDetail = function(id) {
@@ -239,7 +239,7 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
                 $scope.sceneLights = response.data;
             })
             .catch(function(response) {
-                showPromiseError(null, response, 'Unable to retrieve scene details');
+                showApiError(null, response, 'Unable to retrieve scene details');
             });
     }
 
@@ -261,7 +261,7 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
                 showBriefSuccessMessage(null, 'Scene <b>' + $scope.scene.name + '</b> deleted');
                 $location.path('/scenes');
             }, function(response) {
-                showPromiseError(null, response, 'Unable to delete scene <b>' + $scope.scene.name + '</b>');
+                showApiError(null, response, 'Unable to delete scene <b>' + $scope.scene.name + '</b>');
             });
         });
     };
@@ -276,7 +276,7 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
                 showBriefSuccessMessage(null, 'Scene <b>' + $scope.scene.name + '</b> updated successfully');
                 $location.path('/scenes');
             }, function(response) {
-                showPromiseError(null, response, 'Unable to update the scene');
+                showApiError(null, response, 'Unable to update the scene');
             });
         } else {
             $http({
@@ -287,7 +287,7 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
                 showBriefSuccessMessage(null, 'Scene <b>' + $scope.scene.name + '</b> created successfully');
                 $location.path('/scenes');
             }, function(response) {
-                showPromiseError(null, response, 'Unable to create the scene');
+                showApiError(null, response, 'Unable to create the scene');
             });
         }
     }
@@ -320,7 +320,7 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
             }
         })
         .catch(function(response) {
-            showPromiseError(null, response, 'Unable to retrieve light details');
+            showApiError(null, response, 'Unable to retrieve light details');
         });
 
     $scope.delete = function() {
@@ -333,7 +333,7 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
                 showBriefSuccessMessage(null, 'Light removed from scene');
                 $location.path('/scenes/' + $scope.sceneId);
             }, function(response) {
-                showPromiseError(null, response, 'Unable to remove the light from the scene');
+                showApiError(null, response, 'Unable to remove the light from the scene');
             });
         });
     };
@@ -355,7 +355,7 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
                 showBriefSuccessMessage(null, 'Scene light updated successfully');
                 $location.path('/scenes/' + $scope.sceneId);
             }, function(response) {
-                showPromiseError(null, response, 'Unable to update this scene light');
+                showApiError(null, response, 'Unable to update this scene light');
             });
         } else {
             $http({
@@ -366,7 +366,7 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
                 showBriefSuccessMessage(null, 'Scene light created successfully');
                 $location.path('/scenes/' + $scope.sceneId);
             }, function(response) {
-                showPromiseError(null, response, 'Unable to create this scene light');
+                showApiError(null, response, 'Unable to create this scene light');
             });
         }
     }
@@ -385,7 +385,7 @@ halApp.controller('SchedulesController', function($rootScope, $scope, $http, $lo
         .then(function(response) {
             $scope.schedules = response.data;
         }, function(response) {
-            showPromiseError(null, response, 'Unable to retrieve lights');
+            showApiError(null, response, 'Unable to retrieve lights');
         });
 
     $scope.showDetail = function(id) {
@@ -430,12 +430,12 @@ halApp.controller('ScheduleController', function($rootScope, $scope, $http, $loc
                                 });
                             }
                         }, function(response) {
-                            showPromiseError(null, response, 'Unable to retrieve schedules');
+                            showApiError(null, response, 'Unable to retrieve schedules');
                         });
                 }
             }
         }, function(response) {
-            showPromiseError(null, response, 'Unable to retrieve scenes');
+            showApiError(null, response, 'Unable to retrieve scenes');
         });
 
     $scope.submitForm = function() {
@@ -451,7 +451,7 @@ halApp.controller('ScheduleController', function($rootScope, $scope, $http, $loc
                 showBriefSuccessMessage(null, 'Schedule updated successfully');
                 $location.path('/schedules');
             }, function(response) {
-                showPromiseError(null, response, 'Unable to update this schedule');
+                showApiError(null, response, 'Unable to update this schedule');
             });
         } else {
             $http({
@@ -462,7 +462,7 @@ halApp.controller('ScheduleController', function($rootScope, $scope, $http, $loc
                 showBriefSuccessMessage(null, 'Schedule created successfully');
                 $location.path('/schedules');
             }, function(response) {
-                showPromiseError(null, response, 'Unable to create this schedule');
+                showApiError(null, response, 'Unable to create this schedule');
             });
         }
     }

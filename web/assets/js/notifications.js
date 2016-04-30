@@ -85,8 +85,7 @@ function showShortTimedSuccessMessage(title, text) {
     });
 }
 
-// TODO: Change function name to showApiError
-function showPromiseError(title, response, defaultMessage) {
+function showApiError(title, response, defaultMessage) {
     var realTitle = (title ? title : (response.status === 401 ? 'Unauthorised' : null));
 
     if (response && response.data && response.data.message) {
