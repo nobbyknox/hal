@@ -1,9 +1,10 @@
+'use strict';
+
 // -----------------------------------------------------------------------------
 // Full in-your-face messages
 // -----------------------------------------------------------------------------
 
 function confirmDeletion(title, text, next) {
-    'use strict';
 
     swal({
         title: title || "Are you sure?",
@@ -22,14 +23,10 @@ function confirmDeletion(title, text, next) {
 }
 
 function clearDeleteConfirmation() {
-    'use strict';
-
     sweetAlert.close();
 }
 
 function showErrorMessage(title, text) {
-    'use strict';
-
     if (Array.isArray(text)) {
         showErrorMessageList(title, null, text);
     } else {
@@ -43,7 +40,6 @@ function showErrorMessage(title, text) {
 }
 
 function showErrorMessageList(title, intro, messages) {
-    'use strict';
 
     var theText = '';
 
@@ -72,20 +68,14 @@ function showErrorMessageList(title, intro, messages) {
 }
 
 function showInfoMessage(title, text) {
-    'use strict';
-
     swal(title || 'Info', text, 'info');
 }
 
 function showSuccessMessage(title, text) {
-    'use strict';
-
     swal(title || 'Success', text, 'success');
 }
 
 function showShortTimedSuccessMessage(title, text) {
-    'use strict';
-
     swal({
         title: title || 'Success',
         text: text,
@@ -97,8 +87,6 @@ function showShortTimedSuccessMessage(title, text) {
 
 // TODO: Change function name to showApiError
 function showPromiseError(title, response, defaultMessage) {
-    'use strict';
-
     var realTitle = (title ? title : (response.status === 401 ? 'Unauthorised' : null));
 
     if (response && response.data && response.data.message) {
@@ -115,28 +103,22 @@ function showPromiseError(title, response, defaultMessage) {
 // -----------------------------------------------------------------------------
 
 function showBriefErrorMessage(title, text) {
-    'use strict';
     showBriefMessage(title || 'Error', text, 'error');
 }
 
 function showBriefInfoMessage(title, text) {
-    'use strict';
     showBriefMessage(title || 'Info', text, 'info');
 }
 
 function showBriefSuccessMessage(title, text) {
-    'use strict';
     showBriefMessage(title || 'Success', text, 'success');
 }
 
 function showBriefWarningMessage(title, text) {
-    'use strict';
     showBriefMessage(title || 'Warning', text, 'warning');
 }
 
 function showBriefMessage(title, text, type) {
-    'use strict';
-
     new PNotify({
         title: title || 'Info',
         text: text,
