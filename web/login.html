@@ -22,7 +22,7 @@
 
 <div class="container" ng-controller="LoginController">
     <form class="form-signin">
-        <h1 class="form-signin-heading">HAL 3.1-dev</h1>
+        <h1 class="form-signin-heading">HAL <span app-version></span></h1>
         <h3>please sign in</h3>
 
         <div id="passwordAlert" class="alert alert-danger alert-dismissible" role="alert" style="display: none">
@@ -60,6 +60,7 @@
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-cookies.min.js"></script> -->
 
 <!-- Our own stuff -->
+<script src="assets/js/constants.js"></script>
 <script src="assets/js/login-app.js"></script>
 
 <script>

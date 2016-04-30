@@ -64,3 +64,13 @@ loginApp.controller('LoginController', function($scope, $rootScope, $http, $cook
         alert('Soon, my lovely. Soon.');
     };
 });
+
+// -----------------------------------------------------------------------------
+// Directives
+// -----------------------------------------------------------------------------
+
+loginApp.directive('appVersion', function() {
+    return {
+        template: HAL_VERSION
+    };
+});
