@@ -2,9 +2,16 @@
 
 ## Version 3.1
 
-*Coming soon*
+Released on 30 April 2016 and mostly adds much needed functionality.
+
+### New Features / Changes
+
+* You can now add and remove lights to/from scenes
+* Lights can be disabled within a scene
+* Status of lights are updated periodically
 
 ---
+
 ## Version 3.0
 
 Version 3.0 was released on 1 April 2016 and contains huge chunks of new and rewritten code.
