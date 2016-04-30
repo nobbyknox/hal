@@ -28,11 +28,13 @@ function getLightStatus(id, token, next) {
 }
 
 function manageLightStatusUpdate(lights, token) {
-    lights.forEach(function(light) {
-        getLightStatus(light.id, token, function(status) {
-            changeLampImage(light.id, status);
+    if (lights) {
+        lights.forEach(function(light) {
+            getLightStatus(light.id, token, function(status) {
+                changeLampImage(light.id, status);
+            });
         });
-    });
+    }
 }
 
 function toggleLight(lightId, token) {

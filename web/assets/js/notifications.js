@@ -95,13 +95,16 @@ function showShortTimedSuccessMessage(title, text) {
     });
 }
 
+// TODO: Change function name to showApiError
 function showPromiseError(title, response, defaultMessage) {
     'use strict';
 
+    var realTitle = (title ? title : (response.status === 401 ? 'Unauthorised' : null));
+
     if (response && response.data && response.data.message) {
-        showErrorMessage(title, response.data.message);
+        showErrorMessage(realTitle, response.data.message);
     } else {
-        showErrorMessage(title, defaultMessage);
+        showErrorMessage(realTitle, defaultMessage);
     }
 
 }
