@@ -102,6 +102,11 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
     $http.get('/lights?enabled=1')
         .then(function(response) {
             $scope.lights = response.data;
+
+            // TODO: We should be getting the "onTimer" value from the server. This is a temporary work-around.
+            $scope.lights.forEach(function(light) {
+                light.onTimer = false;
+            });
         }, function(response) {
 
             showApiError(null, response, 'Unable to retrieve lights');
@@ -173,6 +178,7 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
             data: JSON.stringify({ lightId: light.id, action: 'on', delay: delay })
         }).then(function() {
             changeLampImage(light.id, 'on');
+            light.onTimer = true;
             showBriefSuccessMessage('Timer Started', 'A timer of ' + (delay / 60) + ' minutes started for light "' + light.name + '"');
         }, function(response) {
 

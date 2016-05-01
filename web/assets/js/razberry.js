@@ -25,6 +25,37 @@ function getLightStatus(id, token, next) {
 }
 
 function manageLightStatusUpdate(lights, token) {
+
+    var lePost = $.ajax({
+        url: halRoot + 'combinedstatus',
+        type: 'POST',
+        data: '',
+        contentType: 'application/json',
+        headers: { token: token }
+    });
+
+    lePost.done(function(data) {
+
+        var stats = JSON.parse(data);
+
+        stats.forEach(function(stat) {
+            if (stat) {
+                changeLampImage(stat.id, stat.status);
+
+                lights.forEach(function(light) {
+                    if (light.id === stat.id) {
+                        light.onTimer = stat.onTimer;
+                    }
+                });
+            }
+        });
+    });
+
+    lePost.fail(function(data) {
+        console.log('Failure - ' + data.responseText + data.response);
+    });
+
+    /*
     if (lights) {
         lights.forEach(function(light) {
             getLightStatus(light.id, token, function(status) {
@@ -32,6 +63,7 @@ function manageLightStatusUpdate(lights, token) {
             });
         });
     }
+    */
 }
 
 function toggleLight(lightId, token) {

@@ -5,7 +5,7 @@
         <div class="light-button">
             <span class="selectable" ng-click="toggleLight(light)">
                 <img id="lamp-status-{{ light.id }}" src="assets/images/lamp_off.png" style="vertical-align: middle" />
-                <span class="glyphicon glyphicon-hourglass"></span>&nbsp;&nbsp;{{ light.name }}
+                <span ng-show="light.onTimer" class="glyphicon glyphicon-hourglass"></span>&nbsp;&nbsp;{{ light.name }}
             </span>
             &nbsp; &nbsp;
             <span class="selectable glyphicon glyphicon-menu-hamburger" ng-click="lightMenu(light)"></span>
