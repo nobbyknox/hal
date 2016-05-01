@@ -179,7 +179,7 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
         }).then(function() {
             changeLampImage(light.id, 'on');
             light.onTimer = true;
-            showBriefSuccessMessage('Timer Started', 'A timer of ' + (delay / 60) + ' minutes started for light "' + light.name + '"');
+            showBriefSuccessMessage('Timer Started', 'A timer of <b>' + (delay / 60) + '</b> minutes started for light <b>' + light.name + '</b>');
         }, function(response) {
 
             showApiError(null, response, 'Unable to set timer on light "' + light.name + '"');
