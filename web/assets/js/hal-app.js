@@ -139,44 +139,44 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
     $scope.onFor5Secs = function() {
         console.log('Turning on ' + $scope.menuLight.name + ' light for 5 seconds');
         $('#light-menu').hide('slow');
-        scheduleLight($scope.menuLight.id, 5);
+        scheduleLight($scope.menuLight, 5);
     };
 
     $scope.onFor1 = function() {
         console.log('Turning on ' + $scope.menuLight.name + ' light for 1 minute');
         $('#light-menu').hide('slow');
-        scheduleLight($scope.menuLight.id, 60);
+        scheduleLight($scope.menuLight, 60);
     };
 
     $scope.onFor15 = function() {
         console.log('Turning on ' + $scope.menuLight.name + ' light for 15 minutes');
         $('#light-menu').hide('slow');
-        scheduleLight($scope.menuLight.id, 15 * 60);
+        scheduleLight($scope.menuLight, 15 * 60);
     };
 
     $scope.onFor30 = function() {
         console.log('Turning on ' + $scope.menuLight.name + ' light for 30 minutes');
         $('#light-menu').hide('slow');
-        scheduleLight($scope.menuLight.id, 30 * 60);
+        scheduleLight($scope.menuLight, 30 * 60);
     };
 
     $scope.onFor60 = function() {
         console.log('Turning on ' + $scope.menuLight.name + ' light for 60 minutes');
         $('#light-menu').hide('slow');
-        scheduleLight($scope.menuLight.id, 60 * 60);
+        scheduleLight($scope.menuLight, 60 * 60);
     };
 
-    function scheduleLight(lightId, delay) {
+    function scheduleLight(light, delay) {
         $http({
             method: 'POST',
             url: '/lighttimer?token=' + $rootScope.sessionUser.token,
-            data: JSON.stringify({ lightId: lightId, action: 'on', delay: delay })
-        }).then(function(response) {
-            console.log('Server says: ', response.data);
-            changeLampImage(lightId, 'on');
+            data: JSON.stringify({ lightId: light.id, action: 'on', delay: delay })
+        }).then(function() {
+            changeLampImage(light.id, 'on');
+            showBriefSuccessMessage('Timer Started', 'A timer of ' + (delay / 60) + ' minutes started for light "' + light.name + '"');
         }, function(response) {
 
-            showApiError(null, response, 'Unable to set timer on light');
+            showApiError(null, response, 'Unable to set timer on light "' + light.name + '"');
         });
     }
 
