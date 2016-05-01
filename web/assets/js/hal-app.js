@@ -127,6 +127,59 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
         });
     };
 
+    $scope.menuLight = null;
+
+    $scope.lightMenu = function(theLight) {
+        $scope.menuLight = theLight;
+        $('#light-menu .title').html(theLight.name);
+        $('#light-menu').show('fast');
+    };
+
+    // 5 Second timer for testing only
+    $scope.onFor5Secs = function() {
+        console.log('Turning on ' + $scope.menuLight.name + ' light for 5 seconds');
+        $('#light-menu').hide('slow');
+        scheduleLight($scope.menuLight.id, 5);
+    };
+
+    $scope.onFor1 = function() {
+        console.log('Turning on ' + $scope.menuLight.name + ' light for 1 minute');
+        $('#light-menu').hide('slow');
+        scheduleLight($scope.menuLight.id, 60);
+    };
+
+    $scope.onFor15 = function() {
+        console.log('Turning on ' + $scope.menuLight.name + ' light for 15 minutes');
+        $('#light-menu').hide('slow');
+        scheduleLight($scope.menuLight.id, 15 * 60);
+    };
+
+    $scope.onFor30 = function() {
+        console.log('Turning on ' + $scope.menuLight.name + ' light for 30 minutes');
+        $('#light-menu').hide('slow');
+        scheduleLight($scope.menuLight.id, 30 * 60);
+    };
+
+    $scope.onFor60 = function() {
+        console.log('Turning on ' + $scope.menuLight.name + ' light for 60 minutes');
+        $('#light-menu').hide('slow');
+        scheduleLight($scope.menuLight.id, 60 * 60);
+    };
+
+    function scheduleLight(lightId, delay) {
+        $http({
+            method: 'POST',
+            url: '/lighttimer?token=' + $rootScope.sessionUser.token,
+            data: JSON.stringify({ lightId: lightId, action: 'on', delay: delay })
+        }).then(function(response) {
+            console.log('Server says: ', response.data);
+            changeLampImage(lightId, 'on');
+        }, function(response) {
+
+            showApiError(null, response, 'Unable to set timer on light');
+        });
+    }
+
 });
 
 // -----------------------------------------------------------------------------
