@@ -26,13 +26,14 @@ loginApp.run(function($rootScope, $http, $cookies, $window) {
     if (biscuit) {
         console.log('Cookie: ' + biscuit);
 
-        $http.post('/validatetoken', {token: biscuit.token})
+        $http.post('/validatetoken', { token: biscuit.token })
             .then(function() {
                 console.log('Welcome back, %s', biscuit.screenName);
                 $window.location = 'hal.html';
             }, function(response) {
+
                 $cookies.remove('halLogin');
-                console.log('Your token expired. Please log in.')
+                console.log('Your token expired. Please log in.');
             });
     }
 
@@ -42,7 +43,7 @@ loginApp.controller('LoginController', function($scope, $rootScope, $http, $cook
 
     $scope.login = function() {
 
-        $http.post('/authenticate', {'username': $scope.username, 'password': $scope.password})
+        $http.post('/authenticate', { username: $scope.username, password: $scope.password })
             .then(function (serverResponse) {
 
                 var cookiePayload = {
@@ -52,10 +53,11 @@ loginApp.controller('LoginController', function($scope, $rootScope, $http, $cook
                     token: serverResponse.data.token
                 };
 
-                $cookies.putObject('halLogin', cookiePayload, { 'expires': new Date(2100, 1, 1) });
+                $cookies.putObject('halLogin', cookiePayload, { expires: new Date(2100, 1, 1) });
                 $window.location = 'hal.html';
 
             }, function() {
+
                 $('#passwordAlert').show();
             });
     };

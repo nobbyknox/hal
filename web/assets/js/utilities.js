@@ -5,7 +5,7 @@ function isUndefinedOrEmpty(testValue) {
         return true;
     } else {
         if (typeof testValue === 'string') {
-            return testValue === undefined || testValue === null || testValue.replace(/^\s+|\s+$/gm,'').length === 0;
+            return testValue === undefined || testValue === null || testValue.replace(/^\s+|\s+$/gm, '').length === 0;
         } else {
             // We only cater for strings and return false for everything else.
             return false;

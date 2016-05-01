@@ -11,7 +11,7 @@ halApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/lights/:id',    { templateUrl: 'partials/light.html', controller: 'LightController' });
     $routeProvider.when('/scenes',        { templateUrl: 'partials/scenes.html', controller: 'ScenesController' });
     $routeProvider.when('/scenes/:id',    { templateUrl: 'partials/scene.html', controller: 'SceneController' });
-    $routeProvider.when('/scenelight/:id',{ templateUrl: 'partials/scene-light.html', controller: 'SceneLightController' });
+    $routeProvider.when('/scenelight/:id', { templateUrl: 'partials/scene-light.html', controller: 'SceneLightController' });
     $routeProvider.when('/schedules',     { templateUrl: 'partials/schedules.html', controller: 'SchedulesController' });
     $routeProvider.when('/schedules/:id', { templateUrl: 'partials/schedule.html', controller: 'ScheduleController' });
     $routeProvider.when('/sysInfo',       { templateUrl: 'partials/sys-info.html', controller: 'SysInfoController' });
@@ -22,13 +22,15 @@ halApp.config(['$routeProvider', function($routeProvider) {
 halApp.config(['$httpProvider', function($http) {
     $http.interceptors.push(function($q, $cookies, $rootScope) {
         return {
-            'request': function(config) {
+            request: function(config) {
                 if ($rootScope.sessionUser && $rootScope.sessionUser.token) {
-                    config.headers['token'] = $rootScope.sessionUser.token;
+                    config.headers.token = $rootScope.sessionUser.token;
                 }
+
                 return config;
             },
-            'response': function(config) {
+
+            response: function(config) {
                 return config;
             }
         };
@@ -40,10 +42,11 @@ halApp.run(function($rootScope, $http, $location, $window, $cookies) {
     $rootScope.sessionUser = $cookies.getObject('halLogin');
 
     if ($rootScope.sessionUser) {
-        $http.post('/validatetoken', {token: $rootScope.sessionUser.token})
+        $http.post('/validatetoken', { token: $rootScope.sessionUser.token })
             .then(function() {
                 console.log('Welcome back, %s', $rootScope.sessionUser.screenName);
             }, function(response) {
+
                 console.log(JSON.stringify(response));
                 $rootScope.sessionUser = null;
                 $cookies.remove('halLogin');
@@ -96,11 +99,11 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
         $interval.cancel(updateTimer);
     });
 
-
     $http.get('/lights?enabled=1')
         .then(function(response) {
             $scope.lights = response.data;
         }, function(response) {
+
             showApiError(null, response, 'Unable to retrieve lights');
         });
 
@@ -108,6 +111,7 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
         .then(function(response) {
             $scope.scenes = response.data;
         }, function(response) {
+
             showApiError(null, response, 'Unable to retrieve scenes');
         });
 
@@ -138,12 +142,13 @@ halApp.controller('LightsController', function($rootScope, $scope, $http, $locat
         .then(function(response) {
             $scope.lights = response.data;
         }, function(response) {
+
             showApiError(null, response, 'Unable to retrieve lights');
         });
 
     $scope.showDetail = function(id) {
         $location.path('/lights/' + id);
-    }
+    };
 });
 
 halApp.controller('LightController', function($rootScope, $scope, $http, $location, $routeParams) {
@@ -154,13 +159,14 @@ halApp.controller('LightController', function($rootScope, $scope, $http, $locati
     $('#light-name').focus();
 
     $scope.light = {
-        'enabled': 1
+        enabled: 1
     };
 
     $http.get('/lights/' + $routeParams.id)
         .then(function(response) {
             $scope.light = response.data;
         }, function(response) {
+
             showApiError(null, response, 'Unable to retrieve lights');
         });
 
@@ -219,6 +225,7 @@ halApp.controller('LightController', function($rootScope, $scope, $http, $locati
                 showBriefSuccessMessage(null, 'Light <b>' + $scope.light.name + '</b> updated successfully');
                 $location.path('/lights');
             }, function(response) {
+
                 showApiError(null, response, 'Unable to update the light');
             });
         } else {
@@ -230,12 +237,12 @@ halApp.controller('LightController', function($rootScope, $scope, $http, $locati
                 showBriefSuccessMessage(null, 'Light <b>' + $scope.light.name + '</b> created successfully');
                 $location.path('/lights');
             }, function(response) {
+
                 showApiError(null, response, 'Unable to create the light');
             });
         }
     };
 });
-
 
 // -----------------------------------------------------------------------------
 // Scenes
@@ -250,12 +257,13 @@ halApp.controller('ScenesController', function($rootScope, $scope, $http, $locat
         .then(function(response) {
             $scope.scenes = response.data;
         }, function(response) {
+
             showApiError(null, response, 'Unable to retrieve scenes');
         });
 
     $scope.showDetail = function(id) {
         $location.path('/scenes/' + id);
-    }
+    };
 });
 
 halApp.controller('SceneController', function($rootScope, $scope, $http, $location, $routeParams) {
@@ -267,9 +275,9 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
 
     // Default values for new scenes
     $scope.scene = {
-        'visible': 1,
-        'enabled': 1,
-        'action': 'on'
+        visible: 1,
+        enabled: 1,
+        action: 'on'
     };
 
     $scope.sceneLights = [];
@@ -306,6 +314,7 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
                 showBriefSuccessMessage(null, 'Scene <b>' + $scope.scene.name + '</b> deleted');
                 $location.path('/scenes');
             }, function(response) {
+
                 showApiError(null, response, 'Unable to delete scene <b>' + $scope.scene.name + '</b>');
             });
         });
@@ -321,6 +330,7 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
                 showBriefSuccessMessage(null, 'Scene <b>' + $scope.scene.name + '</b> updated successfully');
                 $location.path('/scenes');
             }, function(response) {
+
                 showApiError(null, response, 'Unable to update the scene');
             });
         } else {
@@ -332,10 +342,11 @@ halApp.controller('SceneController', function($rootScope, $scope, $http, $locati
                 showBriefSuccessMessage(null, 'Scene <b>' + $scope.scene.name + '</b> created successfully');
                 $location.path('/scenes');
             }, function(response) {
+
                 showApiError(null, response, 'Unable to create the scene');
             });
         }
-    }
+    };
 });
 
 halApp.controller('SceneLightController', function($rootScope, $scope, $http, $location, $routeParams) {
@@ -346,7 +357,7 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
     $scope.sceneId = $routeParams.sceneId;
 
     $scope.sceneLight = {
-        'enabledInScene': 1
+        enabledInScene: 1
     };
 
     $scope.selectedLightId = '';
@@ -378,6 +389,7 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
                 showBriefSuccessMessage(null, 'Light removed from scene');
                 $location.path('/scenes/' + $scope.sceneId);
             }, function(response) {
+
                 showApiError(null, response, 'Unable to remove the light from the scene');
             });
         });
@@ -385,10 +397,10 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
 
     $scope.submitForm = function() {
         var payload = {
-            'id': ($routeParams.id && $routeParams.id !== 'new' ? $routeParams.id : null),
-            'sceneId': $scope.sceneId,
-            'lightId': $scope.selectedLightId,
-            'enabled': $scope.sceneLight.enabledInScene
+            id: ($routeParams.id && $routeParams.id !== 'new' ? $routeParams.id : null),
+            sceneId: $scope.sceneId,
+            lightId: $scope.selectedLightId,
+            enabled: $scope.sceneLight.enabledInScene
         };
 
         if (!isUndefinedOrEmpty($scope.sceneLight.id)) {
@@ -400,6 +412,7 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
                 showBriefSuccessMessage(null, 'Scene light updated successfully');
                 $location.path('/scenes/' + $scope.sceneId);
             }, function(response) {
+
                 showApiError(null, response, 'Unable to update this scene light');
             });
         } else {
@@ -411,10 +424,11 @@ halApp.controller('SceneLightController', function($rootScope, $scope, $http, $l
                 showBriefSuccessMessage(null, 'Scene light created successfully');
                 $location.path('/scenes/' + $scope.sceneId);
             }, function(response) {
+
                 showApiError(null, response, 'Unable to create this scene light');
             });
         }
-    }
+    };
 });
 
 // -----------------------------------------------------------------------------
@@ -430,12 +444,13 @@ halApp.controller('SchedulesController', function($rootScope, $scope, $http, $lo
         .then(function(response) {
             $scope.schedules = response.data;
         }, function(response) {
+
             showApiError(null, response, 'Unable to retrieve lights');
         });
 
     $scope.showDetail = function(id) {
         $location.path('/schedules/' + id);
-    }
+    };
 });
 
 halApp.controller('ScheduleController', function($rootScope, $scope, $http, $location, $routeParams) {
@@ -447,7 +462,7 @@ halApp.controller('ScheduleController', function($rootScope, $scope, $http, $loc
 
     // Default values for new schedules
     $scope.schedule = {
-        'enabled': 1
+        enabled: 1
     };
 
     $scope.selectedSceneId = '';
@@ -475,11 +490,13 @@ halApp.controller('ScheduleController', function($rootScope, $scope, $http, $loc
                                 });
                             }
                         }, function(response) {
+
                             showApiError(null, response, 'Unable to retrieve schedules');
                         });
                 }
             }
         }, function(response) {
+
             showApiError(null, response, 'Unable to retrieve scenes');
         });
 
@@ -496,6 +513,7 @@ halApp.controller('ScheduleController', function($rootScope, $scope, $http, $loc
                 showBriefSuccessMessage(null, 'Schedule updated successfully');
                 $location.path('/schedules');
             }, function(response) {
+
                 showApiError(null, response, 'Unable to update this schedule');
             });
         } else {
@@ -507,10 +525,11 @@ halApp.controller('ScheduleController', function($rootScope, $scope, $http, $loc
                 showBriefSuccessMessage(null, 'Schedule created successfully');
                 $location.path('/schedules');
             }, function(response) {
+
                 showApiError(null, response, 'Unable to create this schedule');
             });
         }
-    }
+    };
 });
 
 // TODO: Remove
@@ -531,7 +550,6 @@ halApp.controller('GarageCamController', function($rootScope, $scope, $http) {
             $scope.camURL = data;
         });
 });
-
 
 // -----------------------------------------------------------------------------
 // Directives
@@ -576,9 +594,9 @@ halApp.directive('toggleCheckbox', function() {
             var updateElementFromModel = function() {
                 // Update button state to match model
                 var state = !$($element).attr('disabled');
-                $($element).bootstrapToggle("enable");
+                $($element).bootstrapToggle('enable');
                 $element.trigger('change');
-                $($element).bootstrapToggle(state ? "enable" : "disable");
+                $($element).bootstrapToggle(state ? 'enable' : 'disable');
             };
 
             // Observe: Element changes affect Model
@@ -590,6 +608,7 @@ halApp.directive('toggleCheckbox', function() {
             $scope.$watch(function() {
                 return ngModel.$viewValue;
             }, function() {
+
                 updateElementFromModel();
             });
 
@@ -597,14 +616,15 @@ halApp.directive('toggleCheckbox', function() {
             $scope.$watch(function() {
                 return $($element).attr('disabled');
             }, function(newVal) {
-                $($element).bootstrapToggle(!newVal ? "enable" : "disable");
+
+                $($element).bootstrapToggle(!newVal ? 'enable' : 'disable');
             });
 
             // Initialise BootstrapToggle
             // See http://www.bootstraptoggle.com/#api for more details
             $element.bootstrapToggle({
-                on: $attr.on || "On",
-                off: $attr.off || "Off",
+                on: $attr.on || 'On',
+                off: $attr.off || 'Off',
                 size: $attr.size || 'small'
             });
         }

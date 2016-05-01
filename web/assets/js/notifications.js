@@ -7,13 +7,13 @@
 function confirmDeletion(title, text, next) {
 
     swal({
-        title: title || "Are you sure?",
+        title: title || 'Are you sure?',
         text: text,
-        type: "warning",
+        type: 'warning',
         showCancelButton: true,
         showLoaderOnConfirm: true,
-        confirmButtonColor: "#D9534F",
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonColor: '#D9534F',
+        confirmButtonText: 'Yes, delete it!',
         closeOnConfirm: false,
         html: true
     }, function() {
@@ -31,10 +31,10 @@ function showErrorMessage(title, text) {
         showErrorMessageList(title, null, text);
     } else {
         swal({
-            'title': title || 'Oops!',
-            'text': text,
-            'html': true,
-            'type': 'error'
+            title: title || 'Oops!',
+            text: text,
+            html: true,
+            type: 'error'
         });
     }
 }
@@ -59,9 +59,9 @@ function showErrorMessageList(title, intro, messages) {
     theText += '</ul></div>';
 
     swal({
-        'title': title || 'Oops!',
-        'text': theText,
-        'html': true,
+        title: title || 'Oops!',
+        text: theText,
+        html: true,
         type: 'error'
     });
 
@@ -95,7 +95,6 @@ function showApiError(title, response, defaultMessage) {
     }
 
 }
-
 
 // -----------------------------------------------------------------------------
 // Brief messages
