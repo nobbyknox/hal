@@ -1,0 +1,31 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          hal
+# Required-Start:
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description:
+# Description:       HAL service
+### END INIT INFO
+
+HAL_DIR=/home/pi/hal
+USER=pi
+
+case "$1" in
+
+start)
+    echo "starting HAL"
+    cd $HAL_DIR
+    sudo -u $USER -E /home/pi/hal/run-server.sh &
+    ;;
+
+stop)
+    killall node
+    ;;
+
+*)
+    echo "usage: $0 (start|stop)"
+esac
+
+exit 0

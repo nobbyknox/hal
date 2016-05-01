@@ -1,38 +1,37 @@
-var halRoot = "/";
-var ON_VALUE = 'on';
-var OFF_VALUE = 'off';
-
+var halRoot = '/';
 
 function changeLampImage(lightId, status) {
     if (status === 'off') {
-        $("#lamp-status-" + lightId).attr("src", "assets/images/lamp_off.png");
+        $('#lamp-status-' + lightId).attr('src', 'assets/images/lamp_off.png');
     } else {
-        $("#lamp-status-" + lightId).attr("src", "assets/images/lamp_on.png");
+        $('#lamp-status-' + lightId).attr('src', 'assets/images/lamp_on.png');
     }
 }
 
-function getLightStatus(id, token, callback) {
+function getLightStatus(id, token, next) {
 
     var lePost = $.ajax({
-        url: halRoot + 'status?token=' + token,
+        url: halRoot + 'status',
         type: 'POST',
-        data: JSON.stringify({ "id": id }),
-        contentType: 'application/json'
+        data: JSON.stringify({ id: id }),
+        contentType: 'application/json',
+        headers: { token: token }
     });
 
     lePost.done(function(status) {
-        callback(status);
+        next(status);
     });
 
 }
 
 function manageLightStatusUpdate(lights, token) {
-
-    lights.forEach(function(light) {
-        getLightStatus(light.id, token, function(status) {
-            changeLampImage(light.id, status);
+    if (lights) {
+        lights.forEach(function(light) {
+            getLightStatus(light.id, token, function(status) {
+                changeLampImage(light.id, status);
+            });
         });
-    });
+    }
 }
 
 function toggleLight(lightId, token) {
@@ -40,8 +39,9 @@ function toggleLight(lightId, token) {
     var lePost = $.ajax({
         url: halRoot + 'toggle?token=' + token,
         type: 'POST',
-        data: JSON.stringify({ "id": lightId }),
-        contentType: 'application/json'
+        data: JSON.stringify({ id: lightId }),
+        contentType: 'application/json',
+        headers: { token: token }
     });
 
     lePost.done(function(data) {
@@ -54,23 +54,26 @@ function toggleLight(lightId, token) {
 
 }
 
-function triggerScene(scene) {
+function triggerScene(sceneId, token, next) {
 
     var lePost = $.ajax({
         url: halRoot + 'scene',
         type: 'POST',
-        data: JSON.stringify({ "id": scene.id }),
-        contentType: 'application/json'
+        data: JSON.stringify({ id: sceneId }),
+        contentType: 'application/json',
+        headers: { token: token }
     });
 
     lePost.done(function(data) {
-        scene.lights.forEach(function(lightId) {
-            changeLampImage(lightId, (scene.action == 'off' ? OFF_VALUE : ON_VALUE));
-        });
+        //scene.lights.forEach(function(lightId) {
+        //    changeLampImage(lightId, (scene.action == 'off' ? OFF_VALUE : ON_VALUE));
+        //});
+        next();
     });
 
     lePost.fail(function(data) {
         console.log('Failure - ' + data.responseText + data.response);
+        next(data);
     });
 
 }

@@ -1,0 +1,55 @@
+@import url(https://fonts.googleapis.com/css?family=Tienne:400,900);
+
+body {
+    background: url('../images/login-background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.goodbye {
+    background-color: rgba(31, 70, 102, 0.8);
+    border-radius: 10px;
+    color: #dfdfdf;
+    padding: 15px;
+    left: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 300px;
+    text-align: center;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    z-index: 10;
+
+}
+
+.goodbye h1 {
+    font-family: 'Tienne', serif;
+    font-size: 3em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.goodbye h3 {
+    font-family: 'Tienne', serif;
+    font-size: 1.5em;
+    margin-top: 0;
+    text-align: center;
+}
+
+.enter {
+    font-family: 'Tienne', serif;
+    font-size: 1em;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    position: fixed;
+    text-align: right;
+
+    bottom: 0;
+    right: 0;
+}
+
+.enter a {
+    color: #aeaeae;
+}

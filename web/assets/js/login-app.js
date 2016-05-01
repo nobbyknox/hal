@@ -23,10 +23,18 @@ loginApp.run(function($rootScope, $http, $cookies, $window) {
     // If the visitor is already logged in (has a cookie), take him to the main site.
     var biscuit = $cookies.getObject('halLogin');
 
-    console.log('Cookie: ' + biscuit);
-
     if (biscuit) {
-        $window.location = '/';
+        console.log('Cookie: ' + biscuit);
+
+        $http.post('/validatetoken', { token: biscuit.token })
+            .then(function() {
+                console.log('Welcome back, %s', biscuit.screenName);
+                $window.location = 'hal.html';
+            }, function(response) {
+
+                $cookies.remove('halLogin');
+                console.log('Your token expired. Please log in.');
+            });
     }
 
 });
@@ -35,7 +43,7 @@ loginApp.controller('LoginController', function($scope, $rootScope, $http, $cook
 
     $scope.login = function() {
 
-        $http.post('/authenticate', {'username': $scope.username, 'password': $scope.password})
+        $http.post('/authenticate', { username: $scope.username, password: $scope.password })
             .then(function (serverResponse) {
 
                 var cookiePayload = {
@@ -45,11 +53,26 @@ loginApp.controller('LoginController', function($scope, $rootScope, $http, $cook
                     token: serverResponse.data.token
                 };
 
-                $cookies.putObject('halLogin', cookiePayload, { 'expires': new Date(2100, 1, 1) });
-                $window.location = '/';
+                $cookies.putObject('halLogin', cookiePayload, { expires: new Date(2100, 1, 1) });
+                $window.location = 'hal.html';
 
             }, function() {
+
                 $('#passwordAlert').show();
             });
+    };
+
+    $scope.forgotPassword = function() {
+        alert('Soon, my lovely. Soon.');
+    };
+});
+
+// -----------------------------------------------------------------------------
+// Directives
+// -----------------------------------------------------------------------------
+
+loginApp.directive('appVersion', function() {
+    return {
+        template: HAL_VERSION
     };
 });

@@ -1,0 +1,58 @@
+@import url(https://fonts.googleapis.com/css?family=Tienne:400,900);
+
+body {
+    background: url('../images/fanfare-background.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #dfdfdf;
+    font-family: sans-serif;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.fanfare {
+    background-color: rgba(25, 45, 72, 0.60);
+    border-radius: 5px;
+    left: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 250px;
+    text-align: center;
+    top: 30%;
+    transform: translate(-50%, -50%);
+    padding: 15px;
+    position: absolute;
+    z-index: 10;
+}
+
+.fanfare .title {
+    font-family: 'Tienne', serif;
+    font-size: 4em;
+    font-weight: bold;
+}
+
+.fanfare .name {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.fanfare .slogan {
+    font-size: 1.5em;
+    margin-top: 20px;
+    padding-bottom: 5px;
+}
+
+.enter {
+    font-family: 'Tienne', serif;
+    font-size: 1em;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    position: fixed;
+    text-align: right;
+
+    bottom: 0;
+    right: 0;
+}
+
+.enter a {
+    color: #aeaeae;
+}

@@ -1,0 +1,145 @@
+@import url(https://fonts.googleapis.com/css?family=Tienne:400,900);
+
+body {
+    margin-top: 62px;
+}
+
+.input-help {
+    font-style: italic;
+}
+
+.light-button {
+    font-size: 150%;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.scene-button {
+    font-size: 150%;
+    font-weight: bold;
+    height: 54px;
+    padding-top: 10px;
+    margin-bottom: 20px;
+}
+
+.selectable {
+    cursor: pointer;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Main navigation menu */
+/* -------------------------------------------------------------------------- */
+
+.hal-nav {
+}
+
+.hal-nav ul {
+    background-color: #333;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+
+.hal-nav li {
+    float: left;
+}
+
+.hal-nav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.hal-nav li:first-child {
+    font-family: 'Tienne', serif;
+    width: 75px;
+}
+
+.hal-nav li a:hover {
+    color: white;
+}
+
+.hal-nav li a:hover:not(.active):not(.control-center-active) {
+    background-color: #111;
+}
+
+.hal-nav .active {
+    background-color: #4CAF50;
+}
+
+.hal-nav .control-center-active {
+    background-color: #105A99;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Admin Menu */
+/* -------------------------------------------------------------------------- */
+
+.admin-menu {
+    margin-left: -15px;
+    margin-right: -15px;
+    margin-top: -15px;
+}
+
+.admin-menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #4CAF50;
+}
+
+.admin-menu li {
+    float: left;
+}
+
+.admin-menu li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.admin-menu li:first-child {
+    width: 75px;
+}
+
+.admin-menu li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.admin-menu .active {
+    background-color: #044E07;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Form control panel
+/* -------------------------------------------------------------------------- */
+
+.form-control-panel {
+    margin-top: 10px;
+}
+
+.form-nav {
+    margin-top: 7px;
+}
+
+.form-action {
+    text-align: right;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Errors                                                                     */
+/* -------------------------------------------------------------------------- */
+
+.error {
+    border: 1px solid red;
+}

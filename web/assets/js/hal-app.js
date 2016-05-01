@@ -5,31 +5,52 @@ var halApp = angular.module('halApp', ['ngRoute', 'ngCookies']);
 halApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/',              { templateUrl: 'partials/control-center.html', controller: 'ControlCenterController' });
     $routeProvider.when('/login',         { templateUrl: 'partials/login-required.html', controller: 'LoginController' });
-    $routeProvider.when('/about',         { templateUrl: 'partials/about.html' });
+    $routeProvider.when('/about',         { templateUrl: 'partials/about.html', controller: 'AboutController' });
     $routeProvider.when('/invalidRoute',  { templateUrl: 'partials/invalid-route.html' });
+    $routeProvider.when('/lights',        { templateUrl: 'partials/lights.html', controller: 'LightsController' });
+    $routeProvider.when('/lights/:id',    { templateUrl: 'partials/light.html', controller: 'LightController' });
+    $routeProvider.when('/scenes',        { templateUrl: 'partials/scenes.html', controller: 'ScenesController' });
+    $routeProvider.when('/scenes/:id',    { templateUrl: 'partials/scene.html', controller: 'SceneController' });
+    $routeProvider.when('/scenelight/:id', { templateUrl: 'partials/scene-light.html', controller: 'SceneLightController' });
     $routeProvider.when('/schedules',     { templateUrl: 'partials/schedules.html', controller: 'SchedulesController' });
-    $routeProvider.when('/schedules/new', { templateUrl: 'partials/schedule.html', controller: 'SchedulesNewController' });
-    $routeProvider.when('/schedule/:id',  { templateUrl: 'partials/schedule.html', controller: 'ScheduleController' });
+    $routeProvider.when('/schedules/:id', { templateUrl: 'partials/schedule.html', controller: 'ScheduleController' });
     $routeProvider.when('/sysInfo',       { templateUrl: 'partials/sys-info.html', controller: 'SysInfoController' });
     $routeProvider.when('/garageCam',     { templateUrl: 'partials/garage-cam.html', controller: 'GarageCamController' });
     $routeProvider.otherwise({ redirectTo: '/invalidRoute' });
+}]);
+
+halApp.config(['$httpProvider', function($http) {
+    $http.interceptors.push(function($q, $cookies, $rootScope) {
+        return {
+            request: function(config) {
+                if ($rootScope.sessionUser && $rootScope.sessionUser.token) {
+                    config.headers.token = $rootScope.sessionUser.token;
+                }
+
+                return config;
+            },
+
+            response: function(config) {
+                return config;
+            }
+        };
+    });
 }]);
 
 halApp.run(function($rootScope, $http, $location, $window, $cookies) {
 
     $rootScope.sessionUser = $cookies.getObject('halLogin');
 
-    console.log($rootScope.sessionUser);
-
     if ($rootScope.sessionUser) {
-        $http.post('/validatetoken', {token: $rootScope.sessionUser.token})
+        $http.post('/validatetoken', { token: $rootScope.sessionUser.token })
             .then(function() {
                 console.log('Welcome back, %s', $rootScope.sessionUser.screenName);
-                bootstrapApp($rootScope, $http);
             }, function(response) {
+
+                console.log(JSON.stringify(response));
                 $rootScope.sessionUser = null;
                 $cookies.remove('halLogin');
-                console.log(JSON.stringify(response));
+                $location.path('/login');
             });
 
     } else {
@@ -37,11 +58,6 @@ halApp.run(function($rootScope, $http, $location, $window, $cookies) {
     }
 
     $rootScope.$on('$locationChangeStart', function(event, next, current) {
-
-        // if (!next.includes('/bookmarks')) {
-        //     $rootScope.searchQuery = '';
-        // }
-
         $rootScope.previousPage = current;
 
         if (!$rootScope.sessionUser) {
@@ -49,191 +65,474 @@ halApp.run(function($rootScope, $http, $location, $window, $cookies) {
         }
     });
 
-    // $rootScope.search = function() {
-    //     if ($rootScope.searchQuery.length >= 3) {
-    //         $window.location = '#/bookmarks?query=' + $rootScope.searchQuery;
-    //     }
-    // };
+    console.log('HAL version ' + HAL_VERSION + ' ready');
+});
 
-    // $rootScope.sendFeedback = function() {
-    //     console.log('Subject: ' + $rootScope.feedbackSubject);
-    //     console.log('Body: ' + $rootScope.feedbackBody);
-    //
-    //     let feedbackModel = {
-    //         username: $rootScope.sessionUser.username,
-    //         screenName: $rootScope.sessionUser.screenName,
-    //         location: $window.location.href,
-    //         subject: $rootScope.feedbackSubject,
-    //         message: $rootScope.feedbackBody
-    //     };
-    //
-    //     $http.post('/feedback?token=' + $rootScope.sessionUser.token, feedbackModel)
-    //         .success(function() {
-    //             console.log('Feedback submitted successfully');
-    //         })
-    //         .error(function(data) {
-    //             console.log('Unable to submit feedback: ' + JSON.stringify(data));
-    //             alert('An error occurred during the posting of your feedback');
-    //         });
-    //
-    //     $rootScope.feedbackSubject = $rootScope.feedbackSubjects[0];
-    //     $rootScope.feedbackBody = '';
-    //
-    //     $('#feedbackModal').modal('hide');
-    // };
-
-    // $rootScope.showMessage = function(title, message) {
-    //     $('#message-modal-label').html(title);
-    //     $('#message-body').html(message);
-    //     $('#message-modal').modal('show');
-    // };
-
-    // $rootScope.deleteCallback = function() {
-    //     console.log('Hello (deleted) World!');
-    // };
-
+halApp.controller('AboutController', function($rootScope, $window) {
+    $rootScope.selectedMenu = 'admin';
+    $rootScope.selectedSubMenu = 'about';
 });
 
 halApp.controller('LoginController', function($rootScope, $window) {
-
     setTimeout(function() {
         $window.location = '/login.html';
     }, 5000);
-
 });
 
 halApp.controller('ControlCenterController', function($rootScope, $scope, $http, $timeout, $interval) {
 
-    $scope.menuLight = null;
+    $rootScope.selectedMenu = 'control-center';
+    $rootScope.selectedSubMenu = '';
 
     // Check status 2 seconds after controller has been loaded
-    //$timeout(function() {
-    //    humane.log("Updating...");
-    //    manageLightStatusUpdate($scope.lights, $rootScope.sessionUser.token);
-    //}, 2000);
+    $timeout(function() {
+        manageLightStatusUpdate($scope.lights, $rootScope.sessionUser.token);
+    }, 2000);
 
-    // Check status every 20 seconds
-    //var updateTimer = $interval(function() {
-    //    humane.log("Updating...");
-    //    manageLightStatusUpdate($scope.lights);
-    //}, 20000);
+    // Check status every 10 seconds
+    var updateTimer = $interval(function() {
+        manageLightStatusUpdate($scope.lights, $rootScope.sessionUser.token);
+    }, 10000);
 
-    //$scope.$on('$destroy', function() {
-    //    $interval.cancel(updateTimer);
-    //});
-
-
-    // TODO: Send the token in the header
-    $http.get('/lights?enabled=1&token=' + $rootScope.sessionUser.token).success(function(data) {
-        $scope.lights = data;
+    $scope.$on('$destroy', function() {
+        console.log('Cancelling timer');
+        $interval.cancel(updateTimer);
     });
 
-    $http.get('/scenes?enabled=1&token=' + $rootScope.sessionUser.token).success(function(data) {
-        $scope.scenes = data;
-    });
+    $http.get('/lights?enabled=1')
+        .then(function(response) {
+            $scope.lights = response.data;
+        }, function(response) {
+
+            showApiError(null, response, 'Unable to retrieve lights');
+        });
+
+    $http.get('/scenes?enabled=1')
+        .then(function(response) {
+            $scope.scenes = response.data;
+        }, function(response) {
+
+            showApiError(null, response, 'Unable to retrieve scenes');
+        });
 
     $scope.toggleLight = function(theLight) {
-        //toggleLight(theLight.id, $rootScope.sessionUser.token);
-        console.log('Toggling light ', theLight);
+        toggleLight(theLight.id, $rootScope.sessionUser.token);
     };
 
     $scope.triggerScene = function(theScene) {
-        //triggerScene(theScene, $rootScope.sessionUser.token);
-        console.log('Triggering scene ', theScene);
-    };
-
-    $scope.lightMenu = function(theLight) {
-        $scope.menuLight = theLight;
-        $("#light-menu .title").html(theLight.name);
-        $("#light-menu").show("fast");
-    };
-
-    // 5 Second timer for testing only
-    $scope.onFor5Secs = function() {
-        console.log('Turning on ' + $scope.menuLight.name + ' light for 5 seconds');
-        $("#light-menu").hide("fast");
-        scheduleLight($scope.menuLight.id, 5);
-    };
-
-    $scope.onFor1 = function() {
-        console.log('Turning on ' + $scope.menuLight.name + ' light for 1 minute');
-        $("#light-menu").hide("fast");
-        scheduleLight($scope.menuLight.id, 60);
-    };
-
-    $scope.onFor15 = function() {
-        console.log('Turning on ' + $scope.menuLight.name + ' light for 15 minutes');
-        $("#light-menu").hide("fast");
-        scheduleLight($scope.menuLight.id, 15 * 60);
-    };
-
-    $scope.onFor30 = function() {
-        console.log('Turning on ' + $scope.menuLight.name + ' light for 30 minutes');
-        $("#light-menu").hide("fast");
-        scheduleLight($scope.menuLight.id, 30 * 60);
-    };
-
-    $scope.onFor60 = function() {
-        console.log('Turning on ' + $scope.menuLight.name + ' light for 60 minutes');
-        $("#light-menu").hide("fast");
-        scheduleLight($scope.menuLight.id, 60 * 60);
-    };
-
-    function scheduleLight(lightId, delay) {
-        $http({
-            method: 'POST',
-            url: '/lighttimer?token=' + $rootScope.sessionUser.token,
-            data: JSON.stringify({ lightId: lightId, "action": "on", "delay": delay })
-        }).then(function(response) {
-            console.log('Server says: ', response.data);
+        triggerScene(theScene.id, $rootScope.sessionUser.token, function(err) {
+            if (!err) {
+                manageLightStatusUpdate($scope.lights, $rootScope.sessionUser.token);
+            }
         });
     };
 
 });
+
+// -----------------------------------------------------------------------------
+// Lights
+// -----------------------------------------------------------------------------
+
+halApp.controller('LightsController', function($rootScope, $scope, $http, $location) {
+
+    $rootScope.selectedMenu = 'admin';
+    $rootScope.selectedSubMenu = 'lights';
+
+    $http.get('/lights')
+        .then(function(response) {
+            $scope.lights = response.data;
+        }, function(response) {
+
+            showApiError(null, response, 'Unable to retrieve lights');
+        });
+
+    $scope.showDetail = function(id) {
+        $location.path('/lights/' + id);
+    };
+});
+
+halApp.controller('LightController', function($rootScope, $scope, $http, $location, $routeParams) {
+
+    $rootScope.selectedMenu = 'admin';
+    $rootScope.selectedSubMenu = 'lights';
+
+    $('#light-name').focus();
+
+    $scope.light = {
+        enabled: 1
+    };
+
+    $http.get('/lights/' + $routeParams.id)
+        .then(function(response) {
+            $scope.light = response.data;
+        }, function(response) {
+
+            showApiError(null, response, 'Unable to retrieve lights');
+        });
+
+    $scope.validateDevice = function() {
+        var deviceErrors = [];
+
+        if (isUndefinedOrEmpty($scope.light.device)) {
+            deviceErrors.push('Please enter the device number');
+        } else {
+            if (!isNumeric($scope.light.device)) {
+                deviceErrors.push('Device must be a number');
+            }
+        }
+
+        return deviceErrors;
+    };
+
+    $scope.isInvalidDevice = function() {
+        return $scope.validateDevice().length > 0;
+    };
+
+    $scope.validateInstance = function() {
+        var instErrors = [];
+
+        if (isUndefinedOrEmpty($scope.light.instance)) {
+            instErrors.push('Please enter the instance number');
+        } else {
+            if (!isNumeric($scope.light.instance)) {
+                instErrors.push('Instance must be a number');
+            }
+        }
+
+        return instErrors;
+    };
+
+    $scope.isInvalidInstance = function() {
+        return $scope.validateInstance().length > 0;
+    };
+
+    $scope.submitForm = function() {
+
+        var errors = $scope.validateDevice()
+            .concat($scope.validateInstance());
+
+        if (errors.length > 0) {
+            showErrorMessageList(null, null, errors);
+            return;
+        }
+
+        if (!isUndefinedOrEmpty($scope.light.id)) {
+            $http({
+                method: 'PUT',
+                url: '/lights',
+                data: JSON.stringify($scope.light)
+            }).then(function() {
+                showBriefSuccessMessage(null, 'Light <b>' + $scope.light.name + '</b> updated successfully');
+                $location.path('/lights');
+            }, function(response) {
+
+                showApiError(null, response, 'Unable to update the light');
+            });
+        } else {
+            $http({
+                method: 'POST',
+                url: '/lights',
+                data: JSON.stringify($scope.light)
+            }).then(function() {
+                showBriefSuccessMessage(null, 'Light <b>' + $scope.light.name + '</b> created successfully');
+                $location.path('/lights');
+            }, function(response) {
+
+                showApiError(null, response, 'Unable to create the light');
+            });
+        }
+    };
+});
+
+// -----------------------------------------------------------------------------
+// Scenes
+// -----------------------------------------------------------------------------
+
+halApp.controller('ScenesController', function($rootScope, $scope, $http, $location) {
+
+    $rootScope.selectedMenu = 'admin';
+    $rootScope.selectedSubMenu = 'scenes';
+
+    $http.get('/scenes')
+        .then(function(response) {
+            $scope.scenes = response.data;
+        }, function(response) {
+
+            showApiError(null, response, 'Unable to retrieve scenes');
+        });
+
+    $scope.showDetail = function(id) {
+        $location.path('/scenes/' + id);
+    };
+});
+
+halApp.controller('SceneController', function($rootScope, $scope, $http, $location, $routeParams) {
+
+    $rootScope.selectedMenu = 'admin';
+    $rootScope.selectedSubMenu = 'scenes';
+
+    $('#scene-name').focus();
+
+    // Default values for new scenes
+    $scope.scene = {
+        visible: 1,
+        enabled: 1,
+        action: 'on'
+    };
+
+    $scope.sceneLights = [];
+
+    if ($routeParams.id && $routeParams.id !== 'new') {
+        $http.get('/scenes/' + $routeParams.id)
+            .then(function(response) {
+                $scope.scene = response.data;
+                return $http.get('/scenelights?sceneId=' + $routeParams.id);
+            })
+            .then(function(response) {
+                $scope.sceneLights = response.data;
+            })
+            .catch(function(response) {
+                showApiError(null, response, 'Unable to retrieve scene details');
+            });
+    }
+
+    $scope.showDetail = function(sceneLightId) {
+        $location.path('/scenelight/' + sceneLightId).search('sceneId', $scope.scene.id);
+    };
+
+    $scope.addLight = function() {
+        $location.path('/scenelight/new').search('sceneId', $scope.scene.id);
+    };
+
+    $scope.delete = function() {
+        confirmDeletion(null, 'Are you sure that you want to delete the scene <br/><b>' + $scope.scene.name + '</b>?', function() {
+            $http({
+                method: 'DELETE',
+                url: '/scenes/' + $scope.scene.id
+            }).then(function() {
+                clearDeleteConfirmation();
+                showBriefSuccessMessage(null, 'Scene <b>' + $scope.scene.name + '</b> deleted');
+                $location.path('/scenes');
+            }, function(response) {
+
+                showApiError(null, response, 'Unable to delete scene <b>' + $scope.scene.name + '</b>');
+            });
+        });
+    };
+
+    $scope.submitForm = function() {
+        if (!isUndefinedOrEmpty($scope.scene.id)) {
+            $http({
+                method: 'PUT',
+                url: '/scenes',
+                data: JSON.stringify($scope.scene)
+            }).then(function() {
+                showBriefSuccessMessage(null, 'Scene <b>' + $scope.scene.name + '</b> updated successfully');
+                $location.path('/scenes');
+            }, function(response) {
+
+                showApiError(null, response, 'Unable to update the scene');
+            });
+        } else {
+            $http({
+                method: 'POST',
+                url: '/scenes',
+                data: JSON.stringify($scope.scene)
+            }).then(function() {
+                showBriefSuccessMessage(null, 'Scene <b>' + $scope.scene.name + '</b> created successfully');
+                $location.path('/scenes');
+            }, function(response) {
+
+                showApiError(null, response, 'Unable to create the scene');
+            });
+        }
+    };
+});
+
+halApp.controller('SceneLightController', function($rootScope, $scope, $http, $location, $routeParams) {
+
+    $rootScope.selectedMenu = 'admin';
+    $rootScope.selectedSubMenu = 'scenes';
+
+    $scope.sceneId = $routeParams.sceneId;
+
+    $scope.sceneLight = {
+        enabledInScene: 1
+    };
+
+    $scope.selectedLightId = '';
+    $scope.lights = [];
+
+    $http.get('/lights?enabled=1')
+        .then(function(response) {
+            $scope.lights = response.data;
+
+            if ($routeParams.id && $routeParams.id !== 'new') {
+                $http.get('scenelights/' + $routeParams.id)
+                    .then(function(response) {
+                        $scope.sceneLight = response.data;
+                        $scope.selectedLightId = $scope.sceneLight.id;
+                    });
+            }
+        })
+        .catch(function(response) {
+            showApiError(null, response, 'Unable to retrieve light details');
+        });
+
+    $scope.delete = function() {
+        confirmDeletion(null, 'Are you sure that you want to remove the light from the scene?', function() {
+            $http({
+                method: 'DELETE',
+                url: '/scenelights/' + $scope.sceneLight.scenesLightsId
+            }).then(function() {
+                clearDeleteConfirmation();
+                showBriefSuccessMessage(null, 'Light removed from scene');
+                $location.path('/scenes/' + $scope.sceneId);
+            }, function(response) {
+
+                showApiError(null, response, 'Unable to remove the light from the scene');
+            });
+        });
+    };
+
+    $scope.submitForm = function() {
+        var payload = {
+            id: ($routeParams.id && $routeParams.id !== 'new' ? $routeParams.id : null),
+            sceneId: $scope.sceneId,
+            lightId: $scope.selectedLightId,
+            enabled: $scope.sceneLight.enabledInScene
+        };
+
+        if (!isUndefinedOrEmpty($scope.sceneLight.id)) {
+            $http({
+                method: 'PUT',
+                url: '/scenelights',
+                data: JSON.stringify(payload)
+            }).then(function() {
+                showBriefSuccessMessage(null, 'Scene light updated successfully');
+                $location.path('/scenes/' + $scope.sceneId);
+            }, function(response) {
+
+                showApiError(null, response, 'Unable to update this scene light');
+            });
+        } else {
+            $http({
+                method: 'POST',
+                url: '/scenelights',
+                data: JSON.stringify(payload)
+            }).then(function() {
+                showBriefSuccessMessage(null, 'Scene light created successfully');
+                $location.path('/scenes/' + $scope.sceneId);
+            }, function(response) {
+
+                showApiError(null, response, 'Unable to create this scene light');
+            });
+        }
+    };
+});
+
+// -----------------------------------------------------------------------------
+// Schedules
+// -----------------------------------------------------------------------------
 
 halApp.controller('SchedulesController', function($rootScope, $scope, $http, $location) {
 
-    $http.get('/schedules?token=' + $rootScope.sessionUser.token).success(function(data) {
-        $scope.schedules = data;
-    });
+    $rootScope.selectedMenu = 'admin';
+    $rootScope.selectedSubMenu = 'schedules';
+
+    $http.get('/schedules?token=' + $rootScope.sessionUser.token)
+        .then(function(response) {
+            $scope.schedules = response.data;
+        }, function(response) {
+
+            showApiError(null, response, 'Unable to retrieve lights');
+        });
 
     $scope.showDetail = function(id) {
-        $location.path('/schedule/' + id);
-    }
+        $location.path('/schedules/' + id);
+    };
 });
 
-halApp.controller('SchedulesNewController', function($scope, $http, $location) {
+halApp.controller('ScheduleController', function($rootScope, $scope, $http, $location, $routeParams) {
 
-    $scope.schedule = {};
+    $rootScope.selectedMenu = 'admin';
+    $rootScope.selectedSubMenu = 'schedules';
+
+    $('#cron').focus();
+
+    // Default values for new schedules
+    $scope.schedule = {
+        enabled: 1
+    };
+
+    $scope.selectedSceneId = '';
+    $scope.scenes = [];
+
+    $http.get('/scenes')
+        .then(function(response) {
+            $scope.scenes = response.data;
+
+            if ($routeParams.id) {
+                if ($routeParams.id === 'new') {
+                    if (response.data.length > 0) {
+                        $scope.selectedSceneId = response.data[0].id;
+                    }
+                } else {
+                    $http.get('/schedules/' + $routeParams.id)
+                        .then(function(response) {
+                            $scope.schedule = response.data;
+
+                            if ($scope.scenes.length > 0) {
+                                $scope.scenes.forEach(function(item) {
+                                    if (item.id === $scope.schedule.sceneId) {
+                                        $scope.selectedSceneId = item.id;
+                                    }
+                                });
+                            }
+                        }, function(response) {
+
+                            showApiError(null, response, 'Unable to retrieve schedules');
+                        });
+                }
+            }
+        }, function(response) {
+
+            showApiError(null, response, 'Unable to retrieve scenes');
+        });
 
     $scope.submitForm = function() {
-        $http({
-            method: 'POST',
-            url: '/schedule/',
-            data: JSON.stringify({ id: 0, cron: $scope.schedule.cron, sceneId: $scope.schedule.sceneId, description: $scope.schedule.description })
-        }).success(function() {
-            $location.path('/schedules');
-        });
-    }
+
+        $scope.schedule.sceneId = $scope.selectedSceneId;
+
+        if (!isUndefinedOrEmpty($scope.schedule.id)) {
+            $http({
+                method: 'PUT',
+                url: '/schedules',
+                data: $scope.schedule
+            }).success(function() {
+                showBriefSuccessMessage(null, 'Schedule updated successfully');
+                $location.path('/schedules');
+            }, function(response) {
+
+                showApiError(null, response, 'Unable to update this schedule');
+            });
+        } else {
+            $http({
+                method: 'POST',
+                url: '/schedules',
+                data: $scope.schedule
+            }).success(function() {
+                showBriefSuccessMessage(null, 'Schedule created successfully');
+                $location.path('/schedules');
+            }, function(response) {
+
+                showApiError(null, response, 'Unable to create this schedule');
+            });
+        }
+    };
 });
 
-halApp.controller('ScheduleController', function($scope, $http, $location, $routeParams) {
-
-    $http.get('/schedule/' + $routeParams.id + '?token=' + $rootScope.sessionUser.token).success(function(data) {
-        $scope.schedule = data;
-    });
-
-    $scope.submitForm = function() {
-        $http({
-            method: 'PUT',
-            url: '/schedule/' + $scope.schedule.id,
-            data: JSON.stringify({ id: $scope.schedule.id, cron: $scope.schedule.cron, sceneId: $scope.schedule.sceneId, description: $scope.schedule.description })
-        }).success(function() {
-            $location.path('/schedules');
-        });
-    }
-});
-
+// TODO: Remove
 halApp.controller('SysInfoController', function($rootScope, $scope, $http) {
     $http.get('/sysInfo?token=' + $rootScope.sessionUser.token)
         .success(function(data) {
@@ -241,6 +540,7 @@ halApp.controller('SysInfoController', function($rootScope, $scope, $http) {
         });
 });
 
+// TODO: Remove
 halApp.controller('GarageCamController', function($rootScope, $scope, $http) {
 
     $scope.camURL = '';
@@ -251,29 +551,82 @@ halApp.controller('GarageCamController', function($rootScope, $scope, $http) {
         });
 });
 
-
 // -----------------------------------------------------------------------------
 // Directives
 // -----------------------------------------------------------------------------
 
 halApp.directive('appVersion', function() {
     return {
-        template: '2016.01.01'
+        template: HAL_VERSION
     };
 });
 
+/**
+ * Bootstrap-toggle Directive
+ * Forked from from: https://gist.github.com/dave-newson/f6c5e9c2f3bc315e292c
+ * This version supports ngDisabled directive.
+ *
+ * @link https://gist.github.com/jjmontesl/54457bf1342edeb218b7
+ */
+halApp.directive('toggleCheckbox', function() {
 
-// -----------------------------------------------------------------------------
-// Private functions
-// -----------------------------------------------------------------------------
+    return {
+        restrict: 'A',
+        transclude: true,
+        replace: false,
+        require: 'ngModel',
+        link: function($scope, $element, $attr, require) {
 
-function bootstrapApp($rootScope, $http) {
+            var ngModel = require;
 
-    // if ($rootScope.sessionUser) {
-    //     $http.get('/groups?token=' + $rootScope.sessionUser.token)
-    //         .success(function(data) {
-    //             $rootScope.groups = data;
-    //         });
-    // }
+            // update model from Element
+            var updateModelFromElement = function() {
+                // If modified
+                var checked = $element.prop('checked');
+                if (checked != ngModel.$viewValue) {
+                    // Update ngModel
+                    ngModel.$setViewValue(checked);
+                    $scope.$apply();
+                }
+            };
 
-}
+            // Update input from Model
+            var updateElementFromModel = function() {
+                // Update button state to match model
+                var state = !$($element).attr('disabled');
+                $($element).bootstrapToggle('enable');
+                $element.trigger('change');
+                $($element).bootstrapToggle(state ? 'enable' : 'disable');
+            };
+
+            // Observe: Element changes affect Model
+            $element.on('change', function() {
+                updateModelFromElement();
+            });
+
+            // Observe: ngModel for changes
+            $scope.$watch(function() {
+                return ngModel.$viewValue;
+            }, function() {
+
+                updateElementFromModel();
+            });
+
+            // Observe: disabled attribute set by ngDisabled
+            $scope.$watch(function() {
+                return $($element).attr('disabled');
+            }, function(newVal) {
+
+                $($element).bootstrapToggle(!newVal ? 'enable' : 'disable');
+            });
+
+            // Initialise BootstrapToggle
+            // See http://www.bootstraptoggle.com/#api for more details
+            $element.bootstrapToggle({
+                on: $attr.on || 'On',
+                off: $attr.off || 'Off',
+                size: $attr.size || 'small'
+            });
+        }
+    };
+});

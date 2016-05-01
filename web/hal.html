@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="halApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=yes">
+    <meta name="description" content="Home Automation Leader">
+    <meta name="author" content="Nobby Knox">
+
+    <title>HAL</title>
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png"/>
+    <link rel="shortcut icon" href="assets/images/favicon.png">
+
+    <!-- Bower versions -->
+    <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link href="sweetalert/dist/sweetalert.css" rel="stylesheet">
+    <link href="pnotify/dist/pnotify.css" rel="stylesheet">
+
+    <!-- CDN versions -->
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"> -->
+    <!-- <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet"> -->
+
+    <!-- Our stuff -->
+    <link href="assets/css/hal.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="hal-nav">
+        <ul>
+            <li><a ng-class="{'active':selectedMenu === 'admin'}" style="font-weight: bold;" href="#/about">H A L</a></li>
+            <li><a ng-class="{'control-center-active':selectedMenu === 'control-center'}" href="#/">Control Centre</a></li>
+            <li style="float:right"><a ng-class="{'logout-active':selectedMenu === 'logout'}" href="logout.html">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="container-fluid">
+
+        <div ng-view></div>
+
+        <hr/>
+
+        <footer>
+            <p class="text-center">Copyright &copy; 2013-2016 HJU Knox</p>
+        </footer>
+
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <!-- Bower versions -->
+    <script src="jquery/dist/jquery.min.js"></script>
+    <script src="bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="angular/angular.min.js"></script>
+    <script src="angular-route/angular-route.min.js"></script>
+    <script src="angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="angular-cookies/angular-cookies.min.js"></script>
+    <script src="bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
+    <script src="sweetalert/dist/sweetalert.min.js"></script>
+    <script src="pnotify/dist/pnotify.js"></script>
+
+    <!-- CDN versions -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.10/angular.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.10/angular-route.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.10/angular-sanitize.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.10/angular-cookies.min.js"></script> -->
+    <!-- <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script> -->
+
+    <!-- Our own stuff -->
+    <script src="assets/js/constants.js"></script>
+    <script src="assets/js/razberry.js"></script>
+    <script src="assets/js/hal-app.js"></script>
+    <script src="assets/js/utilities.js"></script>
+    <script src="assets/js/notifications.js"></script>
+
+    <script>
+        $(function() {
+            PNotify.prototype.options.styling = "bootstrap3";
+            PNotify.prototype.options.delay = 2500;
+        });
+    </script>
+
+</body>
+</html>
