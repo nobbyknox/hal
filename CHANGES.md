@@ -1,5 +1,13 @@
 # Change Log
 
+## Version 3.1.1
+
+Not released yet.
+
+### New Features / Changes
+
+* JavaScript code style conformance through JSCS
+
 ## Version 3.1
 
 Released on 30 April 2016 and mostly adds much needed functionality.
