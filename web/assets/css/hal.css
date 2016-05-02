@@ -150,7 +150,23 @@ body {
     font-weight: bold;
     margin-bottom: 20px;
     padding: 10px;
+    height: 55px;
     text-align: center;
+}
+
+.light-button .button-name {
+    position: relative;
+    float: left;
+    width: 85%;
+    margin: 0;
+    padding: 0
+}
+
+.light-button .button-menu {
+    margin: 0;
+    padding-top: 7px;
+    width: 25px;
+    text-align: right;
 }
 
 .light-menu {

@@ -1,14 +1,14 @@
 <h2>Lights</h2>
 
 <div class="row">
-    <div ng-repeat="light in lights" class="col-xs-12  col-sm-6 col-md-3">
+    <div ng-repeat="light in lights" class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
         <div class="light-button">
-            <span class="selectable" ng-click="toggleLight(light)">
+            <div class="button-name selectable" ng-click="toggleLight(light)">
                 <img id="lamp-status-{{ light.id }}" src="assets/images/lamp_off.png" style="vertical-align: middle" />
                 <span ng-show="light.onTimer" class="glyphicon glyphicon-hourglass"></span>&nbsp;&nbsp;{{ light.name }}
-            </span>
+            </div>
             &nbsp; &nbsp;
-            <span class="selectable glyphicon glyphicon-menu-hamburger" ng-click="lightMenu(light)"></span>
+            <div class="button-menu selectable glyphicon glyphicon-menu-hamburger" ng-click="lightMenu(light)"></div>
         </div>
     </div>
 </div>
