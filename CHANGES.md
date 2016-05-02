@@ -1,12 +1,13 @@
 # Change Log
 
-## Version 3.1.1
+## Version 3.2
 
 Not released yet.
 
 ### New Features / Changes
 
 * JavaScript code style conformance through JSCS
+* Timers on lights
 
 ## Version 3.1
 
