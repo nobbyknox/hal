@@ -2,12 +2,14 @@
 
 ## Version 3.2
 
-Not released yet.
+Released on 2 May 2016 and adds timers to lights along with some code style linting.
 
 ### New Features / Changes
 
-* JavaScript code style conformance through JSCS
+* JavaScript code style conformance with JSCS
 * Timers on lights
+
+---
 
 ## Version 3.1
 
