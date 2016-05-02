@@ -86,12 +86,29 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
 
     // Check status 2 seconds after controller has been loaded
     $timeout(function() {
-        manageLightStatusUpdate($scope.lights, $rootScope.sessionUser.token);
-    }, 2000);
+        manageLightStatusUpdate($rootScope.sessionUser.token, function(err, stats) {
+        });
+    }, 1000);
 
     // Check status every 10 seconds
     var updateTimer = $interval(function() {
-        manageLightStatusUpdate($scope.lights, $rootScope.sessionUser.token);
+        manageLightStatusUpdate($rootScope.sessionUser.token, function(err, stats) {
+            if (err) {
+                showErrorMessage(null, err.message);
+            } else {
+                if ($scope.lights && stats && stats.length > 0) {
+
+                    stats.forEach(function(stat) {
+                        $scope.lights.forEach(function(light) {
+                            if (light.id === stat.id && light.onTimer !== stat.onTimer) {
+                                light.onTimer = stat.onTimer;
+                            }
+                        });
+                    });
+
+                }
+            }
+        });
     }, 10000);
 
     $scope.$on('$destroy', function() {

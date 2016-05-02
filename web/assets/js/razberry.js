@@ -24,7 +24,7 @@ function getLightStatus(id, token, next) {
 
 }
 
-function manageLightStatusUpdate(lights, token) {
+function manageLightStatusUpdate(token, next) {
 
     var lePost = $.ajax({
         url: halRoot + 'combinedstatus',
@@ -37,33 +37,20 @@ function manageLightStatusUpdate(lights, token) {
     lePost.done(function(data) {
 
         var stats = JSON.parse(data);
+        next(null, stats);
 
         stats.forEach(function(stat) {
             if (stat) {
                 changeLampImage(stat.id, stat.status);
-
-                lights.forEach(function(light) {
-                    if (light.id === stat.id) {
-                        light.onTimer = stat.onTimer;
-                    }
-                });
             }
         });
     });
 
     lePost.fail(function(data) {
+        // TODO: This just prints 'undefined' twice. Sort it out.
         console.log('Failure - ' + data.responseText + data.response);
     });
 
-    /*
-    if (lights) {
-        lights.forEach(function(light) {
-            getLightStatus(light.id, token, function(status) {
-                changeLampImage(light.id, status);
-            });
-        });
-    }
-    */
 }
 
 function toggleLight(lightId, token) {
