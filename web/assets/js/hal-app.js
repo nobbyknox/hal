@@ -157,35 +157,10 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
         $('#light-menu').show('fast');
     };
 
-    // 5 Second timer for testing only
-    $scope.onFor5Secs = function() {
-        console.log('Turning on ' + $scope.menuLight.name + ' light for 5 seconds');
+    $scope.onFor = function(minutes) {
+        console.log('Turning on ' + $scope.menuLight.name + ' light for ' + minutes + ' minute' + (minutes === 1 ? '' : 's'));
         $('#light-menu').hide('slow');
-        scheduleLight($scope.menuLight, 5);
-    };
-
-    $scope.onFor1 = function() {
-        console.log('Turning on ' + $scope.menuLight.name + ' light for 1 minute');
-        $('#light-menu').hide('slow');
-        scheduleLight($scope.menuLight, 60);
-    };
-
-    $scope.onFor15 = function() {
-        console.log('Turning on ' + $scope.menuLight.name + ' light for 15 minutes');
-        $('#light-menu').hide('slow');
-        scheduleLight($scope.menuLight, 15 * 60);
-    };
-
-    $scope.onFor30 = function() {
-        console.log('Turning on ' + $scope.menuLight.name + ' light for 30 minutes');
-        $('#light-menu').hide('slow');
-        scheduleLight($scope.menuLight, 30 * 60);
-    };
-
-    $scope.onFor60 = function() {
-        console.log('Turning on ' + $scope.menuLight.name + ' light for 60 minutes');
-        $('#light-menu').hide('slow');
-        scheduleLight($scope.menuLight, 60 * 60);
+        scheduleLight($scope.menuLight, minutes * 60);
     };
 
     function scheduleLight(light, delay) {

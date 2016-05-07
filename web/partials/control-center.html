@@ -25,11 +25,10 @@
 
 <div id="light-menu" class="light-menu">
     <div class="title">Light Name Here</div>
-    <div class="default-item selectable" ng-click="onFor5Secs()">On for 5 seconds</div>  <!-- For testing only -->
-    <div class="default-item selectable" ng-click="onFor1()">On for 1 minute</div>
-    <div class="default-item selectable" ng-click="onFor15()">On for 15 minutes</div>
-    <div class="default-item selectable" ng-click="onFor30()">On for 30 minutes</div>
-    <div class="default-item selectable" ng-click="onFor60()">On for 1 hour</div>
+    <div class="default-item selectable" ng-click="onFor(1)">On for 1 minute</div>
+    <div class="default-item selectable" ng-click="onFor(15)">On for 15 minutes</div>
+    <div class="default-item selectable" ng-click="onFor(30)">On for 30 minutes</div>
+    <div class="default-item selectable" ng-click="onFor(60)">On for 1 hour</div>
     <div class="spacer"></div>
     <div class="cancel-item selectable" onclick="$('#light-menu').hide('slow');">Cancel</div>
 </div>
