@@ -28,6 +28,7 @@
         "pretest": "./scripts/bootstrap-database.sh test",
         "test": "HAL_ENV=unittest ./node_modules/.bin/mocha -t 2000 --recursive -R spec || true",
         "lint": "./node_modules/.bin/eslint lib || true",
-        "seed:dev": "./scripts/bootstrap-database.sh development"
+        "seed:dev": "./scripts/bootstrap-database.sh development",
+        "bower:install": "./node_modules/.bin/bower install"
     }
 }
