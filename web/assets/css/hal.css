@@ -173,12 +173,12 @@ body {
     background-color: rgba(211, 211, 211, 0.75);
     border-radius: 5px;
     display: none;
-    position:absolute;
+    position: absolute;
     left: 50%;
-    top:50%;
+    top: 50%;
     transform: translate(-50%, -50%);
     margin-left: auto;
-    margin-right:auto;
+    margin-right: auto;
     min-width: 250px;
     padding: 10px;
     z-index: 10;
