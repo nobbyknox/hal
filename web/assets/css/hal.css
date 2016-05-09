@@ -142,8 +142,8 @@ body {
 /* Custom light buttons                                                       */
 /* -------------------------------------------------------------------------- */
 
-.light-button {
-    background-color: #337AB7;
+.hal-button {
+    /* background-color: #337AB7; */
     border-radius: 5px;
     color: white;
     font-size: 150%;
@@ -154,7 +154,7 @@ body {
     text-align: center;
 }
 
-.light-button .button-name {
+.hal-button .button-name {
     position: relative;
     float: left;
     width: 85%;
@@ -162,7 +162,7 @@ body {
     padding: 0
 }
 
-.light-button .button-menu {
+.hal-button .button-menu {
     margin: 0;
     padding-top: 7px;
     width: 25px;
@@ -196,18 +196,31 @@ body {
     border-radius: 5px;
     color: white;
     font-size: 120%;
+    height: 40px;
     margin-bottom: 5px;
-    padding: 5px;
+    padding: 7px 5px 5px 5px;
     text-align: center;
 }
 
-.light-menu .cancel-item {
+.light-menu .stop-item {
     background-color: #b12727;
     border-radius: 5px;
     color: white;
     font-size: 120%;
+    height: 40px;
     margin-bottom: 5px;
-    padding: 5px;
+    padding: 7px 5px 5px 5px;
+    text-align: center;
+}
+
+.light-menu .close-item {
+    background-color: #D0B03C;
+    border-radius: 5px;
+    color: black;
+    font-size: 120%;
+    height: 40px;
+    margin-bottom: 5px;
+    padding: 7px 5px 5px 5px;
     text-align: center;
 }
 

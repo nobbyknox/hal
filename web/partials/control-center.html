@@ -2,7 +2,7 @@
 
 <div class="row">
     <div ng-repeat="light in lights" class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-        <div class="light-button">
+        <div class="hal-button btn-primary">
             <div class="button-name selectable" ng-click="toggleLight(light)">
                 <img id="lamp-status-{{ light.id }}" src="assets/images/lamp_off.png" style="vertical-align: middle" />
                 <span ng-show="light.onTimer" class="glyphicon glyphicon-hourglass"></span>&nbsp;&nbsp;{{ light.name }}
@@ -17,9 +17,16 @@
 
 <div class="row">
     <div ng-repeat="scene in scenes | filter:{visible:1}" class="col-xs-12  col-sm-6 col-md-6 col-lg-4">
-        <button class="btn btn-large btn-block scene-button {{ scene.buttonMeta }}" ng-click="triggerScene(scene)">
-            <span class="{{ scene.iconMeta }}"></span>&nbsp;&nbsp;{{scene.name}}
-        </button>
+        <!-- <button class="btn btn-large btn-block scene-button {{ scene.buttonMeta }}" ng-click="triggerScene(scene)"> -->
+        <!--     <span class="{{ scene.iconMeta }}"></span>&nbsp;&nbsp;{{scene.name}} -->
+        <!-- </button> -->
+        <div class="hal-button {{ scene.buttonMeta }}">
+            <div class="button-name selectable" ng-click="triggerScene(scene)">
+                <span class="glyphicon glyphicon-hourglass"></span>&nbsp;&nbsp;{{ scene.name }}
+            </div>
+            &nbsp; &nbsp;
+            <div class="button-menu selectable glyphicon glyphicon-menu-hamburger" ng-click="sceneMenu(scene)"></div>
+        </div>
     </div>
 </div>
 
@@ -30,5 +37,16 @@
     <div class="default-item selectable" ng-click="onFor(30)">On for 30 minutes</div>
     <div class="default-item selectable" ng-click="onFor(60)">On for 1 hour</div>
     <div class="spacer"></div>
-    <div class="cancel-item selectable" onclick="$('#light-menu').hide('slow');">Cancel</div>
+    <div class="close-item selectable" onclick="$('#light-menu').hide('slow');">Close</div>
+</div>
+
+<div id="scene-menu" class="light-menu">
+    <div class="title">Scene Name Here</div>
+    <div class="default-item selectable" ng-click="triggerIn(1)">Trigger in 1 minute</div>
+    <div class="default-item selectable" ng-click="triggerIn(15)">Trigger in 15 minutes</div>
+    <div class="default-item selectable" ng-click="triggerIn(30)">Trigger in 30 minutes</div>
+    <div class="default-item selectable" ng-click="triggerIn(60)">Trigger in 1 hour</div>
+    <div class="spacer"></div>
+    <div class="stop-item selectable" onclick="$('#scene-menu').hide('slow');">Stop Timer</div>
+    <div class="close-item selectable" onclick="$('#scene-menu').hide('slow');">Close</div>
 </div>

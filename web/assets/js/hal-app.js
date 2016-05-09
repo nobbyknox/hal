@@ -150,11 +150,18 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
     };
 
     $scope.menuLight = null;
+    $scope.menuScene = null;
 
     $scope.lightMenu = function(theLight) {
         $scope.menuLight = theLight;
         $('#light-menu .title').html(theLight.name);
         $('#light-menu').show('fast');
+    };
+
+    $scope.sceneMenu = function(theScene) {
+        $scope.menuScene = theScene;
+        $('#scene-menu .title').html(theScene.name);
+        $('#scene-menu').show('fast');
     };
 
     $scope.onFor = function(minutes) {
@@ -163,10 +170,17 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
         scheduleLight($scope.menuLight, minutes * 60);
     };
 
+    $scope.triggerIn = function(minutes) {
+        console.log('Triggering scene ' + $scope.menuScene.name + ' in ' + minutes + ' minute' + (minutes === 1 ? '' : 's'));
+        alert('Top of triggerIn');
+        $('#scene-menu').hide('slow');
+        scheduleScene($scope.menuScene, minutes * 60);
+    };
+
     function scheduleLight(light, delay) {
         $http({
             method: 'POST',
-            url: '/lighttimer?token=' + $rootScope.sessionUser.token,
+            url: '/lighttimer',
             data: JSON.stringify({ lightId: light.id, action: 'on', delay: delay })
         }).then(function() {
             changeLampImage(light.id, 'on');
@@ -177,6 +191,22 @@ halApp.controller('ControlCenterController', function($rootScope, $scope, $http,
             showApiError(null, response, 'Unable to set timer on light "' + light.name + '"');
         });
     }
+
+    function scheduleScene(scene, delay) {
+        $http({
+            method: 'POST',
+            url: '/scenetimer',
+            data: JSON.stringify({ sceneId: scene.id, delay: delay })
+        }).then(function() {
+            // changeLampImage(light.id, 'on');
+            scene.onTimer = true;
+            showBriefSuccessMessage('Timer Started', 'A timer of <b>' + (delay / 60) + '</b> minutes started for scene <b>' + scene.name + '</b>');
+        }, function(response) {
+
+            showApiError(null, response, 'Unable to set timer on scene "' + scene.name + '"');
+        });
+    }
+
 
 });
 
