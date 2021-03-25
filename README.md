@@ -10,4 +10,5 @@ Unmodified, it will work nowhere else.
 
 ## History
 
-Coming soon
+* First commit on 8 Jun 2013
+* Retired on 25 March 2021
